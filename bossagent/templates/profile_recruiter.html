@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+<form class="rounded border border-slate-200 bg-white p-5" method="post">
+  <div class="mb-5 flex items-center justify-between">
+    <div>
+      <h1 class="text-xl font-semibold">Recruit Profile</h1>
+      <p class="text-sm text-slate-500">Saved to config/profiles/recruiter_profile.yaml</p>
+    </div>
+    <a class="rounded border border-slate-300 px-3 py-2 text-sm" href="/profiles">Back</a>
+  </div>
+  <div class="grid gap-4 md:grid-cols-2">
+    {% for field in fields %}
+      <label class="{% if field in ['job_description','reject_rules','notes'] %}md:col-span-2{% endif %}">
+        <span class="label">{{ field }}</span>
+        {% if field in ['job_description','reject_rules','notes','communication_style'] %}
+          <textarea class="field min-h-28 w-full" name="{{ field }}">{{ profile[field] }}</textarea>
+        {% else %}
+          <input class="field w-full" name="{{ field }}" value="{{ profile[field] }}">
+        {% endif %}
+      </label>
+    {% endfor %}
+  </div>
+  <button class="btn mt-5" type="submit">Save Recruit Profile</button>
+  <p class="mt-4 text-sm text-slate-500">Saving a profile does not trigger candidate search, messaging, or any Boss action.</p>
+</form>
+{% endblock %}

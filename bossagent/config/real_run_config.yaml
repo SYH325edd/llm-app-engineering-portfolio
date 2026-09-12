@@ -1,0 +1,20 @@
+daily_real_apply_limit: 5
+daily_real_message_limit: 5
+min_action_interval_seconds: 60
+min_interval_seconds: 60
+random_delay_seconds: [30, 90]
+random_delay_range_seconds: [30, 90]
+max_items_per_run: 1
+blacklist_companies_file: runtime/blacklist_companies.txt
+risk_keywords:
+  - "\u9a8c\u8bc1\u7801"
+  - "\u5f02\u5e38"
+  - "\u9891\u7e41"
+  - "\u5b89\u5168"
+  - "\u98ce\u9669"
+  - "\u8bf7\u7a0d\u540e"
+  - "\u8bbf\u95ee\u53d7\u9650"
+ai:
+  provider: mock
+  model: deepseek-chat
+  base_url: https://api.deepseek.com

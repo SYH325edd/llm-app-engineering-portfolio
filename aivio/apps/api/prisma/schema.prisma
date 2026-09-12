@@ -1,0 +1,198 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model GenerationTask {
+  id               String   @id
+  userId           String?
+  provider         String
+  modelId          String
+  modelDisplayName String
+  taskType         String
+  prompt           String
+  paramsJson       String   @default("{}")
+  pricingBreakdownJson String @default("{}")
+  status           String
+  cost             Int      @default(0)
+  providerTaskId   String   @default("")
+  resultUrl        String   @default("")
+  resultRawJson    String   @default("null")
+  errorMessage     String   @default("")
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  user             User?    @relation(fields: [userId], references: [id])
+}
+
+model UploadedAsset {
+  id              String   @id
+  userId          String
+  type            String
+  originalName    String
+  mimeType        String
+  sizeBytes       Int
+  storagePath     String
+  localUrl        String
+  width           Int?
+  height          Int?
+  durationSeconds Float?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  user            User     @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+  @@index([type])
+}
+
+model Provider {
+  id            String   @id
+  providerKey   String   @unique
+  displayName   String
+  baseUrl       String   @default("")
+  apiKeyEnvName String   @default("")
+  enabled       Boolean  @default(true)
+  configJson    String   @default("{}")
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  models        Model[]
+}
+
+model Model {
+  id          String   @id
+  modelKey    String   @unique
+  providerId  String
+  displayName String
+  modelType   String
+  inputType   String
+  outputType  String
+  price       Int      @default(0)
+  enabled     Boolean  @default(true)
+  sortOrder   Int      @default(0)
+  configJson  String   @default("{}")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  provider    Provider @relation(fields: [providerId], references: [id])
+  pricingRules ModelPricingRule[]
+}
+
+model ModelPricingRule {
+  id                            String   @id
+  modelId                       String
+  modelKeySnapshot              String
+  inputContainsVideo            Boolean
+  audioMode                     String?
+  resolution                    String
+  minOutputDuration             Int
+  maxOutputDuration             Int
+  minInputVideoDuration         Int?
+  maxInputVideoDuration         Int?
+  minBillableInputVideoDuration Int?
+  pointsPerSecond               Int
+  costPerSecondRmb              Float?
+  enabled                       Boolean  @default(true)
+  remark                        String   @default("")
+  createdAt                     DateTime @default(now())
+  updatedAt                     DateTime @updatedAt
+  model                         Model    @relation(fields: [modelId], references: [id], onDelete: Cascade)
+
+  @@index([modelId])
+  @@index([modelKeySnapshot])
+}
+
+model User {
+  id              String           @id
+  email           String           @unique
+  passwordHash    String
+  emailVerifiedAt DateTime?
+  emailVerificationCodeHash String?
+  emailVerificationExpiresAt DateTime?
+  emailVerificationAttempts Int @default(0)
+  passwordResetCodeHash String?
+  passwordResetCodeExpiresAt DateTime?
+  passwordResetCodeSentAt DateTime?
+  nickname        String           @default("")
+  role            String           @default("user")
+  memberLevel     String           @default("normal")
+  balance         Int              @default(0)
+  status          String           @default("active")
+  lastLoginAt     DateTime?
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  inviteCode      String?          @unique
+  invitedByUserId String?
+  inviteCodeUsedAt DateTime?
+  notifyTaskCompleted Boolean @default(true)
+  notifyTaskFailed Boolean @default(true)
+  notifyCreditChanged Boolean @default(true)
+  notifySystemAnnouncement Boolean @default(true)
+  generationTasks GenerationTask[]
+  uploadedAssets  UploadedAsset[]
+  creditLogs      CreditLog[]
+  orders          Order[]
+}
+
+model CreditLog {
+  id            String   @id
+  userId        String?
+  type          String
+  amount        Int
+  balanceBefore Int
+  balanceAfter  Int
+  relatedTaskId String?
+  relatedOrderId String?
+  relatedGiftCardId String?
+  relatedInviteCode String?
+  relatedInviterUserId String?
+  relatedInviteeUserId String?
+  remark        String   @default("")
+  createdAt     DateTime @default(now())
+  user          User?    @relation(fields: [userId], references: [id])
+  giftCard      GiftCard? @relation(fields: [relatedGiftCardId], references: [id])
+}
+
+model GiftCard {
+  id                String   @id
+  code              String   @unique
+  credits           Int
+  status            String   @default("active")
+  expiresAt         DateTime?
+  createdByAdminId  String
+  redeemedByUserId  String?
+  redeemedAt        DateTime?
+  disabledAt        DateTime?
+  disabledByAdminId String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  creditLogs        CreditLog[]
+
+  @@index([status])
+  @@index([expiresAt])
+}
+
+model Order {
+  id              String    @id
+  userId          String
+  orderNo         String    @unique
+  amount          Int
+  credits         Int
+  paymentProvider String
+  status          String
+  paidAt          DateTime?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  user            User      @relation(fields: [userId], references: [id])
+}
+
+model AdminLog {
+  id          String   @id
+  adminUserId String
+  action      String
+  targetType  String
+  targetId    String
+  detailJson  String   @default("{}")
+  createdAt   DateTime @default(now())
+}

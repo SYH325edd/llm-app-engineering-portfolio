@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="rounded border border-slate-200 bg-white">
+  <div class="border-b border-slate-200 px-4 py-3 font-semibold">Recent Logs</div>
+  <div class="overflow-x-auto">
+    <table class="min-w-full text-sm">
+      <thead><tr class="bg-slate-50 text-left text-slate-500"><th class="px-4 py-2">created_at</th><th class="px-4 py-2">action</th><th class="px-4 py-2">status</th><th class="px-4 py-2">reason</th><th class="px-4 py-2">blocked</th><th class="px-4 py-2">payload</th></tr></thead>
+      <tbody>
+        {% for log in logs %}
+          <tr class="border-t border-slate-100 align-top"><td class="px-4 py-2">{{ log.created_at }}</td><td class="px-4 py-2">{{ log.action }}</td><td class="px-4 py-2">{{ log.status }}</td><td class="px-4 py-2">{{ log.reason }}</td><td class="px-4 py-2">{{ log.blocked }}</td><td class="max-w-xl px-4 py-2 font-mono text-xs">{{ log.payload_text }}</td></tr>
+        {% else %}
+          <tr><td class="px-4 py-6 text-slate-500" colspan="6">N/A</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

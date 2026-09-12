@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block content %}
+<h1 class="mb-4 text-2xl font-semibold">Quotas</h1>
+<div class="grid gap-4">{% for quota in quotas %}<form method="post" action="/admin/quotas/{{ quota.id }}" class="rounded border bg-white p-4">
+<div class="mb-3 font-semibold">{{ quota.user_email or quota.organization_name or quota.plan_name }}</div>
+<div class="grid gap-3 md:grid-cols-3">{% for field in quota_fields %}<label class="text-sm">{{ field }}<input class="mt-1 w-full rounded border p-2" type="number" min="0" name="{{ field }}" value="{{ quota[field] }}"></label>{% endfor %}</div>
+<button class="mt-3 rounded bg-slate-900 px-4 py-2 text-white">Save quota</button></form>{% else %}<div class="rounded border bg-white p-4">No quotas.</div>{% endfor %}</div>
+{% endblock %}

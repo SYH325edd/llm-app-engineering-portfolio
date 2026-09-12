@@ -1,0 +1,23 @@
+jobradar:
+  enabled: true
+  mode: mock
+  dry_run: true
+  allow_real_apply: false
+  keyword: Python
+  city: 杭州
+  skills: Python,FastAPI
+  limit: 1
+recruitradar:
+  enabled: true
+  mode: mock
+  dry_run: true
+  allow_real_message: false
+  keyword: Python
+  city: 杭州
+  skills: Python,FastAPI
+  limit: 1
+resume_center:
+  enabled: true
+system:
+  safety_guard_enabled: true
+  scheduler_enabled: false

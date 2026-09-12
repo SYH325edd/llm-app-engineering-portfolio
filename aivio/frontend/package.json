@@ -1,0 +1,8 @@
+{
+  "name": "aivio-cloudflare-frontend",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "build": "npm --prefix ../apps/web ci --progress=false && npm --prefix ../apps/web run build && node -e \"require('fs').cpSync('../apps/web/dist','dist',{recursive:true,force:true})\""
+  }
+}

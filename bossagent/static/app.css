@@ -1,0 +1,33 @@
+.field {
+  border: 1px solid rgb(203 213 225);
+  border-radius: 6px;
+  padding: 0.5rem 0.75rem;
+  background: white;
+}
+
+.field:focus {
+  outline: 2px solid rgb(15 23 42 / 0.18);
+  border-color: rgb(15 23 42);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  background: rgb(15 23 42);
+  color: white;
+  padding: 0.5rem 0.875rem;
+  font-weight: 600;
+}
+
+.btn:hover {
+  background: rgb(30 41 59);
+}
+
+.label {
+  display: block;
+  margin-bottom: 0.25rem;
+  color: rgb(71 85 105);
+  font-size: 0.875rem;
+}

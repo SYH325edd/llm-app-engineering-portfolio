@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="grid gap-4 md:grid-cols-4">
+  {% set cards = [
+    ('Today searches', stats.today_searches),
+    ('Today applications', stats.today_applications),
+    ('Today messages', stats.today_messages),
+    ('New candidates today', stats.today_new_candidates),
+    ('Safety blocks today', stats.today_safety_blocks),
+    ('Real applies today / limit', stats.today_real_applies ~ ' / ' ~ stats.daily_real_apply_limit),
+    ('Real messages today / limit', stats.today_real_messages ~ ' / ' ~ stats.daily_real_message_limit)
+  ] %}
+  {% for label, value in cards %}
+    <div class="rounded border border-slate-200 bg-white p-4">
+      <div class="text-sm text-slate-500">{{ label }}</div>
+      <div class="mt-2 text-2xl font-semibold">{{ value }}</div>
+    </div>
+  {% endfor %}
+</section>
+
+<section class="mt-6 rounded border border-slate-200 bg-white">
+  <div class="border-b border-slate-200 px-4 py-3 font-semibold">Recent Task Flow</div>
+  <div class="overflow-x-auto">
+    <table class="min-w-full text-sm">
+      <thead>
+        <tr class="bg-slate-50 text-left text-slate-500">
+          <th class="px-4 py-2">created_at</th>
+          <th class="px-4 py-2">level</th>
+          <th class="px-4 py-2">message</th>
+          <th class="px-4 py-2">task</th>
+          <th class="px-4 py-2">blocked</th>
+          <th class="px-4 py-2">reason</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in task_flow %}
+          <tr class="border-t border-slate-100">
+            <td class="px-4 py-2">{{ row.created_at }}</td>
+            <td class="px-4 py-2">{{ row.level }}</td>
+            <td class="px-4 py-2">{{ row.message }}</td>
+            <td class="px-4 py-2">{{ row.task_name }}</td>
+            <td class="px-4 py-2">{{ row.blocked }}</td>
+            <td class="px-4 py-2">{{ row.reason }}</td>
+          </tr>
+        {% else %}
+          <tr><td class="px-4 py-6 text-slate-500" colspan="6">N/A</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+{% endblock %}

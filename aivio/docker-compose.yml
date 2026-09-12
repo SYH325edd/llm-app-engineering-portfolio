@@ -1,0 +1,16 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file:
+      - apps/api/.env.production
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: "file:./dev.db"
+    ports:
+      - "8788:8788"
+    volumes:
+      - ./apps/api/prisma:/app/apps/api/prisma
+      - ./config:/app/config:ro
+    command: sh -c "npm run db:push && npm run dev:sync-models && npm run start"

@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="mb-4">
+  <h1 class="text-2xl font-semibold">Account pauses</h1>
+  <p class="text-sm text-slate-500">Safety pauses are read-only here. Administrators cannot automatically bypass them.</p>
+</div>
+<div class="overflow-x-auto rounded border bg-white">
+  <table class="min-w-full text-sm">
+    <thead class="bg-slate-100 text-left"><tr><th class="p-3">Created</th><th>Account</th><th>Reason</th><th>Source</th><th>Screenshot</th><th>Resolved</th></tr></thead>
+    <tbody>
+      {% for pause in pauses %}
+      <tr class="border-t"><td class="p-3">{{ pause.created_at }}</td><td>{{ pause.account_id }}</td><td>{{ pause.reason }}</td><td>{{ pause.source }}</td><td>{{ pause.screenshot_path }}</td><td>{{ pause.resolved_at or '-' }}</td></tr>
+      {% else %}<tr><td class="p-4" colspan="6">No account pauses.</td></tr>{% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

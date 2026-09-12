@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="grid gap-4">
+  {% for task in tasks %}
+    <form class="rounded border border-slate-200 bg-white p-5" method="post">
+      <input type="hidden" name="task_name" value="{{ task.task_name }}">
+      <div class="mb-4 flex items-center justify-between">
+        <h2 class="font-semibold">{{ task.task_name }}</h2>
+        <label class="flex items-center gap-2 text-sm"><input type="checkbox" name="enabled" value="true" {% if task.enabled %}checked{% endif %}> enabled</label>
+      </div>
+      <div class="grid gap-3 md:grid-cols-4">
+        <label><span class="label">cron</span><input class="field w-full" name="cron" value="{{ task.cron }}"></label>
+        <label><span class="label">dry_run</span><select class="field w-full" name="dry_run"><option value="true" {% if task.dry_run %}selected{% endif %}>true</option><option value="false" {% if not task.dry_run %}selected{% endif %}>false</option></select></label>
+        <label><span class="label">limit</span><input class="field w-full" name="limit" value="{{ task.limit }}"></label>
+        <div class="flex items-end"><button class="btn" type="submit">Save Task</button></div>
+      </div>
+    </form>
+  {% endfor %}
+</div>
+<p class="mt-4 text-sm text-slate-500">This page only edits scheduler config. It does not run real apply or real message actions.</p>
+{% endblock %}

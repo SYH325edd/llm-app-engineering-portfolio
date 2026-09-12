@@ -1,0 +1,14 @@
+profile_name: AI视频招聘画像
+company_name: 示例科技
+job_title: AI视频设计师
+city: 杭州
+salary_range: 15k-25k
+education_requirement: 本科
+experience_requirement: 2年
+core_skills: AI视频, 剪辑, 提示词
+bonus_skills: Python, FastAPI
+reject_rules: 无作品集, 频繁跳槽
+job_description: 负责AI视频内容生产流程。
+communication_style: 自然、简短、礼貌
+daily_contact_limit: 3
+notes: 优先内容科技背景。

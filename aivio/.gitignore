@@ -1,0 +1,52 @@
+# dependencies
+node_modules/
+apps/api/node_modules/
+apps/web/node_modules/
+frontend/node_modules/
+
+# env
+.env
+.env.*
+!.env.example
+apps/api/.env
+apps/api/.env.*
+!apps/api/.env.example
+!apps/api/.env.production.example
+apps/web/.env
+apps/web/.env.*
+!apps/web/.env.example
+
+# build
+dist/
+apps/web/dist/
+apps/api/dist/
+frontend/dist/
+
+# uploads
+uploads/
+apps/api/uploads/
+apps/api/tmp-uploads/
+generated/
+outputs/
+tmp/
+temp/
+*.mp4
+*.mov
+*.webm
+
+# logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# database local
+apps/api/prisma/dev.db
+apps/api/prisma/dev.db-journal
+apps/api/prisma/prisma/*.db
+apps/api/prisma/prisma/*.db-journal
+apps/api/backups/*.db

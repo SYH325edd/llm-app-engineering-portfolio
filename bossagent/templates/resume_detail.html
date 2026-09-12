@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block content %}
+{% if not resume %}
+  <div class="rounded border border-slate-200 bg-white p-6 text-slate-500">Resume not found.</div>
+{% else %}
+  <div class="mb-4 flex items-center justify-between">
+    <div>
+      <h1 class="text-xl font-semibold">{{ resume.candidate_name }}</h1>
+      <p class="text-sm text-slate-500">{{ resume.file_name }} · {{ resume.uploaded_at }}</p>
+    </div>
+    <a class="rounded border border-slate-300 px-3 py-2 text-sm" href="/resumes">Back</a>
+  </div>
+
+  <section class="grid gap-4 md:grid-cols-4">
+    <div class="rounded border border-slate-200 bg-white p-4"><div class="text-sm text-slate-500">AI Provider</div><div class="mt-2 font-semibold">{{ resume.ai_provider }}</div></div>
+    <div class="rounded border border-slate-200 bg-white p-4"><div class="text-sm text-slate-500">AI Parse Status</div><div class="mt-2 font-semibold">{{ resume.ai_parse_status }}</div></div>
+    <div class="rounded border border-slate-200 bg-white p-4"><div class="text-sm text-slate-500">Fallback Used</div><div class="mt-2 font-semibold">{{ resume.fallback_used }}</div></div>
+    <div class="rounded border border-slate-200 bg-white p-4"><div class="text-sm text-slate-500">Score</div><div class="mt-2 font-semibold">{{ resume.score }}</div></div>
+  </section>
+
+  <section class="mt-5 grid gap-4 md:grid-cols-3">
+    <div class="rounded border border-slate-200 bg-white p-4"><div class="text-sm text-slate-500">Target Role</div><div class="mt-2 font-semibold">{{ resume.target_role }}</div></div>
+    <div class="rounded border border-slate-200 bg-white p-4"><div class="text-sm text-slate-500">City</div><div class="mt-2 font-semibold">{{ resume.city }}</div></div>
+    <div class="rounded border border-slate-200 bg-white p-4"><div class="text-sm text-slate-500">Status</div><div class="mt-2 font-semibold">{{ resume.status }}</div></div>
+  </section>
+
+  {% if resume.fallback_used %}
+    <section class="mt-5 rounded border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900">
+      AI解析失败，系统已使用规则解析完成候选人画像。
+      {% if resume.ai_parse_error %}
+        <div class="mt-2">错误摘要：{{ resume.ai_parse_error }}</div>
+      {% endif %}
+    </section>
+  {% elif resume.ai_parse_status == 'success' %}
+    <section class="mt-5 rounded border border-emerald-200 bg-emerald-50 p-4 text-sm text-emerald-900">
+      AI解析成功。
+    </section>
+  {% endif %}
+
+  <section class="mt-5 grid gap-5 lg:grid-cols-2">
+    <div class="rounded border border-slate-200 bg-white p-5">
+      <h2 class="mb-3 font-semibold">Parsed Result</h2>
+      <table class="w-full text-sm">
+        <tbody>
+          {% for key, value in resume.parsed.items() %}
+            <tr class="border-t border-slate-100"><td class="w-40 px-2 py-2 text-slate-500">{{ key }}</td><td class="px-2 py-2">{{ value }}</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <div class="rounded border border-slate-200 bg-white p-5">
+      <h2 class="mb-3 font-semibold">Candidate Profile</h2>
+      <p class="mb-4 text-sm">{{ resume.summary.candidate_profile }}</p>
+      <h3 class="mt-4 text-sm font-semibold">Strengths</h3>
+      <ul class="list-disc pl-5 text-sm">{% for item in resume.summary.strengths %}<li>{{ item }}</li>{% endfor %}</ul>
+      <h3 class="mt-4 text-sm font-semibold">Risks</h3>
+      <ul class="list-disc pl-5 text-sm">{% for item in resume.summary.risks %}<li>{{ item }}</li>{% endfor %}</ul>
+      <h3 class="mt-4 text-sm font-semibold">Recommended Directions</h3>
+      <ul class="list-disc pl-5 text-sm">{% for item in resume.summary.recommended_directions %}<li>{{ item }}</li>{% endfor %}</ul>
+      <h3 class="mt-4 text-sm font-semibold">Match Tags</h3>
+      <div class="mt-2 flex flex-wrap gap-2">{% for tag in resume.summary.match_tags %}<span class="rounded bg-slate-100 px-2 py-1 text-xs">{{ tag }}</span>{% endfor %}</div>
+    </div>
+  </section>
+
+  <section class="mt-5 rounded border border-slate-200 bg-white p-5">
+    <h2 class="mb-3 font-semibold">Raw Resume Text</h2>
+    <pre class="max-h-[520px] overflow-auto whitespace-pre-wrap rounded bg-slate-50 p-4 text-sm">{{ resume.raw_text }}</pre>
+  </section>
+{% endif %}
+{% endblock %}

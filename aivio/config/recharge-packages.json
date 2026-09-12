@@ -1,0 +1,37 @@
+[
+  {
+    "id": "starter",
+    "name": "体验包",
+    "amount": 5,
+    "credits": 500,
+    "enabled": true
+  },
+  {
+    "id": "basic",
+    "name": "基础包",
+    "amount": 10,
+    "credits": 1000,
+    "enabled": true
+  },
+  {
+    "id": "pro",
+    "name": "进阶包",
+    "amount": 30,
+    "credits": 3100,
+    "enabled": true
+  },
+  {
+    "id": "studio",
+    "name": "专业包",
+    "amount": 50,
+    "credits": 5500,
+    "enabled": true
+  },
+  {
+    "id": "ultimate",
+    "name": "缁堟瀬鍖?",
+    "amount": 100,
+    "credits": 11000,
+    "enabled": true
+  }
+]

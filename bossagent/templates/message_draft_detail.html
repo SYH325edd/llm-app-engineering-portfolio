@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="mb-5 flex items-center justify-between gap-3">
+  <div>
+    <h1 class="text-xl font-semibold">话术草稿详情</h1>
+    <p class="text-sm text-slate-500">草稿只保存在本地 logs，不执行平台动作。</p>
+  </div>
+  <a class="btn" href="/message-drafts">返回草稿列表</a>
+</div>
+
+{% if draft %}
+  <section class="mb-5 rounded border border-slate-200 bg-white p-5">
+    <div class="mb-4 grid gap-3 md:grid-cols-4">
+      <div class="rounded bg-slate-50 p-3"><div class="text-xs text-slate-500">类型</div><div class="font-semibold">{{ draft.draft_type }}</div></div>
+      <div class="rounded bg-slate-50 p-3"><div class="text-xs text-slate-500">对象</div><div class="font-semibold">{{ draft.target_name }}</div></div>
+      <div class="rounded bg-slate-50 p-3"><div class="text-xs text-slate-500">AI Provider</div><div class="font-semibold">{{ draft.ai_provider }}</div></div>
+      <div class="rounded bg-slate-50 p-3"><div class="text-xs text-slate-500">状态</div><div class="font-semibold">{{ draft.status }}</div></div>
+    </div>
+    <h2 class="mb-2 font-semibold">草稿全文</h2>
+    <textarea class="field h-32 w-full" readonly id="draftContent">{{ draft.content }}</textarea>
+    <button class="btn mt-3" type="button" onclick="navigator.clipboard && navigator.clipboard.writeText(document.getElementById('draftContent').value)">复制草稿</button>
+  </section>
+
+  <section class="mb-5 rounded border border-red-200 bg-red-50 p-5">
+    <h2 class="mb-2 text-lg font-semibold text-red-900">发送此草稿</h2>
+    <p class="mb-4 text-sm text-red-800">真实发送前请确认：该消息会通过 BOSS 发出，且不可撤回。</p>
+    <div class="mb-4 rounded bg-white p-3 text-sm">{{ draft.content }}</div>
+    {% if draft.status == 'sent' %}
+      <div class="rounded border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-800">该草稿已发送，不允许重复发送。</div>
+    {% else %}
+      <form method="post" action="/message-drafts/{{ draft.draft_id }}/send" class="grid gap-3 md:grid-cols-[1fr_auto]">
+        <label>
+          <span class="label">确认短语</span>
+          <input class="field w-full" name="confirm_phrase" placeholder="SEND_DRAFT_ONCE">
+        </label>
+        <button class="btn self-end bg-red-700 hover:bg-red-800" type="submit">确认发送一条</button>
+      </form>
+    {% endif %}
+  </section>
+
+  <section class="rounded border border-slate-200 bg-white p-5">
+    <h2 class="mb-4 text-lg font-semibold">匹配分析摘要</h2>
+    {% set a = draft.match_analysis %}
+    {% if a %}
+      <div class="grid gap-3 md:grid-cols-3">
+        <div class="rounded bg-slate-50 p-3"><div class="text-xs text-slate-500">分数</div><div class="font-semibold">{{ a.score }}</div></div>
+        <div class="rounded bg-slate-50 p-3"><div class="text-xs text-slate-500">等级</div><div class="font-semibold">{{ a.level }}</div></div>
+        <div class="rounded bg-slate-50 p-3"><div class="text-xs text-slate-500">标签</div><div class="font-semibold">{{ (a.tags or [])|join(', ') }}</div></div>
+      </div>
+      <div class="mt-4 grid gap-3 md:grid-cols-3 text-sm">
+        <div><span class="font-semibold">理由</span><br>{{ (a.reasons or [])|join('；') }}</div>
+        <div><span class="font-semibold">优势</span><br>{{ (a.strengths or [])|join('；') }}</div>
+        <div><span class="font-semibold">风险</span><br>{{ (a.risks or [])|join('；') }}</div>
+      </div>
+    {% else %}
+      <div class="text-sm text-slate-500">暂无匹配分析。</div>
+    {% endif %}
+  </section>
+{% else %}
+  <div class="rounded border border-red-200 bg-red-50 p-4 text-sm text-red-800">草稿不存在。</div>
+{% endif %}
+{% endblock %}

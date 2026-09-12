@@ -1,0 +1,21 @@
+:root {
+  --bg: #f7fbff;
+  --panel: rgba(255, 255, 255, 0.86);
+  --panel-solid: #ffffff;
+  --line: #e8eef7;
+  --text: #111827;
+  --muted: #718097;
+  --soft: #edf5ff;
+  --blue: #2f7cff;
+  --blue-2: #65a8ff;
+  --blue-3: #dfeeff;
+  --green: #23c96f;
+  --red: #ff5b5b;
+  --orange: #ff9e43;
+  --shadow: 0 12px 30px rgba(55, 104, 179, 0.09);
+  --shadow-soft: 0 7px 20px rgba(78, 112, 161, 0.08);
+  --radius: 18px;
+  --radius-lg: 24px;
+  --sidebar: 206px;
+  font-family: Inter, "PingFang SC", "Microsoft YaHei", sans-serif;
+}

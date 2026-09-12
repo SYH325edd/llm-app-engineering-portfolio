@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+{% block content %}
+{% if not detail %}
+  <div class="rounded border border-slate-200 bg-white p-6 text-slate-500">候选人不存在或暂无数据。</div>
+{% else %}
+  {% set c = detail.candidate %}
+  <div class="mb-5 flex flex-wrap items-start justify-between gap-3">
+    <div>
+      <div class="text-sm text-slate-500">Candidate 360</div>
+      <h1 class="mt-1 text-2xl font-semibold">{{ c.name or '暂无数据' }}</h1>
+      <p class="mt-1 text-sm text-slate-500">{{ c.current_title or '暂无数据' }} · {{ c.city or '暂无数据' }} · {{ detail.source }}</p>
+    </div>
+    <a class="rounded border border-slate-300 px-3 py-2 text-sm" href="/talent-pool/{{ c.id }}">返回人才库详情</a>
+  </div>
+
+  <section class="grid gap-4 md:grid-cols-4">
+    <div class="rounded border border-slate-200 bg-white p-4">
+      <div class="text-sm text-slate-500">当前阶段</div>
+      <div class="mt-2 inline-flex rounded bg-slate-900 px-2 py-1 text-sm font-semibold text-white">{{ detail.talent_status }}</div>
+    </div>
+    <div class="rounded border border-slate-200 bg-white p-4">
+      <div class="text-sm text-slate-500">匹配度</div>
+      <div class="mt-2 text-xl font-semibold">{{ detail.match_analysis.score }}</div>
+    </div>
+    <div class="rounded border border-slate-200 bg-white p-4">
+      <div class="text-sm text-slate-500">等级</div>
+      <div class="mt-2 text-xl font-semibold">{{ detail.match_analysis.level }}</div>
+    </div>
+    <div class="rounded border border-slate-200 bg-white p-4">
+      <div class="text-sm text-slate-500">AI建议</div>
+      <div class="mt-2 font-semibold">{{ detail.ai_next_action }}</div>
+    </div>
+  </section>
+
+  <section class="mt-5 grid gap-5 lg:grid-cols-2">
+    <div class="rounded border border-slate-200 bg-white p-5">
+      <h2 class="mb-3 font-semibold">基础信息</h2>
+      <div class="grid gap-3 text-sm md:grid-cols-2">
+        <div><span class="text-slate-500">姓名：</span>{{ c.name or '暂无数据' }}</div>
+        <div><span class="text-slate-500">城市：</span>{{ c.city or '暂无数据' }}</div>
+        <div><span class="text-slate-500">来源：</span>{{ detail.source }}</div>
+        <div><span class="text-slate-500">Core状态：</span>{{ c.status or '暂无数据' }}</div>
+        <div><span class="text-slate-500">创建时间：</span>{{ c.created_at or '暂无数据' }}</div>
+        <div><span class="text-slate-500">更新时间：</span>{{ c.updated_at or '暂无数据' }}</div>
+      </div>
+    </div>
+
+    <div class="rounded border border-slate-200 bg-white p-5">
+      <h2 class="mb-3 font-semibold">简历信息</h2>
+      <div class="space-y-2 text-sm">
+        <div><span class="text-slate-500">教育：</span>{{ detail.resume.education }}</div>
+        <div><span class="text-slate-500">工作经历：</span>{{ detail.resume.work_experience }}</div>
+        <div><span class="text-slate-500">项目经历：</span>{{ detail.resume.project_experience }}</div>
+        <div><span class="text-slate-500">技能：</span>{{ detail.resume.skills }}</div>
+        <div><span class="text-slate-500">简历评分：</span>{{ detail.resume.score }}</div>
+        <div><span class="text-slate-500">AI总结：</span>{{ detail.resume.summary }}</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="mt-5 grid gap-5 lg:grid-cols-3">
+    <div class="rounded border border-slate-200 bg-white p-5 lg:col-span-2">
+      <h2 class="mb-3 font-semibold">匹配分析</h2>
+      <div class="grid gap-3 text-sm md:grid-cols-2">
+        <div><span class="text-slate-500">匹配度：</span>{{ detail.match_analysis.score }}</div>
+        <div><span class="text-slate-500">等级：</span>{{ detail.match_analysis.level }}</div>
+        <div><span class="text-slate-500">建议动作：</span>{{ detail.match_analysis.suggested_action }}</div>
+        <div><span class="text-slate-500">最近分析：</span>{{ detail.match_analysis.created_at }}</div>
+      </div>
+      <div class="mt-4 grid gap-4 md:grid-cols-2">
+        <div>
+          <div class="mb-2 text-sm font-medium">优势</div>
+          {% for item in detail.match_analysis.strengths %}<div class="mb-1 rounded bg-emerald-50 px-2 py-1 text-sm text-emerald-800">{{ item }}</div>{% else %}<div class="text-sm text-slate-500">暂无数据</div>{% endfor %}
+        </div>
+        <div>
+          <div class="mb-2 text-sm font-medium">风险</div>
+          {% for item in detail.match_analysis.risks %}<div class="mb-1 rounded bg-amber-50 px-2 py-1 text-sm text-amber-800">{{ item }}</div>{% else %}<div class="text-sm text-slate-500">暂无数据</div>{% endfor %}
+        </div>
+      </div>
+      <div class="mt-4 flex flex-wrap gap-2">
+        {% for tag in detail.match_analysis.tags %}<span class="rounded-full bg-slate-100 px-2 py-1 text-xs text-slate-700">{{ tag }}</span>{% else %}<span class="text-sm text-slate-500">暂无标签</span>{% endfor %}
+      </div>
+    </div>
+
+    <div class="space-y-5">
+      <div class="rounded border border-slate-200 bg-white p-5">
+        <h2 class="mb-3 font-semibold">沟通记录</h2>
+        <div class="space-y-2 text-sm">
+          <div><span class="text-slate-500">消息数量：</span>{{ detail.communication.message_count }}</div>
+          <div><span class="text-slate-500">最近消息：</span>{{ detail.communication.latest_message }}</div>
+          <div><span class="text-slate-500">最近回复：</span>{{ detail.communication.latest_reply_time }}</div>
+          <div><span class="text-slate-500">会话状态：</span>{{ detail.communication.conversation_status }}</div>
+        </div>
+      </div>
+      <div class="rounded border border-slate-200 bg-white p-5">
+        <h2 class="mb-3 font-semibold">话术草稿</h2>
+        <div class="space-y-2 text-sm">
+          <div><span class="text-slate-500">草稿数量：</span>{{ detail.drafts.count }}</div>
+          <div><span class="text-slate-500">最近草稿：</span>{{ detail.drafts.latest }}</div>
+          <div><span class="text-slate-500">草稿状态：</span>{{ detail.drafts.status }}</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="mt-5 rounded border border-slate-200 bg-white">
+    <div class="border-b border-slate-200 px-4 py-3 font-semibold">时间线</div>
+    <div class="divide-y divide-slate-100 text-sm">
+      {% for item in detail.timeline %}
+        <div class="px-4 py-3">
+          <div class="text-slate-500">{{ item.created_at }}</div>
+          <div class="mt-1">{{ item.message or item.payload }}</div>
+        </div>
+      {% else %}
+        <div class="px-4 py-6 text-slate-500">暂无数据</div>
+      {% endfor %}
+    </div>
+  </section>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block content %}
+<h1 class="mb-4 text-2xl font-semibold">Users</h1>
+<div class="overflow-x-auto rounded border bg-white"><table class="min-w-full text-sm">
+<thead class="bg-slate-100 text-left"><tr><th class="p-3">Email</th><th>Display name</th><th>Role</th><th>Status</th><th>Organizations</th><th>Created</th></tr></thead>
+<tbody>{% for user in users %}<tr class="border-t"><td class="p-3">{{ user.email }}</td><td>{{ user.display_name or '-' }}</td><td>{{ user.role }}</td><td>{{ user.status }}</td><td>{{ user.organizations or '-' }}</td><td>{{ user.created_at }}</td></tr>{% else %}<tr><td class="p-4" colspan="6">No users.</td></tr>{% endfor %}</tbody>
+</table></div>
+{% endblock %}

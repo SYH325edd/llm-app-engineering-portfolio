@@ -1,0 +1,11 @@
+.env
+**/.env
+**/.env.production
+**/node_modules
+**/dist
+**/backups
+**/*.log
+apps/api/prisma/*.db
+apps/api/prisma/*.db-*
+data/*.json
+.git

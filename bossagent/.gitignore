@@ -1,0 +1,78 @@
+# Python
+__pycache__/
+**pycache**/
+*.pyc
+*.py[cod]
+*.pyo
+*.pyd
+
+# Virtual environments
+venv/
+venv_songyinghao/
+.venv/
+env/
+
+# Local environment
+.env
+.env.*
+!.env.example
+
+# Runtime state and debug artifacts
+runtime/
+uploads/
+logs/
+runtime/*
+!runtime/.gitkeep
+runtime/*.json
+runtime/*.png
+runtime/*.html
+runtime/*.log
+runtime/debug_*
+lakejobai-job-radar/.boss_profile/
+runtime/boss_chromium_profile/
+runtime/boss_auth_state.json
+uploads/resumes/*
+!uploads/resumes/.gitkeep
+
+# Build output
+dist/
+release/
+*.zip
+
+# Databases and local state
+*.db
+*.sqlite
+*.sqlite3
+*.db-journal
+*.sqlite-journal
+
+# Playwright/local browser state
+storage_state.json
+playwright-report/
+test-results/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Browser profiles, cookies, sessions, and debug captures
+**/.boss_profile/
+**/browser_profile/
+**/user_data_dir/
+**/cookies*.json
+**/session*.json
+debug*.html
+debug*.png
+debug*.jpg
+debug*.jpeg
+
+# OS/editor files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+.pytest_tmp/
+
+.pytest_run/
+
+.pytest_*/

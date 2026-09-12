@@ -1,0 +1,157 @@
+{
+  "models": [
+    {
+      "id": "doubao-seedance-2-0-260128",
+      "displayName": "Doubao Seedance 2.0",
+      "provider": "volcengine",
+      "modelType": "video",
+      "inputType": "text,image",
+      "outputType": "video",
+      "price": 20,
+      "enabled": true,
+      "defaultParams": {
+        "mode": "text-to-video",
+        "ratio": "16:9",
+        "duration": 5,
+        "resolution": "720p",
+        "generateAudio": false,
+        "watermark": false
+      }
+    },
+    {
+      "id": "doubao-seedance-2-0-fast-260128",
+      "displayName": "Doubao Seedance 2.0 Fast",
+      "provider": "volcengine",
+      "modelType": "video",
+      "inputType": "text,image",
+      "outputType": "video",
+      "price": 10,
+      "enabled": true,
+      "defaultParams": {
+        "mode": "text-to-video",
+        "ratio": "16:9",
+        "duration": 5,
+        "resolution": "720p",
+        "generateAudio": false,
+        "watermark": false
+      }
+    },
+    {
+      "id": "doubao-seedance-1-5-pro-251215",
+      "displayName": "Doubao Seedance 1.5 Pro",
+      "provider": "volcengine",
+      "modelType": "video",
+      "inputType": "text,image",
+      "outputType": "video",
+      "price": 20,
+      "enabled": true,
+      "defaultParams": {
+        "mode": "text-to-video",
+        "ratio": "16:9",
+        "duration": 5,
+        "resolution": "720p",
+        "generateAudio": false,
+        "watermark": false
+      }
+    },
+    {
+      "id": "doubao-seedance-1-0-pro-250428",
+      "displayName": "Doubao Seedance 1.0 Pro",
+      "provider": "volcengine",
+      "modelType": "video",
+      "inputType": "text,image",
+      "outputType": "video",
+      "price": 15,
+      "enabled": true,
+      "defaultParams": {
+        "mode": "text-to-video",
+        "ratio": "16:9",
+        "duration": 5,
+        "resolution": "720p",
+        "generateAudio": false,
+        "watermark": false
+      }
+    },
+    {
+      "id": "ep-20260527143333-wf4ml",
+      "displayName": "Doubao Seedance 1.0 Fast",
+      "provider": "volcengine",
+      "modelType": "video",
+      "inputType": "text,image",
+      "outputType": "video",
+      "price": 10,
+      "enabled": true
+    },
+    {
+      "id": "doubao-seedance-1-0-pro-fast-250528",
+      "displayName": "Doubao Seedance 1.0 Pro Fast (old, unavailable)",
+      "provider": "volcengine",
+      "modelType": "video",
+      "inputType": "text,image",
+      "outputType": "video",
+      "price": 10,
+      "enabled": false,
+      "defaultParams": {
+        "mode": "text-to-video",
+        "ratio": "16:9",
+        "duration": 5,
+        "resolution": "720p",
+        "generateAudio": false,
+        "watermark": false
+      }
+    },
+    {
+      "id": "doubao-seedance-1-0-lite-t2v-250219",
+      "displayName": "Doubao Seedance 1.0 Lite T2V",
+      "provider": "volcengine",
+      "modelType": "video",
+      "inputType": "text",
+      "outputType": "video",
+      "price": 5,
+      "enabled": true,
+      "defaultParams": {
+        "mode": "text-to-video",
+        "ratio": "16:9",
+        "duration": 5,
+        "resolution": "720p",
+        "generateAudio": false,
+        "watermark": false
+      }
+    },
+    {
+      "id": "doubao-seedance-1-0-lite-i2v-250219",
+      "displayName": "Doubao Seedance 1.0 Lite I2V",
+      "provider": "volcengine",
+      "modelType": "video",
+      "inputType": "image",
+      "outputType": "video",
+      "price": 5,
+      "enabled": true,
+      "defaultParams": {
+        "mode": "image-to-video",
+        "ratio": "16:9",
+        "duration": 5,
+        "resolution": "720p",
+        "generateAudio": false,
+        "watermark": false
+      }
+    },
+    {
+      "id": "agnes-video-v2.0",
+      "displayName": "Agnes Video v2.0",
+      "provider": "agnes",
+      "modelType": "video",
+      "inputType": "text,image",
+      "outputType": "video",
+      "price": 10,
+      "enabled": true,
+      "defaultParams": {
+        "mode": "text-to-video",
+        "width": 1152,
+        "height": 768,
+        "num_frames": 121,
+        "frame_rate": 24
+      }
+    }
+  ]
+}

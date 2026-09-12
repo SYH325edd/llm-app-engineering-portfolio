@@ -1,0 +1,33 @@
+jobradar_search:
+  enabled: true
+  cron: "09:00"
+  dry_run: true
+  keyword: "Python"
+  city: "\u5168\u56fd"
+  skills: ""
+  limit: 1
+
+jobradar_apply:
+  enabled: false
+  cron: "09:05"
+  dry_run: true
+  apply_limit: 1
+  job_ids: []
+  job_urls: []
+
+recruitradar_search:
+  enabled: true
+  cron: "09:10"
+  dry_run: true
+  keyword: "Python"
+  job_title: ""
+  skills: ""
+  regions: ""
+  limit: 1
+
+message_draft:
+  enabled: false
+  cron: "09:15"
+  dry_run: true
+  message_limit: 1
+  candidate_ids: []

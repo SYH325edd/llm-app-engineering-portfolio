@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="mb-5">
+  <div class="mb-3 rounded border border-blue-200 bg-blue-50 px-4 py-2 text-sm text-blue-900">Generating a draft is not sending a message. Real send requires details-confirmed, exact confirmation, SafetyGuard, QuotaPolicy, and audit logging.</div>
+  <h1 class="text-xl font-semibold">话术草稿</h1>
+  <p class="text-sm text-slate-500">AI 生成的沟通话术草稿。这里只能查看和复制，不执行平台动作。</p>
+</div>
+
+<section class="rounded border border-slate-200 bg-white p-5">
+  <div class="overflow-x-auto">
+    <table class="min-w-full text-left text-sm">
+      <thead class="border-b border-slate-200 text-slate-500">
+        <tr>
+          <th class="py-2 pr-4">类型</th>
+          <th class="py-2 pr-4">对象</th>
+          <th class="py-2 pr-4">草稿内容摘要</th>
+          <th class="py-2 pr-4">AI Provider</th>
+          <th class="py-2 pr-4">状态</th>
+          <th class="py-2 pr-4">创建时间</th>
+          <th class="py-2 pr-4"></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for draft in drafts %}
+          <tr class="border-b border-slate-100">
+            <td class="py-2 pr-4">{{ draft.draft_type }}</td>
+            <td class="py-2 pr-4">{{ draft.target_name }}</td>
+            <td class="max-w-md truncate py-2 pr-4">{{ draft.summary }}</td>
+            <td class="py-2 pr-4">{{ draft.ai_provider }}</td>
+            <td class="py-2 pr-4">{{ draft.status }}</td>
+            <td class="py-2 pr-4">{{ draft.created_at }}</td>
+            <td class="py-2 pr-4"><a class="text-slate-900 underline" href="/message-drafts/{{ draft.draft_id }}">查看详情</a></td>
+          </tr>
+        {% else %}
+          <tr><td class="py-4 text-slate-500" colspan="7">暂无草稿</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+{% endblock %}

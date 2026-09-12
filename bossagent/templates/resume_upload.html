@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="max-w-2xl rounded border border-slate-200 bg-white p-5">
+  <h1 class="mb-2 text-xl font-semibold">Upload Resume</h1>
+  <p class="mb-5 text-sm text-slate-500">Supported file types: PDF, DOCX, TXT. Maximum file size: 20MB.</p>
+  <div class="mb-4 rounded border border-slate-200 bg-slate-50 p-4 text-sm">
+    <div><span class="text-slate-500">当前解析模式：</span><span class="font-semibold">{{ ai_status.provider_label }}</span></div>
+    <div class="mt-1"><span class="text-slate-500">DeepSeek API Key：</span>{% if ai_status.has_deepseek_key %}<span class="font-semibold text-emerald-700">已配置</span>{% else %}<span class="font-semibold text-slate-700">未配置</span>{% endif %}</div>
+  </div>
+  {% if ai_status.will_fallback_without_key %}
+    <div class="mb-4 rounded border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">当前已选择 DeepSeek，但未配置 DEEPSEEK_API_KEY，上传后将自动回退到规则解析。</div>
+  {% endif %}
+  <form method="post" action="/resumes/upload" enctype="multipart/form-data">
+    <label class="mb-4 block">
+      <span class="mb-1 block text-sm text-slate-600">Resume file</span>
+      <input class="field w-full" type="file" name="file" accept=".pdf,.docx,.txt" required>
+    </label>
+    <button class="btn" type="submit">上传并分析简历</button>
+  </form>
+  <p class="mt-4 text-sm text-slate-500">Uploaded content is parsed as text only. The system does not execute files, call AI, or trigger BOSS actions.</p>
+</div>
+{% endblock %}

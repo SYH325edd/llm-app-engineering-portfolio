@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+<form class="max-w-2xl rounded border border-slate-200 bg-white p-5" method="post">
+  <h1 class="mb-4 text-lg font-semibold">System Config</h1>
+  {% for key, label in [
+    ('daily_real_apply_limit','Daily real apply limit'),
+    ('daily_real_message_limit','Daily real message limit'),
+    ('max_items_per_run','Max items per run'),
+    ('min_action_interval_seconds','Min action interval seconds'),
+    ('random_delay_seconds','Random delay seconds')
+  ] %}
+    <label class="mb-3 block">
+      <span class="mb-1 block text-sm text-slate-600">{{ label }}</span>
+      <input class="field w-full" name="{{ key }}" value="{{ config[key] }}">
+    </label>
+  {% endfor %}
+  <button class="btn" type="submit">Save</button>
+  <p class="mt-4 text-sm text-slate-500">AI keys, auth state, and .env contents are never displayed here.</p>
+</form>
+{% endblock %}

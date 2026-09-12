@@ -1,0 +1,45 @@
+{
+  "name": "api-platform-node-api",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=18.18.0"
+  },
+  "scripts": {
+    "dev": "tsx src/index.ts",
+    "build": "tsc -p tsconfig.json",
+    "start": "node dist/index.js",
+    "railway:start": "prisma generate && prisma db push && node dist/scripts/sync-model-config.js && node dist/scripts/sync-seedance-pricing.js && node dist/index.js",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "db:generate": "node scripts/run-prisma.mjs generate --schema prisma/schema.prisma",
+    "db:push": "node scripts/run-prisma.mjs db push --schema prisma/schema.prisma",
+    "db:backup": "tsx src/scripts/backup-sqlite.ts",
+    "db:migrate-json": "tsx src/scripts/migrate-json-tasks.ts",
+    "dev:grant-credits": "tsx src/scripts/grant-dev-credits.ts",
+    "dev:make-admin": "tsx src/scripts/make-admin.ts",
+    "ops:keep-only-user": "tsx src/scripts/keep-only-user.ts",
+    "ops:transfer-admin-access": "tsx src/scripts/transfer-admin-access.ts",
+    "dev:sync-models": "tsx src/scripts/sync-model-config.ts",
+    "dev:sync-seedance-fast-model": "tsx src/scripts/sync-seedance-fast-model.ts",
+    "dev:sync-seedance-pricing": "tsx src/scripts/sync-seedance-pricing.ts"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.19.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "express-rate-limit": "^7.5.1",
+    "helmet": "^8.0.0",
+    "nodemailer": "^6.10.1"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "@types/nodemailer": "^6.4.17",
+    "@types/node": "^22.10.2",
+    "prisma": "^6.19.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  }
+}

@@ -1,0 +1,13 @@
+profile_name: 个人求职画像
+name: 张三
+target_job_title: AI应用开发工程师
+target_city: 杭州
+expected_salary: 20k-30k
+education: 本科
+skills: Python, FastAPI, PostgreSQL
+project_experience: AI视频生成平台
+work_experience: 后端开发3年
+avoid_companies: 外包公司
+avoid_industries: 博彩
+communication_style: 专业、简洁
+notes: 偏好AI应用方向。

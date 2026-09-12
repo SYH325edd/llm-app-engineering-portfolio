@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block content %}
+{% set locale = get_locale(request) %}
+<div class="mb-5">
+  <h1 class="text-xl font-semibold">{{ t('job.title', locale) }}</h1>
+  <p class="text-sm text-slate-500">{{ t('job.subtitle', locale) }}</p>
+</div>
+
+<div class="mb-5 rounded border border-slate-200 bg-white p-5">
+  <h2 class="mb-4 text-lg font-semibold">{{ t('job.profile_summary', locale) }}</h2>
+  <div class="grid gap-3 md:grid-cols-3">
+    <div class="rounded bg-slate-50 p-3"><div class="text-xs text-slate-500">姓名</div><div class="font-semibold">{{ profile.name or 'N/A' }}</div></div>
+    <div class="rounded bg-slate-50 p-3"><div class="text-xs text-slate-500">目标岗位</div><div class="font-semibold">{{ profile.target_job_title or 'N/A' }}</div></div>
+    <div class="rounded bg-slate-50 p-3"><div class="text-xs text-slate-500">目标城市</div><div class="font-semibold">{{ profile.target_city or 'N/A' }}</div></div>
+    <div class="rounded bg-slate-50 p-3"><div class="text-xs text-slate-500">期望薪资</div><div class="font-semibold">{{ profile.expected_salary or 'N/A' }}</div></div>
+    <div class="rounded bg-slate-50 p-3"><div class="text-xs text-slate-500">技能</div><div class="font-semibold">{{ profile.skills or 'N/A' }}</div></div>
+    <div class="rounded bg-slate-50 p-3"><div class="text-xs text-slate-500">项目经历</div><div class="font-semibold">{{ profile.project_experience or 'N/A' }}</div></div>
+  </div>
+</div>
+
+<form method="post" action="/job/run" class="rounded border border-slate-200 bg-white p-5">
+  <h2 class="mb-4 text-lg font-semibold">岗位搜索</h2>
+  <div class="grid gap-4 md:grid-cols-3">
+    <label><span class="label">{{ t('job.keyword', locale) }}</span><input class="field w-full" name="keyword" value="{{ defaults.keyword }}"></label>
+    <label><span class="label">{{ t('job.city', locale) }}</span><input class="field w-full" name="city" value="{{ defaults.city }}"></label>
+    <label><span class="label">{{ t('job.skills', locale) }}</span><input class="field w-full" name="skills" value="{{ defaults.skills }}"></label>
+    <label><span class="label">{{ t('job.limit', locale) }}</span><input class="field w-full" name="limit" value="{{ defaults.limit }}"></label>
+    <label><span class="label">{{ t('job.mode', locale) }}</span><select class="field w-full" name="mode"><option value="mock" selected>Mock</option><option value="real">Real</option></select></label>
+  </div>
+  <div class="mt-4 rounded border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
+    本页只负责搜索岗位、评分和写入岗位池；不会发送消息或执行投递。
+  </div>
+  <button class="btn mt-4" type="submit">开始搜索岗位</button>
+</form>
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="mb-5">
+  <h1 class="text-xl font-semibold">Talent Pool</h1>
+  <p class="text-sm text-slate-500">Manage candidate status without triggering messages, applies, or Boss automation.</p>
+</div>
+
+<section class="mb-5 grid gap-3 md:grid-cols-6">
+  {% for item in allowed_statuses %}
+    <div class="rounded border border-slate-200 bg-white p-3">
+      <div class="text-xs text-slate-500">{{ item }}</div>
+      <div class="mt-1 text-xl font-semibold">{{ counts[item] }}</div>
+    </div>
+  {% endfor %}
+</section>
+
+<form class="mb-5 grid gap-3 rounded border border-slate-200 bg-white p-4 md:grid-cols-6" method="get">
+  <label><span class="label">status</span><select class="field w-full" name="status"><option value="all">all</option>{% for item in allowed_statuses %}<option value="{{ item }}" {% if filters.status == item %}selected{% endif %}>{{ item }}</option>{% endfor %}</select></label>
+  <label><span class="label">keyword</span><input class="field w-full" name="keyword" value="{{ filters.keyword }}"></label>
+  <label><span class="label">city</span><input class="field w-full" name="city" value="{{ filters.city }}"></label>
+  <label><span class="label">skill</span><input class="field w-full" name="skill" value="{{ filters.skill }}"></label>
+  <label><span class="label">score_min</span><input class="field w-full" name="score_min" value="{{ filters.score_min }}"></label>
+  <div class="flex items-end"><button class="btn" type="submit">Filter</button></div>
+</form>
+
+<div class="rounded border border-slate-200 bg-white">
+  <div class="border-b border-slate-200 px-4 py-3 font-semibold">Candidates</div>
+  <div class="overflow-x-auto">
+    <table class="min-w-full text-sm">
+      <thead><tr class="bg-slate-50 text-left text-slate-500"><th class="px-4 py-2">Name</th><th class="px-4 py-2">Status</th><th class="px-4 py-2">City</th><th class="px-4 py-2">Skill</th><th class="px-4 py-2">Score</th><th class="px-4 py-2">Source</th><th class="px-4 py-2">Created</th></tr></thead>
+      <tbody>
+        {% for candidate in candidates %}
+          <tr class="border-t border-slate-100"><td class="px-4 py-2"><a class="underline" href="/talent-pool/{{ candidate.id }}">{{ candidate.name }}</a></td><td class="px-4 py-2">{{ candidate.talent_status }}</td><td class="px-4 py-2">{{ candidate.city }}</td><td class="px-4 py-2">{{ candidate.skills }}</td><td class="px-4 py-2">{{ candidate.score or 'N/A' }}</td><td class="px-4 py-2">{{ candidate.source }}</td><td class="px-4 py-2">{{ candidate.created_at }}</td></tr>
+        {% else %}
+          <tr><td class="px-4 py-6 text-slate-500" colspan="7">N/A</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

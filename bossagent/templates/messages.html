@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="mb-5">
+  <h1 class="text-xl font-semibold">消息中心</h1>
+  <p class="text-sm text-slate-500">统一查看 conversations / messages，并在本地管理会话状态。</p>
+</div>
+
+<form method="get" action="/messages" class="mb-5 rounded border border-slate-200 bg-white p-4">
+  <div class="grid gap-3 md:grid-cols-4">
+    <label><span class="label">关键词</span><input class="field w-full" name="keyword" value="{{ filters.keyword }}"></label>
+    <label><span class="label">状态</span><select class="field w-full" name="status">
+      <option value="all" {% if filters.status == 'all' %}selected{% endif %}>全部</option>
+      {% for item in allowed_statuses %}<option value="{{ item }}" {% if filters.status == item %}selected{% endif %}>{{ item }}</option>{% endfor %}
+    </select></label>
+    <label><span class="label">来源</span><input class="field w-full" name="source" value="{{ filters.source }}" placeholder="candidate / job / core"></label>
+    <label><span class="label">日期</span><input class="field w-full" name="date" value="{{ filters.date }}" placeholder="YYYY-MM-DD"></label>
+  </div>
+  <button class="btn mt-4" type="submit">筛选</button>
+</form>
+
+<section class="rounded border border-slate-200 bg-white p-5">
+  <div class="overflow-x-auto">
+    <table class="min-w-full text-left text-sm">
+      <thead class="border-b border-slate-200 text-slate-500">
+        <tr>
+          <th class="py-2 pr-4">conversation_id</th>
+          <th class="py-2 pr-4">对象类型</th>
+          <th class="py-2 pr-4">对象名称</th>
+          <th class="py-2 pr-4">最新消息摘要</th>
+          <th class="py-2 pr-4">最新消息时间</th>
+          <th class="py-2 pr-4">消息数量</th>
+          <th class="py-2 pr-4">状态</th>
+          <th class="py-2 pr-4">来源</th>
+          <th class="py-2 pr-4"></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in conversations %}
+          <tr class="border-b border-slate-100 align-top">
+            <td class="max-w-44 truncate py-2 pr-4 font-mono text-xs">{{ row.conversation_id }}</td>
+            <td class="py-2 pr-4">{{ row.object_type }}</td>
+            <td class="py-2 pr-4">{{ row.object_name }}</td>
+            <td class="max-w-sm truncate py-2 pr-4">{{ row.latest_message }}</td>
+            <td class="py-2 pr-4">{{ row.latest_message_time }}</td>
+            <td class="py-2 pr-4">{{ row.message_count }}</td>
+            <td class="py-2 pr-4">{{ row.status }}</td>
+            <td class="py-2 pr-4">{{ row.source }}</td>
+            <td class="py-2 pr-4"><a class="text-slate-900 underline" href="/messages/{{ row.conversation_id }}">查看详情</a></td>
+          </tr>
+        {% else %}
+          <tr><td class="py-4 text-slate-500" colspan="9">暂无会话</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+{% endblock %}

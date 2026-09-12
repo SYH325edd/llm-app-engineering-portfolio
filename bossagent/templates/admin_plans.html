@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block content %}
+<h1 class="mb-4 text-2xl font-semibold">Plans</h1>
+<div class="grid gap-4">{% for plan in plans %}<form method="post" action="/admin/plans/{{ plan.id }}" class="rounded border bg-white p-4">
+<div class="mb-3 font-semibold">{{ plan.code }}{% if plan.is_default %} (default){% endif %}</div>
+<div class="grid gap-3 md:grid-cols-3"><label>Name<input class="mt-1 w-full rounded border p-2" name="name" value="{{ plan.name }}"></label><label>Monthly price (cents)<input class="mt-1 w-full rounded border p-2" type="number" min="0" name="price_monthly_cents" value="{{ plan.price_monthly_cents }}"></label><label>Status<select class="mt-1 w-full rounded border p-2" name="status"><option>{{ plan.status }}</option><option>active</option><option>archived</option></select></label></div>
+<div class="mt-3 text-sm text-slate-600">Search {{ plan.daily_search_limit }}, drafts {{ plan.daily_message_draft_limit }}, real apply {{ plan.daily_real_apply_limit }}, real message {{ plan.daily_real_message_limit }}, per run {{ plan.per_run_limit }}, monthly credits {{ plan.monthly_credit_limit }}</div>
+<button class="mt-3 rounded bg-slate-900 px-4 py-2 text-white">Save plan</button></form>{% endfor %}</div>
+{% endblock %}

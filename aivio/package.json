@@ -1,0 +1,21 @@
+{
+  "name": "aivio",
+  "version": "0.1.0",
+  "private": true,
+  "workspaces": [
+    "apps/web"
+  ],
+  "scripts": {
+    "api:build": "npm --prefix apps/api run build",
+    "api:typecheck": "npm --prefix apps/api run typecheck",
+    "build": "npm run web:build && node -e \"require('fs').cpSync('apps/web/dist','dist',{recursive:true,force:true})\" && npm run api:build",
+    "check:env": "node scripts/check-env.mjs",
+    "cleanup:uploads": "node scripts/cleanup-uploads.mjs",
+    "preflight": "npm run verify && npm run check:env",
+    "test": "node --test",
+    "typecheck": "npm run web:typecheck && npm run api:typecheck",
+    "verify": "npm run typecheck && npm run build && npm test",
+    "web:build": "npm --workspace apps/web run build",
+    "web:typecheck": "npm --workspace apps/web run typecheck"
+  }
+}

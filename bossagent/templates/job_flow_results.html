@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% block content %}
+{% set locale = get_locale(request) %}
+{% set summary = result.summary %}
+<div class="mb-5 flex items-center justify-between gap-3">
+  <div>
+    <h1 class="text-xl font-semibold">{{ t('job.results_title', locale) }}</h1>
+    <p class="text-sm text-slate-500">岗位已完成搜索、评分、分级，并写入岗位池。</p>
+  </div>
+  <a class="btn" href="/job">返回求职助手</a>
+</div>
+
+<div class="mb-5 grid gap-3 md:grid-cols-4">
+  <div class="rounded border border-slate-200 bg-white p-4"><div class="text-xs text-slate-500">{{ t('job.found', locale) }}</div><div class="text-2xl font-semibold">{{ summary.jobs_found }}</div></div>
+  <div class="rounded border border-slate-200 bg-white p-4"><div class="text-xs text-slate-500">{{ t('job.saved', locale) }}</div><div class="text-2xl font-semibold">{{ summary.jobs_saved }}</div></div>
+  <div class="rounded border border-slate-200 bg-white p-4"><div class="text-xs text-slate-500">运行模式</div><div class="text-2xl font-semibold">{{ summary.mode }}</div></div>
+  <div class="rounded border border-slate-200 bg-white p-4"><div class="text-xs text-slate-500">Dry Run</div><div class="text-2xl font-semibold">{{ summary.dry_run }}</div></div>
+  <div class="rounded border border-slate-200 bg-white p-4"><div class="text-xs text-slate-500">{{ t('job.grade_a', locale) }}</div><div class="text-2xl font-semibold">{{ summary.grade_counts.A }}</div></div>
+  <div class="rounded border border-slate-200 bg-white p-4"><div class="text-xs text-slate-500">{{ t('job.grade_b', locale) }}</div><div class="text-2xl font-semibold">{{ summary.grade_counts.B }}</div></div>
+  <div class="rounded border border-slate-200 bg-white p-4"><div class="text-xs text-slate-500">{{ t('job.grade_c', locale) }}</div><div class="text-2xl font-semibold">{{ summary.grade_counts.C }}</div></div>
+</div>
+
+<section class="rounded border border-slate-200 bg-white p-5">
+  <h2 class="mb-4 text-lg font-semibold">{{ t('job.job_list', locale) }}</h2>
+  <div class="overflow-x-auto">
+    <table class="min-w-full text-left text-sm">
+      <thead class="border-b border-slate-200 text-slate-500">
+        <tr>
+          <th class="py-2 pr-4">岗位名称</th>
+          <th class="py-2 pr-4">公司名称</th>
+          <th class="py-2 pr-4">城市</th>
+          <th class="py-2 pr-4">薪资</th>
+          <th class="py-2 pr-4">匹配度</th>
+          <th class="py-2 pr-4">等级</th>
+          <th class="py-2 pr-4">来源</th>
+          <th class="py-2 pr-4"></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in result.jobs %}
+          {% set j = row.job %}
+          <tr class="border-b border-slate-100">
+            <td class="py-2 pr-4 font-medium">{{ j.title }}</td>
+            <td class="py-2 pr-4">{{ j.company_name or j.company or '' }}</td>
+            <td class="py-2 pr-4">{{ j.city or '' }}</td>
+            <td class="py-2 pr-4">{{ j.salary_text or j.salary or '' }}</td>
+            <td class="py-2 pr-4">{{ '%.1f'|format(row.score) }}</td>
+            <td class="py-2 pr-4"><span class="rounded bg-slate-900 px-2 py-1 text-xs font-semibold text-white">{{ row.grade }}级</span></td>
+            <td class="py-2 pr-4">{{ row.source }}</td>
+            <td class="py-2 pr-4">
+              <form method="post" action="/message-drafts/jobseeker/{{ j.id }}">
+                <button class="text-slate-900 underline" type="submit">生成求职沟通草稿</button>
+              </form>
+            </td>
+          </tr>
+          <tr class="border-b border-slate-100 bg-slate-50">
+            <td class="py-3 pr-4 text-xs text-slate-500" colspan="8">
+              {% set a = row.analysis %}
+              {% if a.fallback_used %}
+                <div class="mb-2 rounded border border-amber-200 bg-amber-50 px-3 py-2 text-amber-800">AI分析失败，已使用规则分析。</div>
+              {% endif %}
+              <div class="grid gap-3 md:grid-cols-5">
+                <div><span class="font-semibold text-slate-700">匹配理由</span><br>{{ (a.reasons or [])|join('；') }}</div>
+                <div><span class="font-semibold text-slate-700">优势</span><br>{{ (a.strengths or [])|join('；') }}</div>
+                <div><span class="font-semibold text-slate-700">风险</span><br>{{ (a.risks or [])|join('；') }}</div>
+                <div><span class="font-semibold text-slate-700">建议动作</span><br>{{ a.suggested_action }}</div>
+                <div><span class="font-semibold text-slate-700">标签</span><br>{{ (a.tags or [])|join(', ') }}</div>
+              </div>
+            </td>
+          </tr>
+        {% else %}
+          <tr><td class="py-4 text-slate-500" colspan="8">暂无岗位</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+{% endblock %}

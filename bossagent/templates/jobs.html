@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+<form class="mb-4 grid gap-3 rounded border border-slate-200 bg-white p-4 md:grid-cols-4" method="get">
+  <input class="field" name="keyword" placeholder="keyword" value="{{ keyword }}">
+  <input class="field" name="city" placeholder="city" value="{{ city }}">
+  <input class="field" name="company" placeholder="company" value="{{ company }}">
+  <button class="btn" type="submit">Filter</button>
+</form>
+<div class="rounded border border-slate-200 bg-white">
+  <div class="border-b border-amber-200 bg-amber-50 px-4 py-2 text-sm text-amber-900">vision:// rows are non-actionable; open and confirm the real detail target before any apply action.</div>
+  <div class="border-b border-slate-200 px-4 py-3 font-semibold">Job Pool</div>
+  <div class="overflow-x-auto">
+    <table class="min-w-full text-sm">
+      <thead><tr class="bg-slate-50 text-left text-slate-500"><th class="px-4 py-2">Title</th><th class="px-4 py-2">Company</th><th class="px-4 py-2">City</th><th class="px-4 py-2">Salary</th><th class="px-4 py-2">Match</th><th class="px-4 py-2">Status</th><th class="px-4 py-2">Created</th><th class="px-4 py-2">360</th></tr></thead>
+      <tbody>
+        {% for job in jobs %}
+          <tr class="border-t border-slate-100"><td class="px-4 py-2">{{ job.title }}</td><td class="px-4 py-2">{{ job.company_name }}</td><td class="px-4 py-2">{{ job.city }}</td><td class="px-4 py-2">{{ job.salary_text }}</td><td class="px-4 py-2">{{ job.match_score or 'N/A' }}</td><td class="px-4 py-2">{{ job.status }}</td><td class="px-4 py-2">{{ job.created_at }}</td><td class="px-4 py-2"><a class="text-slate-900 underline" href="/job360/{{ job.id }}">查看360画像</a></td></tr>
+        {% else %}
+          <tr><td class="px-4 py-6 text-slate-500" colspan="8">N/A</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

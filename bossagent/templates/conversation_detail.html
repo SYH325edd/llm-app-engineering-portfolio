@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="mb-5 flex items-center justify-between gap-3">
+  <div>
+    <h1 class="text-xl font-semibold">会话详情</h1>
+    <p class="text-sm text-slate-500">只展示和管理本地状态，不提供真实发送入口。</p>
+  </div>
+  <a class="btn" href="/messages">返回消息中心</a>
+</div>
+
+{% if detail %}
+  {% set c = detail.conversation %}
+  <section class="mb-5 rounded border border-slate-200 bg-white p-5">
+    <h2 class="mb-4 text-lg font-semibold">会话基础信息</h2>
+    <div class="grid gap-3 md:grid-cols-3">
+      <div class="rounded bg-slate-50 p-3"><div class="text-xs text-slate-500">conversation_id</div><div class="break-all font-mono text-xs">{{ c.id }}</div></div>
+      <div class="rounded bg-slate-50 p-3"><div class="text-xs text-slate-500">对象类型</div><div class="font-semibold">{{ c.subject_type }}</div></div>
+      <div class="rounded bg-slate-50 p-3"><div class="text-xs text-slate-500">当前状态</div><div class="font-semibold">{{ detail.status }}</div></div>
+      <div class="rounded bg-slate-50 p-3"><div class="text-xs text-slate-500">对象名称</div><div class="font-semibold">{{ c.candidate_name or c.job_title or c.counterparty_name or 'N/A' }}</div></div>
+      <div class="rounded bg-slate-50 p-3"><div class="text-xs text-slate-500">来源</div><div class="font-semibold">{{ detail.source }}</div></div>
+      <div class="rounded bg-slate-50 p-3"><div class="text-xs text-slate-500">创建时间</div><div class="font-semibold">{{ c.created_at }}</div></div>
+    </div>
+
+    <form class="mt-4 flex flex-wrap items-end gap-3" method="post" action="/messages/{{ c.id }}/status">
+      <label><span class="label">修改状态</span><select class="field" name="status">
+        {% for item in detail.allowed_statuses %}
+          <option value="{{ item }}" {% if detail.status == item %}selected{% endif %}>{{ item }}</option>
+        {% endfor %}
+      </select></label>
+      <button class="btn" type="submit">保存状态</button>
+    </form>
+  </section>
+
+  <section class="mb-5 rounded border border-slate-200 bg-white p-5">
+    <h2 class="mb-4 text-lg font-semibold">关联信息</h2>
+    <div class="grid gap-3 md:grid-cols-3">
+      <div class="rounded bg-slate-50 p-3"><div class="text-xs text-slate-500">candidate</div><div>{{ c.candidate_name or 'N/A' }} {{ c.candidate_city or '' }} {{ c.candidate_title or '' }}</div></div>
+      <div class="rounded bg-slate-50 p-3"><div class="text-xs text-slate-500">job</div><div>{{ c.job_title or 'N/A' }} {{ c.job_company or '' }} {{ c.job_city or '' }}</div></div>
+      <div class="rounded bg-slate-50 p-3"><div class="text-xs text-slate-500">application</div><div>{{ c.application_direction or 'N/A' }} {{ c.application_status or '' }}</div></div>
+    </div>
+  </section>
+
+  <section class="mb-5 rounded border border-slate-200 bg-white p-5">
+    <h2 class="mb-4 text-lg font-semibold">消息时间线</h2>
+    <div class="space-y-3">
+      {% for message in detail.messages %}
+        <div class="rounded border border-slate-200 p-3">
+          <div class="mb-1 flex flex-wrap gap-3 text-xs text-slate-500">
+            <span>{{ message.created_at }}</span>
+            <span>{{ message.direction }}</span>
+            <span>{{ message.sender_type }}</span>
+            <span>{{ message.status }}</span>
+          </div>
+          <div class="whitespace-pre-wrap text-sm">{{ message.content }}</div>
+        </div>
+      {% else %}
+        <div class="text-sm text-slate-500">暂无消息</div>
+      {% endfor %}
+    </div>
+  </section>
+
+  <section class="rounded border border-slate-200 bg-white p-5">
+    <h2 class="mb-4 text-lg font-semibold">Logs 摘要</h2>
+    <div class="space-y-2 text-sm">
+      {% for log in detail.logs %}
+        <div class="rounded bg-slate-50 p-3">
+          <div class="text-xs text-slate-500">{{ log.created_at }} / {{ log.level }}</div>
+          <div>{{ log.message }}</div>
+        </div>
+      {% else %}
+        <div class="text-slate-500">暂无日志</div>
+      {% endfor %}
+    </div>
+  </section>
+{% else %}
+  <div class="rounded border border-red-200 bg-red-50 p-4 text-sm text-red-800">会话不存在。</div>
+{% endif %}
+{% endblock %}

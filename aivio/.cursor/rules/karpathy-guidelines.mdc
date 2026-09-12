@@ -1,0 +1,42 @@
+---
+description: Karpathy-inspired behavioral guidelines for small, careful, verifiable code changes in API Relay Console.
+alwaysApply: true
+---
+
+# Karpathy Behavioral Guidelines
+
+Adapted from `multica-ai/andrej-karpathy-skills` and merged with this project's local constraints.
+
+## Project Constraints
+
+- Keep the app zero-dependency unless a request explicitly needs otherwise.
+- `server.ps1` owns local HTTP routing, provider defaults, and upstream request adaptation.
+- `public/index.html`, `public/styles.css`, and `public/app.js` own the static UI.
+- API keys should stay in browser storage, not server-side files.
+- Preserve the existing Chinese UI copy and UTF-8 encoding.
+
+## Think Before Coding
+
+- State assumptions when the request is ambiguous.
+- If several interpretations exist, present the trade-off.
+- Ask when uncertainty would materially change the implementation.
+
+## Simplicity First
+
+- Implement the smallest useful solution.
+- Avoid speculative features, new dependencies, and single-use abstractions.
+- Keep error handling realistic and tied to observable failures.
+
+## Surgical Changes
+
+- Touch only files required by the request.
+- Match local style and structure.
+- Do not refactor unrelated code.
+- Remove only unused code introduced by your own change.
+
+## Goal-Driven Execution
+
+- Define success in terms of observable behavior.
+- For bugs, reason from evidence before patching.
+- For features, verify the user action and result.
+- Finish by reporting what changed and how it was checked.

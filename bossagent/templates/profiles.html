@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="mb-5">
+  <h1 class="text-xl font-semibold">Profile Center</h1>
+  <p class="text-sm text-slate-500">Configure stable inputs for future matching, resume analysis, messaging, and apply workflows.</p>
+</div>
+
+<div class="grid gap-5 md:grid-cols-2">
+  <a class="rounded border border-slate-200 bg-white p-6 hover:border-slate-400" href="/profiles/recruiter">
+    <div class="text-lg font-semibold">招聘画像 Recruit Profile</div>
+    <p class="mt-2 text-sm text-slate-500">Define company, role, skill requirements, rejection rules, and communication style for candidate matching.</p>
+  </a>
+  <a class="rounded border border-slate-200 bg-white p-6 hover:border-slate-400" href="/profiles/jobseeker">
+    <div class="text-lg font-semibold">求职画像 Jobseeker Profile</div>
+    <p class="mt-2 text-sm text-slate-500">Define target role, skills, experience, avoidance rules, and communication style for job matching.</p>
+  </a>
+</div>
+{% endblock %}

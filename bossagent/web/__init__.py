@@ -1,0 +1,1 @@
+"""Modular web console package."""

@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="mb-4 flex items-center justify-between">
+  <div>
+    <h1 class="text-xl font-semibold">Resume Center</h1>
+    <p class="text-sm text-slate-500">Uploaded resumes parsed into the LakeJob talent pool.</p>
+  </div>
+  <a class="btn" href="/resumes/upload">Upload Resume</a>
+</div>
+
+<form class="mb-4 grid gap-3 rounded border border-slate-200 bg-white p-4 md:grid-cols-3" method="get">
+  <label>
+    <span class="label">provider</span>
+    <select class="field w-full" name="provider">
+      {% for item in ['all','mock','deepseek','fallback_rule'] %}
+        <option value="{{ item }}" {% if provider_filter == item %}selected{% endif %}>{{ item }}</option>
+      {% endfor %}
+    </select>
+  </label>
+  <label>
+    <span class="label">status</span>
+    <select class="field w-full" name="status">
+      {% for item in ['all','success','failed','fallback'] %}
+        <option value="{{ item }}" {% if status_filter == item %}selected{% endif %}>{{ item }}</option>
+      {% endfor %}
+    </select>
+  </label>
+  <div class="flex items-end"><button class="btn" type="submit">Filter</button></div>
+</form>
+
+<div class="rounded border border-slate-200 bg-white">
+  <div class="border-b border-slate-200 px-4 py-3 font-semibold">Resumes</div>
+  <div class="overflow-x-auto">
+    <table class="min-w-full text-sm">
+      <thead>
+        <tr class="bg-slate-50 text-left text-slate-500">
+          <th class="px-4 py-2">文件名</th>
+          <th class="px-4 py-2">候选人</th>
+          <th class="px-4 py-2">城市</th>
+          <th class="px-4 py-2">目标岗位</th>
+          <th class="px-4 py-2">评分</th>
+          <th class="px-4 py-2">AI Provider</th>
+          <th class="px-4 py-2">AI Status</th>
+          <th class="px-4 py-2">Fallback</th>
+          <th class="px-4 py-2">上传时间</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for resume in resumes %}
+          <tr class="border-t border-slate-100">
+            <td class="px-4 py-2"><a class="text-slate-900 underline" href="/resumes/{{ resume.id }}">{{ resume.file_name }}</a></td>
+            <td class="px-4 py-2">{{ resume.candidate_name }}</td>
+            <td class="px-4 py-2">{{ resume.city }}</td>
+            <td class="px-4 py-2">{{ resume.target_role }}</td>
+            <td class="px-4 py-2">{{ resume.score }}</td>
+            <td class="px-4 py-2">{{ resume.ai_provider }}</td>
+            <td class="px-4 py-2">{{ resume.ai_parse_status }}</td>
+            <td class="px-4 py-2">{{ resume.fallback_used }}</td>
+            <td class="px-4 py-2">{{ resume.uploaded_at }}</td>
+          </tr>
+        {% else %}
+          <tr><td class="px-4 py-6 text-slate-500" colspan="9">暂无简历</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}
