@@ -4,7 +4,7 @@ import os
 from pathlib import Path
 from typing import Any
 
-import safety_guard
+import lakejob.safety.guard as safety_guard
 
 
 class Patch:

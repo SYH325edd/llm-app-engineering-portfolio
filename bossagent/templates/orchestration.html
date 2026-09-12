@@ -1,0 +1,145 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="space-y-6">
+  <div class="rounded border border-slate-200 bg-white p-6 shadow-sm">
+    <div class="flex flex-wrap items-start justify-between gap-4">
+      <div>
+        <h1 class="text-2xl font-semibold text-slate-900">五角色闭环作业系统</h1>
+        <p class="mt-2 max-w-3xl text-sm text-slate-600">
+          总指挥 → 执行员 → 监督员 → 合验员 → 终审审计员严格串行。任一审核驳回后返回执行员，最多自动返工三次；合验和终审低于95分直接驳回；通过后生成哈希签名并锁定结果。
+        </p>
+      </div>
+      <div class="rounded bg-slate-900 px-4 py-2 text-sm font-medium text-white">Serial Orchestrator v1</div>
+    </div>
+
+    <form method="post" action="/orchestration/tasks" class="mt-6 grid gap-4 md:grid-cols-2">
+      <div class="md:col-span-2">
+        <label class="mb-1 block text-sm font-medium text-slate-700">最终业务目标</label>
+        <textarea name="objective" required rows="3" class="w-full rounded border border-slate-300 px-3 py-2 text-sm" placeholder="例如：完成双端视觉招聘智能体的本地闭环验证，输出求职端、招聘端、视觉执行和审计锁定结果。">完成双端视觉招聘智能体的五角色串行闭环本地验证</textarea>
+      </div>
+      <div>
+        <label class="mb-1 block text-sm font-medium text-slate-700">任务类型</label>
+        <select name="task_type" class="w-full rounded border border-slate-300 px-3 py-2 text-sm">
+          {% for value, label in task_types %}<option value="{{ value }}">{{ label }}</option>{% endfor %}
+        </select>
+      </div>
+      <div>
+        <label class="mb-1 block text-sm font-medium text-slate-700">自动化模式</label>
+        <select name="automation_mode" class="w-full rounded border border-slate-300 px-3 py-2 text-sm">
+          <option value="assist">辅助模式</option>
+          <option value="supervised" selected>监督自动模式</option>
+          <option value="auto">预授权自动模式</option>
+        </select>
+      </div>
+      <div>
+        <label class="mb-1 block text-sm font-medium text-slate-700">业务域</label>
+        <select name="business_domain" class="w-full rounded border border-slate-300 px-3 py-2 text-sm">
+          <option value="shared">双端共享</option>
+          <option value="candidate">求职端</option>
+          <option value="employer">招聘端</option>
+          <option value="visual_runtime">视觉执行</option>
+        </select>
+      </div>
+      <input type="hidden" name="run_now" value="1">
+      <div class="flex items-end">
+        <button type="submit" class="w-full rounded bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-700">创建并运行闭环任务</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="rounded border border-slate-200 bg-white p-6 shadow-sm">
+    <h2 class="text-lg font-semibold text-slate-900">任务历史</h2>
+    <div class="mt-4 overflow-x-auto">
+      <table class="min-w-full divide-y divide-slate-200 text-sm">
+        <thead class="bg-slate-50 text-left text-xs uppercase text-slate-500"><tr><th class="px-3 py-2">任务</th><th class="px-3 py-2">类型</th><th class="px-3 py-2">状态</th><th class="px-3 py-2">重试</th><th class="px-3 py-2">总分</th><th class="px-3 py-2">操作</th></tr></thead>
+        <tbody class="divide-y divide-slate-100">
+          {% for item in records %}
+          <tr>
+            <td class="px-3 py-3 font-mono text-xs">{{ item.task_id }}</td>
+            <td class="px-3 py-3">{{ item.request.task_type }}</td>
+            <td class="px-3 py-3"><span class="rounded bg-slate-100 px-2 py-1 text-xs font-medium">{{ item.status.value }}</span></td>
+            <td class="px-3 py-3">{{ item.retry_count }}/3</td>
+            <td class="px-3 py-3">{% if item.final_result %}{{ item.final_result.scores.get('overall', 0) }}{% else %}-{% endif %}</td>
+            <td class="px-3 py-3"><a class="text-slate-900 underline" href="/orchestration?task_id={{ item.task_id }}">查看</a></td>
+          </tr>
+          {% else %}
+          <tr><td colspan="6" class="px-3 py-8 text-center text-slate-500">暂无闭环任务</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  {% if selected %}
+  <div class="rounded border border-slate-200 bg-white p-6 shadow-sm">
+    <div class="flex flex-wrap items-center justify-between gap-3">
+      <div><h2 class="text-lg font-semibold text-slate-900">任务详情</h2><div class="mt-1 font-mono text-xs text-slate-500">{{ selected.task_id }}</div></div>
+      {% if selected.status.value not in ['LOCKED','HUMAN_INTERVENTION_REQUIRED'] %}
+      <form method="post" action="/orchestration/tasks/{{ selected.task_id }}/run"><button class="rounded bg-slate-900 px-4 py-2 text-sm text-white">继续运行</button></form>
+      {% endif %}
+    </div>
+
+    <div class="mt-5 grid gap-3 md:grid-cols-5">
+      {% for role in ['commander','executor','supervisor','validator','auditor'] %}
+      <div class="rounded border border-slate-200 bg-slate-50 p-3">
+        <div class="text-xs uppercase text-slate-500">{{ role }}</div>
+        <div class="mt-1 text-2xl font-semibold">{% if selected.final_result %}{{ selected.final_result.scores.get(role, 0) }}{% else %}-{% endif %}</div>
+      </div>
+      {% endfor %}
+    </div>
+
+    {% if selected.final_result %}
+    <div class="mt-5 rounded border border-slate-200 bg-white p-4">
+      <h3 class="font-semibold text-slate-900">最终任务结果</h3>
+      <p class="mt-2 text-sm text-slate-700">{{ selected.final_result.summary }}</p>
+      <div class="mt-3 grid gap-3 md:grid-cols-2">
+        {% for item in selected.final_result.deliverables %}
+        <div class="rounded border border-slate-200 bg-slate-50 p-3">
+          <div class="text-xs font-mono text-slate-500">{{ item.deliverable_id }}</div>
+          <div class="mt-1 text-sm font-medium text-slate-900">{{ item.summary }}</div>
+          <div class="mt-1 break-all text-xs text-slate-500">{{ item.content_location }}</div>
+        </div>
+        {% endfor %}
+      </div>
+      {% if selected.final_result.known_limitations %}
+      <div class="mt-4 rounded border border-amber-200 bg-amber-50 p-3 text-sm text-amber-900">
+        <div class="font-medium">已知边界</div>
+        <ul class="mt-1 list-disc pl-5">{% for item in selected.final_result.known_limitations %}<li>{{ item }}</li>{% endfor %}</ul>
+      </div>
+      {% endif %}
+    </div>
+    {% endif %}
+
+    {% if selected.final_result and selected.final_result.lock %}
+    <div class="mt-5 rounded border border-emerald-200 bg-emerald-50 p-4 text-sm text-emerald-900">
+      <div class="font-semibold">COMPLETED_AND_LOCKED</div>
+      <div class="mt-2 break-all font-mono text-xs">SHA-256：{{ selected.final_result.lock.content_hash }}</div>
+      <div class="mt-1 break-all font-mono text-xs">签名：{{ selected.final_result.lock.signature }}</div>
+    </div>
+    {% endif %}
+
+    <h3 class="mt-6 font-semibold text-slate-900">全流程日志</h3>
+    <div class="mt-3 overflow-x-auto">
+      <table class="min-w-full divide-y divide-slate-200 text-sm">
+        <thead class="bg-slate-50 text-left text-xs uppercase text-slate-500"><tr><th class="px-3 py-2">序号</th><th class="px-3 py-2">角色</th><th class="px-3 py-2">状态</th><th class="px-3 py-2">决策</th><th class="px-3 py-2">分数</th><th class="px-3 py-2">驳回原因</th></tr></thead>
+        <tbody class="divide-y divide-slate-100">
+          {% for log in selected.workflow_log %}
+          <tr><td class="px-3 py-2">{{ log.sequence }}</td><td class="px-3 py-2">{{ log.role }}</td><td class="px-3 py-2">{{ log.status.value }}</td><td class="px-3 py-2">{{ log.decision }}</td><td class="px-3 py-2">{{ log.score if log.score is not none else '-' }}</td><td class="px-3 py-2 text-xs text-red-700">{{ log.rejection_reasons|join('；') }}</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  {% endif %}
+
+  <div class="rounded border border-amber-200 bg-amber-50 p-5 text-sm text-amber-900">
+    <h2 class="font-semibold">固定边界</h2>
+    <ul class="mt-2 list-disc space-y-1 pl-5">
+      <li>不绕过登录、验证码、安全验证或平台风控。</li>
+      <li>不读取账号密码、Cookie 或 Token。</li>
+      <li>默认本地验证只生成草稿，不批量发送或投递。</li>
+      <li>最终淘汰、Offer、录用和薪资承诺必须人工确认。</li>
+    </ul>
+  </div>
+</section>
+{% endblock %}

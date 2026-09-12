@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from types import SimpleNamespace
 
-from i18n import get_locale, t
+from lakejob.shared.i18n import get_locale, t
 
 
 def assert_true(condition: bool, message: str) -> None:

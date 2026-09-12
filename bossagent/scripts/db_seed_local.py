@@ -3,7 +3,7 @@ from __future__ import annotations
 import argparse
 import os
 
-from db_migrate import connect
+from scripts.db_migrate import connect
 
 
 SEED_SQL = """

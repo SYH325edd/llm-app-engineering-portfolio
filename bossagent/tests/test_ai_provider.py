@@ -4,9 +4,9 @@ from __future__ import annotations
 
 import os
 
-from ai.deepseek_provider import DeepSeekProvider
-from ai.mock_provider import MockAIProvider
-from ai.provider import get_ai_provider
+from lakejob.infrastructure.ai.deepseek_provider import DeepSeekProvider
+from lakejob.infrastructure.ai.mock_provider import MockAIProvider
+from lakejob.infrastructure.ai.provider import get_ai_provider
 
 
 SAMPLE_RESUME = """

@@ -2,8 +2,8 @@
 
 from pathlib import Path
 
-import quota_policy
-import web_console
+import lakejob.safety.quota as quota_policy
+import lakejob.app.console as web_console
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
@@ -56,7 +56,7 @@ def test_quota_policy_surface() -> None:
 def test_automatic_send_defaults_disabled() -> None:
     scheduler = (PROJECT_ROOT / "config" / "scheduler.yaml").read_text(encoding="utf-8")
     assert "message_draft:\n  enabled: false" in scheduler
-    source = (PROJECT_ROOT / "recruitradar_msg.py").read_text(encoding="utf-8")
+    source = (PROJECT_ROOT / "lakejob" / "application" / "recruiting" / "message.py").read_text(encoding="utf-8")
     assert "draft_only" in source
 
 

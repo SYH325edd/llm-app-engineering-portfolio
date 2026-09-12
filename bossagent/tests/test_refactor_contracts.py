@@ -6,25 +6,34 @@ from zipfile import ZipFile
 
 import pytest
 
-import local_control
-import recruitradar_search
-from core.logging import redact
-from core.platform_targets import platform_target_from_record
-from core.schemas import ActionState, PlatformTarget
-from core.state_machine import transition
+import lakejob.application.control.service as local_control
+import lakejob.application.recruiting.search as recruitradar_search
+from lakejob.shared.logging import redact
+from lakejob.domain.platform_targets import platform_target_from_record
+from lakejob.domain.schemas import ActionState, PlatformTarget
+from lakejob.domain.state_machine import transition
 from scripts import db_migrate
 from scripts.make_release import make_release
-from skills.vision.ui_grounder import GroundedElement, UIGrounder
+from lakejob.infrastructure.vision.ui_grounder import GroundedElement, UIGrounder
 
 
 def test_recruitradar_local_control_command_matches_parser():
     config = local_control.load_config()
     config["recruitradar"].update({"mode": "real", "dry_run": True, "keyword": "Python", "limit": 1})
     command = local_control.build_recruitradar_command("search", config)
-    args = recruitradar_search.build_parser().parse_args(command[2:])
+    assert command[:3] == [local_control.sys.executable, "-m", "lakejob.application.recruiting.search"]
+    args = recruitradar_search.build_parser().parse_args(command[3:])
     assert args.keyword == "Python"
     assert args.real is True
     assert args.dry_run is True
+
+
+def test_jobradar_local_control_uses_module_entrypoint():
+    config = local_control.load_config()
+    config["jobradar"].update({"mode": "real", "keyword": "AI", "limit": 1})
+    command = local_control.build_jobradar_command("search", config)
+    assert command[:3] == [local_control.sys.executable, "-m", "scripts.run_real_mode_smoke_test"]
+    assert "--mode" in command and "jobradar" in command
 
 
 def test_state_machine_rejects_premature_success():
@@ -81,6 +90,14 @@ def test_release_archive_excludes_local_artifacts(tmp_path: Path):
     assert "README.md" in names
     assert not any(name.startswith(("runtime/", "uploads/", "logs/", ".venv/", "venv/")) for name in names)
     assert not any(name.endswith((".db", ".sqlite", ".pyc")) for name in names)
+
+
+def test_release_archive_keeps_visual_runtime_source(tmp_path: Path):
+    output = make_release(tmp_path / "release.zip")
+    with ZipFile(output) as archive:
+        names = archive.namelist()
+    assert "lakejob/infrastructure/vision/runtime/__init__.py" in names
+    assert "lakejob/infrastructure/vision/runtime/runner.py" in names
 
 
 def test_redaction_removes_private_values():

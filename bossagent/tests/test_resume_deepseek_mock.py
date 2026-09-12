@@ -11,7 +11,7 @@ import os
 import time
 from typing import Any
 
-import resume_center
+import lakejob.application.resumes.center as resume_center
 
 
 TEST_TEXT = """姓名：李四

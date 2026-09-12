@@ -10,12 +10,10 @@
     "dev": "tsx src/index.ts",
     "build": "tsc -p tsconfig.json",
     "start": "node dist/index.js",
-    "railway:start": "prisma generate && prisma db push && node dist/scripts/sync-model-config.js && node dist/scripts/sync-seedance-pricing.js && node dist/index.js",
     "typecheck": "tsc -p tsconfig.json --noEmit",
-    "db:generate": "node scripts/run-prisma.mjs generate --schema prisma/schema.prisma",
-    "db:push": "node scripts/run-prisma.mjs db push --schema prisma/schema.prisma",
+    "db:generate": "prisma generate --schema prisma/schema.prisma",
+    "db:push": "prisma db push --schema prisma/schema.prisma",
     "db:backup": "tsx src/scripts/backup-sqlite.ts",
-    "db:migrate-json": "tsx src/scripts/migrate-json-tasks.ts",
     "dev:grant-credits": "tsx src/scripts/grant-dev-credits.ts",
     "dev:make-admin": "tsx src/scripts/make-admin.ts",
     "ops:keep-only-user": "tsx src/scripts/keep-only-user.ts",
@@ -31,7 +29,8 @@
     "express": "^4.21.2",
     "express-rate-limit": "^7.5.1",
     "helmet": "^8.0.0",
-    "nodemailer": "^6.10.1"
+    "nodemailer": "^6.10.1",
+    "@aivio/contracts": "0.1.0"
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",

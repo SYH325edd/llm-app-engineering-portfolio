@@ -12,8 +12,8 @@ import time
 from pathlib import Path
 from typing import Any
 
-from resume_center import ROOT, db_conn, process_resume_upload
-from resume_parser import extract_text_from_file, generate_resume_summary, parse_resume_text, score_resume
+from lakejob.application.resumes.center import ROOT, db_conn, process_resume_upload
+from lakejob.application.resumes.parser import extract_text_from_file, generate_resume_summary, parse_resume_text, score_resume
 
 
 RUNTIME_DIR = ROOT / "runtime"

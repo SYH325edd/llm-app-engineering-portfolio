@@ -6,8 +6,8 @@ import json
 import tempfile
 from pathlib import Path
 
-import auth_center
-import boss_auth_login
+import lakejob.infrastructure.platforms.boss.auth as auth_center
+import lakejob.infrastructure.platforms.boss.auth_login as boss_auth_login
 
 
 def assert_true(value: bool, message: str) -> None:

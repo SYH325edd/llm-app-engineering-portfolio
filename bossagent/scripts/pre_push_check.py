@@ -13,7 +13,6 @@ REQUIRED_FILES = [
     "README.md",
     ".gitignore",
     ".env.example",
-    "runtime/.gitkeep",
 ]
 
 REQUIRED_GITIGNORE_PATTERNS = [
@@ -36,10 +35,9 @@ REQUIRED_GITIGNORE_PATTERNS = [
     ".pytest_cache/",
     "uploads/",
     "logs/",
-    "lakejobai-job-radar/.boss_profile/",
 ]
 
-SKIP_DIRS = {".git", "venv", ".venv", "env", "__pycache__"}
+SKIP_DIRS = {".git", "venv", ".venv", "env", "__pycache__", ".pytest_cache", "runtime", "uploads", "logs", ".boss_profile", "dist"}
 
 
 def rel(path: Path) -> str:
@@ -74,16 +72,24 @@ def tracked_files() -> list[Path]:
     result = subprocess.run(
         ["git", "ls-files"], cwd=ROOT, text=True, capture_output=True, check=False
     )
-    if result.returncode != 0:
-        raise RuntimeError(result.stderr.strip() or "git ls-files failed")
-    return [ROOT / line for line in result.stdout.splitlines() if line.strip()]
+    if result.returncode == 0:
+        return [ROOT / line for line in result.stdout.splitlines() if line.strip()]
+    # Source releases intentionally exclude .git. In that case scan the
+    # extracted project tree and apply the same forbidden-artifact rules.
+    return [path for path in iter_project_files() if path.is_file()]
 
 
 def main() -> int:
     failures: list[str] = []
     warnings: list[str] = []
 
-    for required in REQUIRED_FILES:
+    required_files = list(REQUIRED_FILES)
+    # The source checkout keeps an empty runtime directory for local use.
+    # Clean release archives intentionally omit the entire runtime tree.
+    if (ROOT / ".git").exists():
+        required_files.append("runtime/.gitkeep")
+
+    for required in required_files:
         if not (ROOT / required).exists():
             failures.append(f"missing required file: {required}")
 

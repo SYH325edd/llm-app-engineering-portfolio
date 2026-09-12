@@ -1,5 +1,5 @@
 import type { NextFunction, Request, Response } from "express";
-import { authService } from "../services/auth.service.js";
+import { authService } from "../modules/auth/service.js";
 import { fail } from "../utils/response.js";
 import type { AuthenticatedRequest } from "../types/auth.js";
 

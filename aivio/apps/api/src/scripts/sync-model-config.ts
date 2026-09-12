@@ -1,5 +1,5 @@
-import { modelRegistryService } from "../services/model-registry.service.js";
-import { prisma } from "../services/database.service.js";
+import { modelRegistryService } from "../modules/models/model-registry.service.js";
+import { prisma } from "../infrastructure/database/prisma.js";
 
 async function main(): Promise<void> {
   const result = await modelRegistryService.syncFromConfig();

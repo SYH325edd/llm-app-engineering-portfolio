@@ -6,7 +6,7 @@ import asyncio
 from pathlib import Path
 from typing import Any
 
-import action_orchestrator
+import lakejob.safety.action_orchestrator as action_orchestrator
 import pytest
 
 
@@ -130,36 +130,6 @@ def test_quota_block_never_executes() -> None:
     assert not any(name == "apply_to_job" for name, _ in automation.calls)
 
 
-def test_boss_app_has_no_direct_real_action_calls() -> None:
-    legacy_path = PROJECT_ROOT / "lakejobai-job-radar"
-    if not legacy_path.is_dir():
-        pytest.skip("legacy fixture not available")
-    source = (legacy_path / "boss_app.py").read_text(encoding="utf-8")
-    forbidden = (
-        "_run_pw(automation.search",
-        "_run_pw(automation.apply_to_job",
-        "_run_pw(automation.apply_batch",
-        "_run_pw(automation.scan_current_page",
-        "_run_pw(automation.scan_and_apply_current_page",
-        "_run_pw(automation.send_message",
-        "_run_pw(automation.run_chat_monitor_cycle",
-    )
-    for value in forbidden:
-        assert value not in source, value
-    assert "raise HTTPException(status_code=403, detail=BATCH_DISABLED_MESSAGE)" in source
-
-
-def test_frontend_disables_batch_and_requires_confirmation() -> None:
-    legacy_path = PROJECT_ROOT / "lakejobai-job-radar"
-    if not legacy_path.is_dir():
-        pytest.skip("legacy fixture not available")
-    source = (legacy_path / "static" / "dashboard.html").read_text(encoding="utf-8")
-    assert action_orchestrator.BATCH_DISABLED_MESSAGE in source
-    assert "CONFIRM_REAL_SEARCH" in source
-    assert "CONFIRM_REAL_APPLY" in source
-    assert "CONFIRM_REAL_SEND" in source
-    assert "next(i+1)" not in source
-
 
 def main() -> int:
     for test in (
@@ -167,8 +137,6 @@ def main() -> int:
         test_missing_confirmation_never_executes_action,
         test_unsafe_page_never_consumes_or_executes,
         test_quota_block_never_executes,
-        test_boss_app_has_no_direct_real_action_calls,
-        test_frontend_disables_batch_and_requires_confirmation,
     ):
         test()
         print(f"PASSED {test.__name__}")

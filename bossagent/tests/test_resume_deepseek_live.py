@@ -12,8 +12,8 @@ import os
 from pathlib import Path
 from typing import Any
 
-from ai.deepseek_provider import DeepSeekProvider
-import resume_center
+from lakejob.infrastructure.ai.deepseek_provider import DeepSeekProvider
+import lakejob.application.resumes.center as resume_center
 
 
 ROOT = Path(__file__).resolve().parent

@@ -7,7 +7,7 @@ from __future__ import annotations
 
 from typing import Any
 
-import job_flow
+import lakejob.application.jobs.flow as job_flow
 
 
 def assert_true(condition: bool, message: str) -> None:

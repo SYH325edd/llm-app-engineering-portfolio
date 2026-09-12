@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="space-y-6">
+  <div class="rounded border border-slate-200 bg-white p-6 shadow-sm">
+    <div class="mb-4">
+      <h1 class="text-2xl font-semibold text-slate-900">Browser Agent</h1>
+      <p class="mt-2 text-sm text-slate-600">
+        Phase 23A 开始接入可控浏览器。普通浏览器按钮只负责打开页面；可控浏览器按钮会启动 Playwright Chromium，后续自动搜索、抽取和投递都必须基于这个运行时继续扩展。
+      </p>
+    </div>
+
+    <div class="grid gap-3 md:grid-cols-2">
+      <form method="post" action="/browser/launch">
+        <button
+          type="submit"
+          class="w-full rounded bg-slate-700 px-4 py-2 text-sm font-medium text-white hover:bg-slate-600"
+        >
+          普通打开 BOSS 页面
+        </button>
+      </form>
+
+      <form method="post" action="/browser/runtime/start">
+        <button
+          type="submit"
+          class="w-full rounded bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-700"
+        >
+          启动可控 BOSS 浏览器
+        </button>
+      </form>
+    </div>
+
+    <form method="post" action="/browser/runtime/stop" class="mt-3">
+      <button
+        type="submit"
+        class="rounded border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50"
+      >
+        关闭可控浏览器
+      </button>
+    </form>
+
+    <div class="mt-6 rounded border border-slate-200 bg-slate-50 p-4 text-sm text-slate-700">
+      <div class="font-medium text-slate-900">默认打开地址</div>
+      <div class="mt-1 break-all">{{ boss_home_url }}</div>
+    </div>
+  </div>
+
+  <div class="rounded border border-slate-200 bg-white p-6 shadow-sm">
+    <h2 class="mb-4 text-lg font-semibold text-slate-900">可控浏览器运行时</h2>
+    <div class="grid gap-3 text-sm text-slate-700 md:grid-cols-2">
+      <div class="rounded border border-slate-200 bg-slate-50 p-3">
+        <div class="text-xs text-slate-500">阶段</div>
+        <div class="mt-1 font-medium text-slate-900">{{ runtime_status.phase }}</div>
+      </div>
+      <div class="rounded border border-slate-200 bg-slate-50 p-3">
+        <div class="text-xs text-slate-500">模式</div>
+        <div class="mt-1 font-medium text-slate-900">{{ runtime_status.mode }}</div>
+      </div>
+      <div class="rounded border border-slate-200 bg-slate-50 p-3">
+        <div class="text-xs text-slate-500">运行状态</div>
+        <div class="mt-1 font-medium text-slate-900">{% if runtime_status.is_running %}正在运行{% else %}未启动{% endif %}</div>
+      </div>
+      <div class="rounded border border-slate-200 bg-slate-50 p-3">
+        <div class="text-xs text-slate-500">运行时可用</div>
+        <div class="mt-1 font-medium text-slate-900">{% if runtime_status.runtime_available %}可用{% else %}不可用{% endif %}</div>
+      </div>
+      <div class="rounded border border-slate-200 bg-slate-50 p-3 md:col-span-2">
+        <div class="text-xs text-slate-500">当前 URL</div>
+        <div class="mt-1 break-all font-medium text-slate-900">{{ runtime_status.url or '-' }}</div>
+      </div>
+      <div class="rounded border border-slate-200 bg-slate-50 p-3 md:col-span-2">
+        <div class="text-xs text-slate-500">页面标题</div>
+        <div class="mt-1 font-medium text-slate-900">{{ runtime_status.title or '-' }}</div>
+      </div>
+    </div>
+    <p class="mt-4 text-sm text-slate-600">{{ runtime_status.message }}</p>
+  </div>
+
+  <div class="rounded border border-slate-200 bg-white p-6 shadow-sm">
+    <h2 class="mb-4 text-lg font-semibold text-slate-900">Browser Session 状态</h2>
+    <div class="grid gap-3 text-sm text-slate-700 md:grid-cols-2">
+      <div class="rounded border border-slate-200 bg-slate-50 p-3">
+        <div class="text-xs text-slate-500">当前阶段</div>
+        <div class="mt-1 font-medium text-slate-900">{{ session_status.phase }}</div>
+      </div>
+      <div class="rounded border border-slate-200 bg-slate-50 p-3">
+        <div class="text-xs text-slate-500">运行模式</div>
+        <div class="mt-1 font-medium text-slate-900">{{ session_status.mode }}</div>
+      </div>
+      <div class="rounded border border-slate-200 bg-slate-50 p-3">
+        <div class="text-xs text-slate-500">Browser Launcher</div>
+        <div class="mt-1 font-medium text-slate-900">{% if session_status.launcher_available %}已可用{% else %}不可用{% endif %}</div>
+      </div>
+      <div class="rounded border border-slate-200 bg-slate-50 p-3">
+        <div class="text-xs text-slate-500">登录检测</div>
+        <div class="mt-1 font-medium text-slate-900">{{ session_status.login_detection }}</div>
+      </div>
+      <div class="rounded border border-slate-200 bg-slate-50 p-3">
+        <div class="text-xs text-slate-500">自动搜索</div>
+        <div class="mt-1 font-medium text-slate-900">{{ session_status.auto_search }}</div>
+      </div>
+      <div class="rounded border border-slate-200 bg-slate-50 p-3">
+        <div class="text-xs text-slate-500">自动投递</div>
+        <div class="mt-1 font-medium text-slate-900">{{ session_status.auto_apply }}</div>
+      </div>
+      <div class="rounded border border-slate-200 bg-slate-50 p-3">
+        <div class="text-xs text-slate-500">自动打招呼</div>
+        <div class="mt-1 font-medium text-slate-900">{{ session_status.auto_greeting }}</div>
+      </div>
+      <div class="rounded border border-slate-200 bg-slate-50 p-3">
+        <div class="text-xs text-slate-500">更新时间</div>
+        <div class="mt-1 font-medium text-slate-900">{{ session_status.updated_at }}</div>
+      </div>
+    </div>
+    <p class="mt-4 text-sm text-slate-600">{{ session_status.message }}</p>
+  </div>
+
+  <div class="rounded border border-amber-200 bg-amber-50 p-5 text-sm text-amber-900">
+    <h2 class="mb-2 font-semibold">当前阶段边界</h2>
+    <ul class="list-disc space-y-1 pl-5">
+      <li>只启动可控浏览器并读取 URL / 标题，不执行搜索、投递或打招呼。</li>
+      <li>用户仍需在弹出的浏览器中手动登录。</li>
+      <li>不保存 BOSS 账号密码，不读取 Cookie 明文。</li>
+      <li>不绕过验证码或安全验证。</li>
+      <li>遇到验证码、安全验证或账号异常，后续阶段必须停止任务并等待人工处理。</li>
+    </ul>
+  </div>
+</section>
+{% endblock %}

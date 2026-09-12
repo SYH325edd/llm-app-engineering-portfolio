@@ -10,8 +10,8 @@ import json
 import os
 from typing import Any
 
-import message_draft
-from ai.mock_provider import MockAIProvider
+import lakejob.application.messaging.draft as message_draft
+from lakejob.infrastructure.ai.mock_provider import MockAIProvider
 
 
 def assert_true(condition: bool, message: str) -> None:
@@ -106,8 +106,8 @@ def test_db_path_if_available() -> None:
     if not os.getenv("LAKEJOB_USER_ID") or not os.getenv("LAKEJOB_ORGANIZATION_ID"):
         print("SKIPPED: quota identity not configured")
         return
-    from jobradar_log import bootstrap_boss_account, upsert_job
-    from recruitradar_log import bootstrap_boss_recruiter, upsert_candidate
+    from lakejob.infrastructure.database.jobs import bootstrap_boss_account, upsert_job
+    from lakejob.infrastructure.database.recruiting import bootstrap_boss_recruiter, upsert_candidate
 
     platform_id, account_id = bootstrap_boss_recruiter("message-draft-test")
     candidate = upsert_candidate(

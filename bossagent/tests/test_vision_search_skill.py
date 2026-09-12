@@ -4,10 +4,10 @@ import json
 import tempfile
 from pathlib import Path
 
-from skills.search.boss_page_parser import BossPageParser
-from skills.search.vision_search_skill import DailyQuota, SearchConfig, VisionSearchPaused, VisionSearchSkill
-import skills.search.vision_search_skill as vision_search_module
-from skills.vision.screen_observer import ScreenObserver
+from lakejob.infrastructure.platforms.boss.search.boss_page_parser import BossPageParser
+from lakejob.infrastructure.platforms.boss.search.vision_search_skill import DailyQuota, SearchConfig, VisionSearchPaused, VisionSearchSkill
+import lakejob.infrastructure.platforms.boss.search.vision_search_skill as vision_search_module
+from lakejob.infrastructure.vision.screen_observer import ScreenObserver
 
 
 class _Input:

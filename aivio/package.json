@@ -3,19 +3,34 @@
   "version": "0.1.0",
   "private": true,
   "workspaces": [
-    "apps/web"
+    "apps/web",
+    "apps/api",
+    "packages/contracts"
   ],
   "scripts": {
-    "api:build": "npm --prefix apps/api run build",
-    "api:typecheck": "npm --prefix apps/api run typecheck",
-    "build": "npm run web:build && node -e \"require('fs').cpSync('apps/web/dist','dist',{recursive:true,force:true})\" && npm run api:build",
+    "api:build": "npm --workspace apps/api run build",
+    "api:typecheck": "npm --workspace apps/api run typecheck",
+    "build": "npm run contracts:build && npm run web:build && npm run api:build",
     "check:env": "node scripts/check-env.mjs",
     "cleanup:uploads": "node scripts/cleanup-uploads.mjs",
     "preflight": "npm run verify && npm run check:env",
     "test": "node --test",
-    "typecheck": "npm run web:typecheck && npm run api:typecheck",
+    "typecheck": "npm run contracts:build && npm run web:typecheck && npm run api:typecheck",
     "verify": "npm run typecheck && npm run build && npm test",
     "web:build": "npm --workspace apps/web run build",
-    "web:typecheck": "npm --workspace apps/web run typecheck"
+    "web:typecheck": "npm --workspace apps/web run typecheck",
+    "contracts:typecheck": "npm --workspace @aivio/contracts run typecheck",
+    "contracts:build": "npm --workspace @aivio/contracts run build",
+    "web:dev": "npm --workspace apps/web run dev",
+    "api:dev": "npm --workspace apps/api run dev",
+    "db:generate": "npm --workspace apps/api run db:generate",
+    "db:push": "npm --workspace apps/api run db:push",
+    "models:sync": "npm --workspace apps/api run dev:sync-models"
+  },
+  "allowScripts": {
+    "prisma": true,
+    "@prisma/client": true,
+    "@prisma/engines": true,
+    "esbuild": true
   }
 }

@@ -35,7 +35,7 @@ def migrate(database_url: str, *, initialize: bool = True) -> list[str]:
             cur.execute("SELECT to_regclass('public.platforms')")
             row = cur.fetchone()
             if initialize and (not row or row[0] is None):
-                _execute_script(cur, (ROOT / "schema.sql").read_text(encoding="utf-8"))
+                _execute_script(cur, (MIGRATIONS / "schema.sql").read_text(encoding="utf-8"))
             for path in migration_files():
                 sql = path.read_text(encoding="utf-8")
                 checksum = hashlib.sha256(sql.encode("utf-8")).hexdigest()

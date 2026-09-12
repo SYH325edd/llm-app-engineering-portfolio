@@ -1,4 +1,4 @@
-import { prisma } from "../services/database.service.js";
+import { prisma } from "../infrastructure/database/prisma.js";
 
 function getArg(name: string): string {
   const index = process.argv.indexOf(`--${name}`);

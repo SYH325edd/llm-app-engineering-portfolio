@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from profile_center import (
+from lakejob.application.profiles.center import (
     load_jobseeker_profile,
     load_recruiter_profile,
     profile_to_candidate_context,

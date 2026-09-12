@@ -11,8 +11,8 @@ import os
 import re
 from typing import Any
 
-from profile_center import load_recruiter_profile, save_recruiter_profile
-from talent_pool import db_conn, get_candidate_status
+from lakejob.application.profiles.center import load_recruiter_profile, save_recruiter_profile
+from lakejob.application.recruiting.talent_pool import db_conn, get_candidate_status
 
 
 TEST_PROFILE = {
@@ -80,7 +80,7 @@ def main() -> int:
         return 0
 
     from fastapi.testclient import TestClient
-    from web_console import app
+    from lakejob.app.console import app
 
     ensure_profile()
     before_candidates = scalar("SELECT COUNT(*) FROM candidates")

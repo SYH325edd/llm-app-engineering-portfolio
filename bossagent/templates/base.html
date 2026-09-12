@@ -21,6 +21,8 @@
               ('dashboard','/','nav.dashboard'),
               ('control','/control','nav.control'),
               ('auth_center','/auth-center','nav.auth_center'),
+              ('browser','/browser','Browser Agent'),
+              ('orchestration','/orchestration','Closed Loop'),
               ('recruit','/recruit','nav.recruit'),
               ('job','/job','nav.job'),
               ('talent_pool','/talent-pool','nav.talent_pool'),
@@ -37,7 +39,7 @@
               ('admin','/admin/users','Admin')
             ] %}
             {% for key, href, label_key in nav %}
-              <a class="rounded px-3 py-2 {% if active == key %}bg-slate-900 text-white{% else %}text-slate-700 hover:bg-slate-100{% endif %}" href="{{ href }}">{% if label_key == 'Admin' %}Admin{% else %}{{ t(label_key, locale) }}{% endif %}</a>
+              <a class="rounded px-3 py-2 {% if active == key %}bg-slate-900 text-white{% else %}text-slate-700 hover:bg-slate-100{% endif %}" href="{{ href }}">{% if label_key in ['Admin', 'Browser Agent', 'Closed Loop'] %}{{ label_key }}{% else %}{{ t(label_key, locale) }}{% endif %}</a>
             {% endfor %}
           </nav>
           <div class="whitespace-nowrap text-sm text-slate-500">

@@ -8,8 +8,8 @@ const read = (file) => fs.readFileSync(path.join(root, file), "utf8");
 
 test("membership level is persisted and synchronized with balance", () => {
   const schema = read("apps/api/prisma/schema.prisma");
-  const billing = read("apps/api/src/services/billing.service.ts");
-  const profile = read("apps/web/src/pages/ProfilePage.tsx");
+  const billing = read("apps/api/src/modules/billing/billing.service.ts");
+  const profile = read("apps/web/src/features/profile/pages/ProfilePage.tsx");
   assert.match(schema, /memberLevel\s+String\s+@default\("normal"\)/);
   assert.match(billing, /balance >= 50000 \? "svip" : "normal"/);
   assert.match(billing, /syncMemberLevel/);
@@ -19,8 +19,8 @@ test("membership level is persisted and synchronized with balance", () => {
 });
 
 test("SVIP video charge uses rounded 98 percent pricing and records metadata", () => {
-  const billing = read("apps/api/src/services/billing.service.ts");
-  const generation = read("apps/api/src/services/generation.service.ts");
+  const billing = read("apps/api/src/modules/billing/billing.service.ts");
+  const generation = read("apps/api/src/modules/generation/service.ts");
   assert.match(billing, /Math\.round\(originalCost \* 0\.98\)/);
   assert.match(generation, /originalCost/);
   assert.match(generation, /discountRate=0\.98/);

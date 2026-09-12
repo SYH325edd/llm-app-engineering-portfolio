@@ -7,7 +7,7 @@ from __future__ import annotations
 
 from typing import Any
 
-import message_draft
+import lakejob.application.messaging.draft as message_draft
 
 
 def assert_true(condition: bool, message: str) -> None:

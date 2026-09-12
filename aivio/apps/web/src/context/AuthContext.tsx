@@ -1,6 +1,6 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
 import type { ReactNode } from "react";
-import { ApiError, apiRequest, clearStoredToken, getStoredToken, setStoredToken } from "../lib/api";
+import { ApiError, apiRequest, clearStoredToken, getStoredToken, setStoredToken } from "../shared/api/client";
 
 export type UserRole = "user" | "admin";
 

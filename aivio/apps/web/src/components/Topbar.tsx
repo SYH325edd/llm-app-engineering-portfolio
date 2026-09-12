@@ -1,9 +1,9 @@
 import { Bell, Gift, Search, UserPlus } from "lucide-react";
 import { useState } from "react";
-import { ApiError } from "../lib/api";
+import { ApiError } from "../shared/api/client";
 import { useAuth } from "../context/AuthContext";
 import UserPreviewMenu from "./UserPreviewMenu";
-import { applyInviteCode, getInviteInfo } from "../lib/invite";
+import { applyInviteCode, getInviteInfo } from "../shared/api/invite";
 
 type TopbarProps = {
   admin?: boolean;

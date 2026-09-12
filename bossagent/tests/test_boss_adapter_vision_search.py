@@ -5,8 +5,8 @@ import os
 import tempfile
 from pathlib import Path
 
-import adapters.boss.adapter as adapter_module
-from adapters.boss.adapter import BossAdapter
+import lakejob.infrastructure.platforms.boss.adapter as adapter_module
+from lakejob.infrastructure.platforms.boss.adapter import BossAdapter
 
 
 class FakeInput:

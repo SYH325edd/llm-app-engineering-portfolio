@@ -9,8 +9,8 @@ import json
 import os
 from typing import Any
 
-import message_center
-from jobradar_log import _one, db_conn, ensure_account, ensure_platform
+import lakejob.application.messaging.center as message_center
+from lakejob.infrastructure.database.jobs import _one, db_conn, ensure_account, ensure_platform
 
 
 def assert_true(condition: bool, message: str) -> None:

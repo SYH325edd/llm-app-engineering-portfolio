@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from typing import Any
 
-import match_analysis
+import lakejob.application.matching.analysis as match_analysis
 
 
 def assert_true(condition: bool, message: str) -> None:

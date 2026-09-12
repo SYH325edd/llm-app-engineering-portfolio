@@ -7,7 +7,7 @@ import os
 import time
 from typing import Any
 
-import talent_pool
+import lakejob.application.recruiting.talent_pool as talent_pool
 
 
 def _json(data: Any) -> str:

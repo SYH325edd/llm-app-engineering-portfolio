@@ -9,7 +9,7 @@ import sys
 from copy import deepcopy
 from pathlib import Path
 
-import local_control
+import lakejob.application.control.service as local_control
 
 
 def assert_true(condition: bool, message: str) -> None:

@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from adapters.boss.adapter import BossAdapter
+from lakejob.infrastructure.platforms.boss.adapter import BossAdapter
 
 
 def assert_true(condition: bool, message: str) -> None:

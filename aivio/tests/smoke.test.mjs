@@ -60,13 +60,12 @@ test(".env examples include deployment, auth, and Prisma SQLite hints", () => {
   assert.match(apiEnvExample, /^DATABASE_URL="file:\.\/dev\.db"$/m, "apps/api/.env.example must document the local Prisma SQLite path");
 });
 
-test("email verification schema, auth routes, and stable Prisma scripts exist", () => {
+test("email verification schema, auth routes, and workspace Prisma scripts exist", () => {
   const schema = readText("apps/api/prisma/schema.prisma");
-  const authRoutes = readText("apps/api/src/routes/auth.routes.ts");
-  const authService = readText("apps/api/src/services/auth.service.ts");
-  const emailService = readText("apps/api/src/services/email.service.ts");
+  const authRoutes = readText("apps/api/src/modules/auth/routes.ts");
+  const authService = readText("apps/api/src/modules/auth/service.ts");
+  const emailService = readText("apps/api/src/infrastructure/email/service.ts");
   const apiPackageJson = readJson("apps/api/package.json");
-  const prismaWrapper = readText("apps/api/scripts/run-prisma.mjs");
   const rootEnvExample = readText(".env.example");
   const apiEnvExample = readText("apps/api/.env.example");
 
@@ -79,22 +78,19 @@ test("email verification schema, auth routes, and stable Prisma scripts exist", 
   assert.match(authService, /Email is not verified\./, "Auth service must block login for unverified email");
   assert.match(authService, /Verification code expired or too many attempts/, "Auth service must expose verification expiry error");
   assert.match(authService, /!isProduction\(\)\s*&&\s*delivery\.devVerificationCode/, "Auth service must only expose devVerificationCode outside production");
-  assert.match(emailService, /Email service is not configured\./, "Email service must expose the missing SMTP error");
+  assert.match(emailService, /Email service is not configured\.|邮件服务未配置/, "Email service must expose the missing SMTP error");
   assert.match(rootEnvExample, /^DATABASE_URL="?file:\.\/dev\.db"?$/m, "Root .env.example must document the stable local SQLite DATABASE_URL");
   assert.match(apiEnvExample, /^DATABASE_URL="?file:\.\/dev\.db"?$/m, "apps/api/.env.example must document the stable local SQLite DATABASE_URL");
   assert.match(
     apiPackageJson.scripts?.["db:generate"] || "",
-    /^node scripts\/run-prisma\.mjs generate --schema prisma\/schema\.prisma$/,
-    "API db:generate must use the stable Prisma wrapper"
+    /^prisma generate --schema prisma\/schema\.prisma$/,
+    "API db:generate must use the standard workspace Prisma CLI"
   );
   assert.match(
     apiPackageJson.scripts?.["db:push"] || "",
-    /^node scripts\/run-prisma\.mjs db push --schema prisma\/schema\.prisma$/,
-    "API db:push must use the stable Prisma wrapper"
+    /^prisma db push --schema prisma\/schema\.prisma$/,
+    "API db:push must use the standard workspace Prisma CLI"
   );
-  assert.match(prismaWrapper, /resolveSqliteFilePath/, "Prisma wrapper must include stable SQLite path resolution");
-  assert.match(prismaWrapper, /ensureLocalSqliteFile/, "Prisma wrapper must ensure the local SQLite file exists");
-  assert.match(prismaWrapper, /DATABASE_URL is not configured/, "Prisma wrapper must give a clear DATABASE_URL error");
 });
 
 test("backend CORS configuration allows local Vite origins", () => {
@@ -106,7 +102,7 @@ test("backend CORS configuration allows local Vite origins", () => {
 
 test("mock payment is protected by environment flag and explicit disabled message", () => {
   const envConfig = readText("apps/api/src/config/env.ts");
-  const orderService = readText("apps/api/src/services/order.service.ts");
+  const orderService = readText("apps/api/src/modules/billing/order.service.ts");
 
   assert.match(envConfig, /ENABLE_MOCK_PAYMENT|enableMockPayment/, "Mock payment config must reference ENABLE_MOCK_PAYMENT");
   assert.match(orderService, /Mock payment is disabled\./, "Mock payment guard must expose a clear disabled error");
@@ -114,8 +110,8 @@ test("mock payment is protected by environment flag and explicit disabled messag
 });
 
 test("health routes are exposed and avoid returning obvious secret-shaped fields", () => {
-  const apiEntry = readText("apps/api/src/index.ts");
-  const healthRoutes = readText("apps/api/src/routes/health.routes.ts");
+  const apiEntry = readText("apps/api/src/app/create-app.ts");
+  const healthRoutes = readText("apps/api/src/modules/health/routes.ts");
 
   assert.match(healthRoutes, /get\("\/health"/, "Health route file must define GET /health");
   assert.match(apiEntry, /app\.use\("\/", healthRoutes\)|app\.use\("\/api", healthRoutes\)/, "API entry must mount the health routes");
@@ -167,7 +163,8 @@ test("environment preflight script exists and avoids obvious sensitive output pa
   assert.match(checkEnvScript, /EMAIL_VERIFICATION_CODE_TTL_MINUTES/, "check-env must inspect EMAIL_VERIFICATION_CODE_TTL_MINUTES");
   assert.doesNotMatch(checkEnvScript, /console\.log\s*\(\s*process\.env\s*\)/, "check-env must not print process.env directly");
   assert.doesNotMatch(checkEnvScript, /console\.log\s*\(\s*await\s+fs\.readFile/i, "check-env must not print raw .env file contents");
-  assert.match(readme, /Server Deployment Checklist/i, "README must include Server Deployment Checklist");
+  assert.match(readme, /一键启动/i, "README must document the local one-click start flow");
+  assert.match(readme, /start-local\.bat/i, "README must document start-local.bat");
   assert.match(readme, /Email Code Registration/i, "README must include Email Code Registration");
   assert.match(readme, /apps\/api\/\.env\.example -> apps\/api\/\.env/i, "README must document copying apps/api/.env.example for Prisma commands");
   assert.match(readme, /DATABASE_URL="file:\.\/dev\.db"/, "README must document the API local SQLite DATABASE_URL");
@@ -184,9 +181,11 @@ test("environment preflight script exists and avoids obvious sensitive output pa
 
 test("Agnes video guardrails are documented in backend, frontend, and env checks", () => {
   const agnesClient = readText("apps/api/src/providers/agnes/client.ts");
-  const generationService = readText("apps/api/src/services/generation.service.ts");
+  const generationService = readText("apps/api/src/modules/generation/service.ts");
   const agnesVideoProvider = readText("apps/api/src/providers/agnes/video.ts");
-  const createPage = readText("apps/web/src/pages/CreatePage.tsx");
+  const createPage = readText("apps/web/src/features/generation/pages/CreatePage.tsx");
+  const createUtils = readText("apps/web/src/features/generation/create/create-utils.ts");
+  const frontendAgnesGuardSource = `${createPage}\n${createUtils}`;
   const readme = readText("README.md");
   const checkEnvScript = readText("scripts/check-env.mjs");
   const envExample = readText(".env.example");
@@ -200,16 +199,16 @@ test("Agnes video guardrails are documented in backend, frontend, and env checks
   assert.match(agnesClient, /Agnes service is busy\. Please try again later\./, "Agnes client must expose a clear 503 error");
   assert.match(backendAgnesGuardSource, /Agnes 当前仅支持文生视频、图生视频和多图关键帧，不支持参考视频输入。/, "Backend must reject Agnes reference video input");
   assert.match(backendAgnesGuardSource, /Agnes 需要公网可访问的图片素材 URL，请配置 PUBLIC_ASSET_BASE_URL 后再生成。/, "Backend must reject non-public Agnes image URLs");
-  assert.match(createPage, /Agnes 支持文生视频、图生视频和多图关键帧；不支持参考视频输入。图片素材需配置公网访问地址。/, "Create page must explain Agnes capability limits");
-  assert.match(createPage, /Agnes 当前不支持参考视频输入，请切换到文生视频或图生视频。/, "Create page must block Agnes reference video mode with a clear message");
+  assert.match(frontendAgnesGuardSource, /Agnes 支持文生视频、图生视频和多图关键帧；不支持参考视频输入。/, "Create page must explain Agnes capability limits");
+  assert.match(frontendAgnesGuardSource, /Agnes 当前不支持参考视频输入，请切换到文生视频或图生视频。/, "Create page must block Agnes reference video mode with a clear message");
   assert.match(readme, /Agnes Video Provider Notes/i, "README must include Agnes provider notes");
   assert.equal(typeof packageJson.scripts?.preflight, "string", "Root package.json must keep preflight");
 });
 
 test("frontend register page includes email verification step", () => {
-  const registerPage = readText("apps/web/src/pages/RegisterPage.tsx");
-  const loginPage = readText("apps/web/src/pages/LoginPage.tsx");
-  const appRoutes = readText("apps/web/src/App.tsx");
+  const registerPage = readText("apps/web/src/features/auth/pages/RegisterPage.tsx");
+  const loginPage = readText("apps/web/src/features/auth/pages/LoginPage.tsx");
+  const appRoutes = readText("apps/web/src/app/App.tsx");
   const packageJson = readJson("package.json");
 
   assert.match(registerPage, /verifyEmailCode|重新发送验证码|devVerificationCode/, "Register page must include the email verification flow");
@@ -222,7 +221,7 @@ test("frontend register page includes email verification step", () => {
 });
 
 test("dashboard page does not directly import obvious mock data sources", () => {
-  const dashboardPage = readText("apps/web/src/pages/DashboardPage.tsx");
+  const dashboardPage = readText("apps/web/src/features/dashboard/pages/DashboardPage.tsx");
 
   assert.doesNotMatch(
     dashboardPage,
@@ -232,25 +231,25 @@ test("dashboard page does not directly import obvious mock data sources", () => 
 });
 
 test("auth wiring, SMTP docs, and login/register target copy stay aligned", () => {
-  const registerPage = readText("apps/web/src/pages/RegisterPage.tsx");
-  const loginPage = readText("apps/web/src/pages/LoginPage.tsx");
+  const registerPage = readText("apps/web/src/features/auth/pages/RegisterPage.tsx");
+  const loginPage = readText("apps/web/src/features/auth/pages/LoginPage.tsx");
   const authContext = readText("apps/web/src/context/AuthContext.tsx");
-  const authRoutes = readText("apps/api/src/routes/auth.routes.ts");
+  const authRoutes = readText("apps/api/src/modules/auth/routes.ts");
   const checkEnvScript = readText("scripts/check-env.mjs");
   const readme = readText("README.md");
   const envExample = readText(".env.example");
   const packageJson = readJson("package.json");
   const webFiles = [
-    "apps/web/src/pages/LoginPage.tsx",
-    "apps/web/src/pages/RegisterPage.tsx",
-    "apps/web/src/pages/DashboardPage.tsx",
-    "apps/web/src/pages/CreatePage.tsx",
+    "apps/web/src/features/auth/pages/LoginPage.tsx",
+    "apps/web/src/features/auth/pages/RegisterPage.tsx",
+    "apps/web/src/features/dashboard/pages/DashboardPage.tsx",
+    "apps/web/src/features/generation/pages/CreatePage.tsx",
     "apps/web/src/components/Logo.tsx"
   ];
   const webSource = webFiles.map((file) => readText(file)).join("\n");
   const nonAuthWebSource = [
-    "apps/web/src/pages/DashboardPage.tsx",
-    "apps/web/src/pages/CreatePage.tsx",
+    "apps/web/src/features/dashboard/pages/DashboardPage.tsx",
+    "apps/web/src/features/generation/pages/CreatePage.tsx",
     "apps/web/src/components/Logo.tsx"
   ].map((file) => readText(file)).join("\n");
 

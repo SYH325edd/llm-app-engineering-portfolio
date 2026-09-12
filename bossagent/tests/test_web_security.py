@@ -1,4 +1,4 @@
-﻿from web.security import (
+from lakejob.app.security import (
     DANGEROUS_ACTIONS,
     is_dangerous_action,
     is_local_request,

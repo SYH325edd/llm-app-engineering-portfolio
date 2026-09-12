@@ -1,0 +1,21 @@
+version: lakejob-serial-role-format/1.0
+role_order:
+  - commander
+  - executor
+  - supervisor
+  - validator
+  - auditor
+minimum_validation_score: 95
+minimum_audit_score: 95
+maximum_retry_count: 3
+single_active_role: true
+blind_auditor: true
+hide_private_reasoning: true
+lock_policy: immutable_after_final_approval
+real_platform_policy:
+  default_mode: supervised
+  bypass_captcha: false
+  bypass_security_check: false
+  read_credentials: false
+  unlimited_bulk_actions: false
+  sensitive_decisions_require_human: true

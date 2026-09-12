@@ -1,4 +1,4 @@
-import { prisma } from "../services/database.service.js";
+import { prisma } from "../infrastructure/database/prisma.js";
 import { createId } from "../utils/id.js";
 
 type SeedanceRule = {

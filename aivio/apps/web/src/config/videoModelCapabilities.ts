@@ -1,4 +1,4 @@
-import type { VideoModel } from "../lib/video";
+import type { VideoModel } from "../shared/api/video";
 
 export type VideoModelCapability =
   | "text_to_video"

@@ -7,7 +7,7 @@ from __future__ import annotations
 
 from typing import Any
 
-import recruit_flow
+import lakejob.application.recruiting.flow as recruit_flow
 
 
 def assert_true(condition: bool, message: str) -> None:

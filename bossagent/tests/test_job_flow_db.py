@@ -11,8 +11,8 @@ import os
 import re
 from typing import Any
 
-from jobradar_log import db_conn
-from profile_center import load_jobseeker_profile, save_jobseeker_profile
+from lakejob.infrastructure.database.jobs import db_conn
+from lakejob.application.profiles.center import load_jobseeker_profile, save_jobseeker_profile
 
 
 TEST_PROFILE = {
@@ -73,7 +73,7 @@ def main() -> int:
         return 0
 
     from fastapi.testclient import TestClient
-    from web_console import app
+    from lakejob.app.console import app
 
     ensure_profile()
     before_jobs = scalar("SELECT COUNT(*) FROM jobs")

@@ -4,8 +4,8 @@ import os
 from pathlib import Path
 from typing import Any
 
-import safety_guard
-from run_real_mode_smoke_test import _build_parser, _validate_args
+import lakejob.safety.guard as safety_guard
+from scripts.run_real_mode_smoke_test import _build_parser, _validate_args
 
 
 TEST_JOB = {

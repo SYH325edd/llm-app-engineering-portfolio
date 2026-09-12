@@ -2,10 +2,10 @@
 
 from __future__ import annotations
 
-from skills.match.ats_score import calculate_ats_score
-from skills.match.keyword_gap import keyword_gap
-from skills.match.resume_jd_matcher import match_resume_to_jd
-from skills.match.match_skill import MatchSkill
+from lakejob.application.matching.skills.ats_score import calculate_ats_score
+from lakejob.application.matching.skills.keyword_gap import keyword_gap
+from lakejob.application.matching.skills.resume_jd_matcher import match_resume_to_jd
+from lakejob.application.matching.skills.match_skill import MatchSkill
 
 
 def assert_true(condition: bool, message: str) -> None:

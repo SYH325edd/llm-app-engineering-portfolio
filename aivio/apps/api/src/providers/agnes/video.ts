@@ -5,7 +5,7 @@ import { extractAgnesErrorMessage, requestAgnes, requestAgnesUrl } from "./clien
 
 export const AGNES_REFERENCE_VIDEO_UNSUPPORTED_MESSAGE = "Agnes 当前仅支持文生视频、图生视频和多图关键帧，不支持参考视频输入。";
 export const AGNES_FIRST_LAST_FRAME_UNSUPPORTED_MESSAGE = "Agnes 当前不支持首尾帧生视频。";
-export const AGNES_PUBLIC_ASSET_BASE_URL_REQUIRED_MESSAGE = "Agnes 需要公网可访问的 https 图片素材 URL，请先确认图片已成功上传到 Cloudflare R2。";
+export const AGNES_PUBLIC_ASSET_BASE_URL_REQUIRED_MESSAGE = "Agnes 需要公网可访问的图片素材 URL，请配置 PUBLIC_ASSET_BASE_URL 后再生成。";
 
 function text(value: unknown): string {
   return String(value || "").trim();

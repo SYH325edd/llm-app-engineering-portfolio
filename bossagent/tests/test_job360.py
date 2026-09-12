@@ -12,9 +12,9 @@ def main() -> int:
 
     from fastapi.testclient import TestClient
 
-    from job360 import get_job360
-    from jobradar_log import add_match_score, bootstrap_boss_account, log_event, upsert_job
-    from web_console import app
+    from lakejob.application.jobs.job360 import get_job360
+    from lakejob.infrastructure.database.jobs import add_match_score, bootstrap_boss_account, log_event, upsert_job
+    from lakejob.app.console import app
 
     platform_id, account_id = bootstrap_boss_account("job360-test")
     suffix = int(time.time())

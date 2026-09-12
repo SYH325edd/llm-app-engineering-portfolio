@@ -9,7 +9,7 @@ from __future__ import annotations
 
 import os
 
-from ai.deepseek_provider import DeepSeekProvider
+from lakejob.infrastructure.ai.deepseek_provider import DeepSeekProvider
 
 
 def main() -> int:

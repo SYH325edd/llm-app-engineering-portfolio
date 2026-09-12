@@ -14,7 +14,6 @@ dotenv.config({ path: path.join(repoRoot, ".env"), override: false });
 
 function resolveConfigFile(fileName: string): string {
   const candidates = [
-    path.join(repoRoot, "config", fileName),
     path.join(apiRoot, "config", fileName),
     path.join(process.cwd(), "config", fileName)
   ];
@@ -72,8 +71,7 @@ export const env = {
   repoRoot,
   modelsPath: resolveConfigFile("models.json"),
   providersPath: resolveConfigFile("providers.json"),
-  rechargePackagesPath: resolveConfigFile("recharge-packages.json"),
-  taskStorePath: path.join(repoRoot, "data", "generation-tasks.json")
+  rechargePackagesPath: resolveConfigFile("recharge-packages.json")
 };
 
 export function getEnv(name: string): string {
@@ -100,11 +98,8 @@ export function getCorsOrigins(): string[] {
   const defaultOrigins = [
     "http://127.0.0.1:5173",
     "http://localhost:5173",
-    "http://127.0.0.1:8787",
-    "http://localhost:8787",
     "http://127.0.0.1:8788",
-    "http://localhost:8788",
-    "https://aivio.pages.dev"
+    "http://localhost:8788"
   ];
   const configuredOrigins = env.corsOrigin
     .split(",")

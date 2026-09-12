@@ -7,7 +7,7 @@ from concurrent.futures import ThreadPoolExecutor
 from contextlib import contextmanager
 from uuid import uuid4
 
-import quota_policy
+import lakejob.safety.quota as quota_policy
 
 
 class FakeQuotaStore:

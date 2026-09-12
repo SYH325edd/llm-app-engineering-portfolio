@@ -7,9 +7,9 @@ const root = process.cwd();
 const read = (file) => fs.readFileSync(path.join(root, file), "utf8");
 
 test("profile records expose pagination and user-only filters", () => {
-  const billing = read("apps/api/src/services/billing.service.ts");
-  const routes = read("apps/api/src/routes/user.routes.ts");
-  const page = read("apps/web/src/pages/ProfilePage.tsx");
+  const billing = read("apps/api/src/modules/billing/billing.service.ts");
+  const routes = read("apps/api/src/modules/users/routes.ts");
+  const page = read("apps/web/src/features/profile/pages/ProfilePage.tsx");
   assert.match(billing, /pageSize/);
   assert.match(billing, /startDate/);
   assert.match(billing, /direction/);
@@ -25,8 +25,8 @@ test("profile records expose pagination and user-only filters", () => {
 
 test("query date filters use yesterday through today defaults", () => {
   const utility = read("apps/web/src/utils/date-filters.ts");
-  const page = read("apps/web/src/pages/ProfilePage.tsx");
-  const billing = read("apps/api/src/services/billing.service.ts");
+  const page = read("apps/web/src/features/profile/pages/ProfilePage.tsx");
+  const billing = read("apps/api/src/modules/billing/billing.service.ts");
   assert.match(utility, /getDefaultSingleDate/);
   assert.match(utility, /getDefaultDateRange/);
   assert.match(utility, /getDate\(\) - 1/);
@@ -34,13 +34,13 @@ test("query date filters use yesterday through today defaults", () => {
   assert.match(page, /normalizeDateRangeForQuery/);
   assert.match(billing, /T00:00:00/);
   assert.match(billing, /T23:59:59\.999/);
-  assert.match(read("apps/web/src/pages/AdminGiftCardsPage.tsx"), /datetime-local/);
+  assert.match(read("apps/web/src/features/admin/pages/AdminGiftCardsPage.tsx"), /datetime-local/);
 });
 
 test("profile password and notification settings are protected and persisted", () => {
-  const routes = read("apps/api/src/routes/user.routes.ts");
+  const routes = read("apps/api/src/modules/users/routes.ts");
   const schema = read("apps/api/prisma/schema.prisma");
-  const page = read("apps/web/src/pages/ProfilePage.tsx");
+  const page = read("apps/web/src/features/profile/pages/ProfilePage.tsx");
   assert.match(routes, /post\("\/user\/password", requireAuth, requireActiveUser/);
   assert.match(routes, /get\("\/user\/notification-settings", requireAuth, requireActiveUser/);
   assert.match(routes, /put\("\/user\/notification-settings", requireAuth, requireActiveUser/);

@@ -12,11 +12,11 @@ def main() -> int:
 
     from fastapi.testclient import TestClient
 
-    from candidate360 import get_candidate360
-    from jobradar_log import log_event
-    from recruitradar_log import add_match_score, bootstrap_boss_recruiter, upsert_candidate
-    from talent_pool import update_candidate_status
-    from web_console import app
+    from lakejob.application.recruiting.candidate360 import get_candidate360
+    from lakejob.infrastructure.database.jobs import log_event
+    from lakejob.infrastructure.database.recruiting import add_match_score, bootstrap_boss_recruiter, upsert_candidate
+    from lakejob.application.recruiting.talent_pool import update_candidate_status
+    from lakejob.app.console import app
 
     platform_id, account_id = bootstrap_boss_recruiter("candidate360-test")
     suffix = int(time.time())
