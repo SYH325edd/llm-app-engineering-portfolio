@@ -1,0 +1,17 @@
+<view class="legal-page">
+  <view class="legal-head">
+    <view class="legal-title">儿童个人信息保护规则</view>
+    <view class="legal-meta">运营主体：{{operatorName}}</view>
+    <view class="legal-meta">版本 {{version}} · 生效日期 {{effectiveDate}}</view>
+  </view>
+
+  <view class="legal-card"><view class="legal-card-title">一、适用对象</view><view class="legal-card-text">本规则适用于“{{serviceName}}”处理不满十四周岁儿童个人信息的活动。儿童个人信息属于敏感个人信息，应在学校管理依据、监护人授权或其他合法基础下处理。</view></view>
+  <view class="legal-card"><view class="legal-card-title">二、处理的信息</view><view class="legal-list"><view>儿童姓名、地区、班级、年级、可选学号及微信身份关联编号。</view><view>儿童主动提交或由教师依法提交的作业图片、答案图片、题目和答案文字。</view><view>批改结果、分数、错题、知识点、马虎或难题分析、任务状态和教师修改记录。</view><view>为保障系统运行所需的脱敏日志、错误码和操作审计。</view></view></view>
+  <view class="legal-card"><view class="legal-card-title">三、处理目的和方式</view><view class="legal-card-text">上述信息仅用于身份匹配、作业识别、人工智能辅助批改、学习结果展示、教师管理、数据导出和语音讲解。系统不会将儿童信息用于广告画像、无关营销或公开排名。</view></view>
+  <view class="legal-card"><view class="legal-card-title">四、授权确认</view><view class="legal-card-text">教师导入学生名单前必须确认已依据学校管理要求或取得监护人授权。系统会保存教师编号、班级编号、规则版本、确认时间和操作微信身份标识，用于证明授权流程已完成。</view></view>
+  <view class="legal-card"><view class="legal-card-title">五、第三方服务</view><view class="legal-card-text">完成识别和批改时，火山引擎火山方舟多模态模型服务会处理必要的作业或答案内容；生成语音时，火山引擎语音合成服务会处理必要的讲解文本。系统不向上述服务主动提供儿童姓名、微信 OpenID、花名册原文件或教师权限信息。</view></view>
+  <view class="legal-card"><view class="legal-card-title">六、保存与删除</view><view class="legal-list"><view>数据存储在运营主体控制的微信云开发环境中。</view><view>教师归档学生后保留 30 天恢复期，期满删除儿童资料、作业图片、任务、结果、错题和打卡数据。</view><view>Excel 导出文件和语音文件保存 90 天后自动清理。</view></view></view>
+  <view class="legal-card"><view class="legal-card-title">七、监护人权利</view><view class="legal-text legal-card-text">监护人可申请查询、更正或删除儿童个人信息，可撤回同意并要求停止后续处理，也可对不当处理提出投诉。收到请求后，运营主体会核验申请人与儿童的关系，并在合理期限内处理。</view></view>
+  <view class="legal-card"><view class="legal-card-title">八、安全措施</view><view class="legal-card-text">系统通过微信身份校验、角色权限、云函数访问控制、数据库与存储规则、密钥隔离、日志脱敏和操作审计保护儿童信息。发生可能影响儿童权益的安全事件时，运营主体将依法采取处置和告知措施。</view></view>
+  <view class="legal-card"><view class="legal-card-title">九、联系与投诉</view><view class="legal-card-text">个人信息处理者：{{operatorName}}。监护人可通过以下电话申请查询、更正、删除、撤回同意或投诉。</view><button class="contact-button" bindtap="contact">{{complaintPhone}}</button><button class="contact-button" bindtap="privacy">查看完整隐私政策</button></view>
+</view>

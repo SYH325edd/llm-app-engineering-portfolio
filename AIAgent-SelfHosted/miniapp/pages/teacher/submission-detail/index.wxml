@@ -1,0 +1,43 @@
+<view class="container safe-bottom">
+  <view class="page-title">{{task.studentName}}的批改详情</view>
+  <view class="card mt">
+    <image wx:for="{{task.studentImageFileIds}}" wx:key="*this" src="{{task.tempUrls[item]}}" mode="widthFix" style="width:100%;margin-bottom:16rpx"/>
+  </view>
+
+  <view class="card" wx:for="{{questions}}" wx:key="sourceKey">
+    <view class="row between">
+      <view class="section-title">{{item.sourceQuestionLabel || item.sourceKey}}</view>
+      <switch checked="{{item.isCorrect}}" data-i="{{index}}" bindchange="toggle"/>
+    </view>
+
+    <view wx:if="{{item.outputSchemaVersion === 'hard-problem.v2'}}">
+      <view class="field"><text class="label">题目</text><view>{{item.questionText || '未识别'}}</view></view>
+      <view class="field"><text class="label">学生答案</text><view>{{item.studentAnswer || '未填写'}}</view></view>
+      <view class="field"><text class="label">标准答案</text><view>{{item.standardAnswer || '未提供'}}</view></view>
+      <view class="field"><text class="label">AI过程判断</text><view>{{item.stepStatus || '未判断'}} / {{item.logicStatus || '未判断'}}</view></view>
+    </view>
+
+    <view wx:elif="{{item.outputSchemaVersion === 'reading-careless.v2'}}">
+      <view class="field"><text class="label">题目</text><view>{{item.questionText || '未识别'}}</view></view>
+      <view class="field"><text class="label">条件</text><view>{{item.studentConditionText || '未填写'}}（{{item.conditionCorrect === true ? '正确' : item.conditionCorrect === false ? '错误' : '无法判断'}}）</view></view>
+      <view class="field"><text class="label">关系</text><view>{{item.studentRelationText || '未填写'}}（{{item.relationCorrect === true ? '正确' : item.relationCorrect === false ? '错误' : '无法判断'}}）</view></view>
+      <view class="field"><text class="label">所求</text><view>{{item.studentAskText || '未填写'}}（{{item.askCorrect === true ? '正确' : item.askCorrect === false ? '错误' : '无法判断'}}）</view></view>
+    </view>
+
+    <view wx:elif="{{item.outputSchemaVersion === 'calculation-careless.v2'}}">
+      <view class="field"><text class="label">题目</text><view>{{item.questionText || '未识别'}}</view></view>
+      <view class="field"><text class="label">学生计算</text><view>{{item.studentCalculation || '未识别'}}</view></view>
+      <view class="field"><text class="label">标准计算</text><view>{{item.standardCalculation || '未提供'}}</view></view>
+      <view class="field"><text class="label">AI分类</text><view>{{item.issueCategory || 'undetermined'}}</view></view>
+    </view>
+
+    <view wx:else>
+      <view class="field"><text class="label">错误类型</text><input class="input" value="{{item.carelessType}}" data-i="{{index}}" data-k="carelessType" bindinput="set"/></view>
+    </view>
+
+    <view class="field"><text class="label">得分</text><input class="input" type="digit" value="{{item.score}}" data-i="{{index}}" data-k="score" bindinput="set"/></view>
+    <view class="field"><text class="label">错误原因</text><textarea class="textarea" value="{{item.errorReason}}" data-i="{{index}}" data-k="errorReason" bindinput="set"/></view>
+    <view class="field"><text class="label">评语</text><textarea class="textarea" value="{{item.briefFeedback}}" data-i="{{index}}" data-k="briefFeedback" bindinput="set"/></view>
+  </view>
+</view>
+<view class="fixed-action"><button class="primary-button" bindtap="save">保存老师复核</button></view>

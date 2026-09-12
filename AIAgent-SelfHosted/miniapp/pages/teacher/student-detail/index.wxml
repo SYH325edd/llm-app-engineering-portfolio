@@ -1,0 +1,35 @@
+<view class="container">
+  <view class="page-title">{{id ? '编辑学生' : '单独添加学生'}}</view>
+  <view class="notice" wx:if="{{student.archived}}">该学生已归档，30天内可恢复。</view>
+  <view class="field mt"><text class="label">姓名</text><input class="input" data-k="name" value="{{student.name}}" bindinput="set"/></view>
+    <view class="field"><text class="label">地区</text><input class="input" data-k="className" value="{{student.className}}" bindinput="set"/></view>
+  <view class="field">
+    <text class="label">扩展信息（手机号、家长电话、备注等）</text>
+    <textarea class="textarea" value="{{extraText}}" bindinput="setExtra"/>
+  </view>
+  <view wx:if="{{id}}" class="checkin-card mt">
+    <view class="checkin-title">打卡情况</view>
+    <view wx:if="{{checkinError}}" class="caption">{{checkinError}}</view>
+    <view wx:else>
+      <view class="checkin-line">今日进度：{{checkin.today.qualifiedQuestionCount}}/{{checkin.today.requiredQuestionCount}}</view>
+      <view class="checkin-line">今日状态：{{checkinStatus}}</view>
+      <view class="checkin-grid">
+        <view>练习天数：{{checkin.practiceDays}}天</view>
+        <view>成功打卡天数：{{checkin.successfulCheckinDays}}天</view>
+        <view>未完成练习天数：{{checkin.incompletePracticeDays}}天</view>
+        <view>累计合格题数：{{checkin.totalQualifiedQuestions}}题</view>
+        <view>答题准确率：{{checkin.accuracyRateText}}</view>
+        <view>打卡率：{{checkin.checkinRateText}}</view>
+        <view>正确/总题数：{{checkin.correctQuestionCount}}/{{checkin.answeredQuestionCount}}</view>
+      </view>
+      <view class="checkin-dates-title">打卡成功日期</view>
+      <view wx:if="{{checkin.successfulDates.length}}" class="checkin-dates">
+        <text wx:for="{{checkin.successfulDates}}" wx:key="*this" class="checkin-date">{{item}}</text>
+      </view>
+      <view wx:else class="caption">还没有打卡成功记录</view>
+    </view>
+  </view>
+  <button class="primary-button mt" loading="{{loading}}" bindtap="save">保存</button>
+  <button class="danger-button mt" wx:if="{{id && !student.archived}}" bindtap="archive">归档删除（30天可恢复）</button>
+  <button class="secondary-button mt" wx:if="{{id && student.archived}}" bindtap="restore">恢复学生</button>
+</view>

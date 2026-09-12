@@ -1,0 +1,12 @@
+<view class="container manager-page">
+  <view class="manager-search"><text>搜索</text><input placeholder="搜索地区" bindinput="search" value="{{keyword}}" /></view>
+  <view wx:if="{{loading}}" class="card manager-state muted">正在加载地区</view>
+  <view wx:elif="{{errorMessage}}" class="card manager-state"><view>{{errorMessage}}</view><button class="secondary-button" bindtap="load">重新加载</button></view>
+  <view wx:elif="{{!visible.length}}" class="card manager-state muted">{{keyword ? '未找到匹配地区' : '暂无已录入学生的地区'}}</view>
+  <view wx:else>
+    <view wx:for="{{visible}}" wx:key="*this" class="card manager-card" data-grade="{{item.grade}}" data-class-name="{{item.className}}" bindtap="open">
+      <view class="manager-card-head"><view class="manager-name">{{item.region || item.className}}</view><text class="manager-arrow">›</text></view>
+      <view class="manager-stats"><text class="manager-stat">学生 {{item.studentCount || 0}}</text><block wx:if="{{mode === 'history'}}"><text class="manager-stat">作业 {{item.taskCount || 0}}</text><text class="manager-stat success">已完成 {{item.completedCount || 0}}</text><text class="manager-stat danger">失败 {{item.failedCount || 0}}</text></block><text wx:else class="manager-stat success">已完成结果 {{item.completedCount || 0}}</text></view>
+    </view>
+  </view>
+</view>

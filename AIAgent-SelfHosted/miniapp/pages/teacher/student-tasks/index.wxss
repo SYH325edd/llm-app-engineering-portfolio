@@ -1,0 +1,4 @@
+@import "../manager-view.wxss";
+.date-filter{display:flex;align-items:center;gap:18rpx;margin-bottom:20rpx;padding:20rpx 24rpx;color:#27334a;font-size:26rpx}.date-picker{padding:10rpx 14rpx;border:1rpx solid #dce3f4;border-radius:14rpx;background:#fff;color:#526df5}.date-clear{margin:0 0 0 auto;padding:0 18rpx;font-size:22rpx;line-height:56rpx}
+.task-result-summary{display:flex;align-items:center;flex-wrap:wrap;gap:8rpx}
+.task-careless-tag{padding:2rpx 10rpx;border-radius:999rpx;background:#fff3df;color:#f59b23;font-size:22rpx}

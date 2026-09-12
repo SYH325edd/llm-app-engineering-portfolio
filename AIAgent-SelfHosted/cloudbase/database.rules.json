@@ -1,0 +1,90 @@
+{
+  "users": {
+    "read": false,
+    "write": false
+  },
+  "classes": {
+    "read": false,
+    "write": false
+  },
+  "student_roster": {
+    "read": false,
+    "write": false
+  },
+  "teacher_applications": {
+    "read": false,
+    "write": false
+  },
+  "grading_tasks": {
+    "read": false,
+    "write": false
+  },
+  "grading_results": {
+    "read": false,
+    "write": false
+  },
+  "wrong_questions": {
+    "read": false,
+    "write": false
+  },
+  "checkins": {
+    "read": false,
+    "write": false
+  },
+  "audit_logs": {
+    "read": false,
+    "write": false
+  },
+  "system_logs": {
+    "read": false,
+    "write": false
+  },
+  "ai_invocations": {
+    "read": false,
+    "write": false
+  },
+  "import_conflicts": {
+    "read": false,
+    "write": false
+  },
+  "system_settings": {
+    "read": false,
+    "write": false
+  },
+  "answer_extractions": {
+    "read": false,
+    "write": false
+  },
+  "strategy_cache": {
+    "read": false,
+    "write": false
+  },
+  "generated_files": {
+    "read": false,
+    "write": false
+  },
+  "teacher_privacy_consents": {
+    "read": false,
+    "write": false
+  },
+  "hard_problem_diagnostics": {
+    "read": false,
+    "write": false
+  },
+  "hard_problem_training_sessions": {
+    "read": false,
+    "write": false
+  },
+  "hard_problem_learning_records": {
+    "read": false,
+    "write": false
+  },
+  "task_failure_cases": {
+    "read": false,
+    "write": false
+  },
+  "training_failure_events": {
+    "read": false,
+    "write": false
+  }
+}

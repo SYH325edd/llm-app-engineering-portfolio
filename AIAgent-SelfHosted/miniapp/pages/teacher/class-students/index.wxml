@@ -1,0 +1,7 @@
+<view class="container manager-page">
+  <view class="manager-search"><text>搜索</text><input placeholder="搜索姓名或学号" bindinput="search" value="{{keyword}}" /></view>
+  <view wx:if="{{loading}}" class="card manager-state muted">正在加载学生</view>
+  <view wx:elif="{{errorMessage}}" class="card manager-state"><view>{{errorMessage}}</view><button class="secondary-button" bindtap="load">重新加载</button></view>
+  <view wx:elif="{{!visible.length}}" class="card manager-state muted">{{keyword ? '未找到匹配学生' : '该地区暂无录入学生'}}</view>
+  <view wx:else><view wx:for="{{visible}}" wx:key="rosterId" class="card manager-card" data-roster-id="{{item.rosterId}}" bindtap="open"><view class="manager-card-head"><view class="manager-name">{{item.name || '未命名学生'}}</view><text class="manager-arrow">›</text></view><view wx:if="{{item.studentNumber}}" class="manager-number">学号：{{item.studentNumber}}</view><view class="manager-stats"><text class="manager-stat">作业 {{item.taskCount || 0}}</text><text class="manager-stat {{item.todayStatus === 'COMPLETED' ? 'success' : 'danger'}}">{{item.todayStatus === 'COMPLETED' ? '今日已完成打卡' : '今日未完成打卡'}}</text><text class="manager-stat success">已完成题目 {{item.completedQuestionCount || 0}}</text><text class="manager-stat danger">失败 {{item.failedCount || 0}}</text></view></view></view>
+</view>

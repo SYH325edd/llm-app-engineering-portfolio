@@ -1,0 +1,8 @@
+<view class="container">
+  <view class="card empty-state">
+    <view class="empty-icon">待</view>
+    <view class="empty-title">{{status === 'ROSTER_NOT_FOUND' ? '未在学生名单中' : status === 'DUPLICATE_REVIEW' ? '存在同名学生，等待老师确认' : status === 'ARCHIVED' ? '学生账号已归档' : '老师账号等待超级管理员审核'}}</view>
+    <view class="muted">请联系老师或超级管理员处理，处理完成后点击重新检查。</view>
+    <button class="primary-button mt" loading="{{loading}}" bindtap="refresh">重新检查</button>
+  </view>
+</view>

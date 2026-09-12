@@ -1,0 +1,92 @@
+{
+  "collections": [
+    {
+      "name": "users",
+      "permission": "custom-deny-client"
+    },
+    {
+      "name": "classes",
+      "permission": "custom-deny-client"
+    },
+    {
+      "name": "student_roster",
+      "permission": "custom-deny-client"
+    },
+    {
+      "name": "teacher_applications",
+      "permission": "custom-deny-client"
+    },
+    {
+      "name": "grading_tasks",
+      "permission": "custom-deny-client"
+    },
+    {
+      "name": "grading_results",
+      "permission": "custom-deny-client"
+    },
+    {
+      "name": "wrong_questions",
+      "permission": "custom-deny-client"
+    },
+    {
+      "name": "checkins",
+      "permission": "custom-deny-client"
+    },
+    {
+      "name": "audit_logs",
+      "permission": "custom-deny-client"
+    },
+    {
+      "name": "system_logs",
+      "permission": "custom-deny-client"
+    },
+    {
+      "name": "ai_invocations",
+      "permission": "custom-deny-client"
+    },
+    {
+      "name": "import_conflicts",
+      "permission": "custom-deny-client"
+    },
+    {
+      "name": "system_settings",
+      "permission": "custom-deny-client"
+    },
+    {
+      "name": "answer_extractions",
+      "permission": "custom-deny-client"
+    },
+    {
+      "name": "strategy_cache",
+      "permission": "custom-deny-client"
+    },
+    {
+      "name": "generated_files",
+      "permission": "custom-deny-client"
+    },
+    {
+      "name": "teacher_privacy_consents",
+      "permission": "custom-deny-client"
+    },
+    {
+      "name": "hard_problem_diagnostics",
+      "permission": "custom-deny-client"
+    },
+    {
+      "name": "hard_problem_training_sessions",
+      "permission": "custom-deny-client"
+    },
+    {
+      "name": "hard_problem_learning_records",
+      "permission": "custom-deny-client"
+    },
+    {
+      "name": "task_failure_cases",
+      "permission": "custom-deny-client"
+    },
+    {
+      "name": "training_failure_events",
+      "permission": "custom-deny-client"
+    }
+  ]
+}

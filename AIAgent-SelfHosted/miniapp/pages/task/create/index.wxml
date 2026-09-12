@@ -1,0 +1,33 @@
+<view class="container create-page">
+  <view class="page-heading">
+    <view class="page-title">选择训练类型</view>
+    <view class="page-description">选择后上传题目图片即可开始</view>
+  </view>
+
+  <view class="card mode-card" data-mode="HARD_PROBLEM_CHECK" bindtap="selectMode" hover-class="mode-card--pressed" hover-stay-time="60">
+    <view class="mode-icon mode-icon--hard">难</view>
+    <view class="mode-content">
+      <view class="mode-title">难题检测</view>
+      <view class="mode-description">检查答案、计算步骤和解题逻辑</view>
+    </view>
+    <view class="mode-arrow">›</view>
+  </view>
+
+  <view class="card mode-card" data-mode="CARELESS_TRAINING" data-type="READING" bindtap="selectMode" hover-class="mode-card--pressed" hover-stay-time="60">
+    <view class="mode-icon mode-icon--reading">审</view>
+    <view class="mode-content">
+      <view class="mode-title">审题马虎</view>
+      <view class="mode-description">检查条件、关系和所求是否填写完整</view>
+    </view>
+    <view class="mode-arrow">›</view>
+  </view>
+
+  <view class="card mode-card" data-mode="CARELESS_TRAINING" data-type="CALCULATION" bindtap="selectMode" hover-class="mode-card--pressed" hover-stay-time="60">
+    <view class="mode-icon mode-icon--calculation">算</view>
+    <view class="mode-content">
+      <view class="mode-title">计算马虎</view>
+      <view class="mode-description">检查竖式、对齐、进退位、过程和最终答案</view>
+    </view>
+    <view class="mode-arrow">›</view>
+  </view>
+</view>

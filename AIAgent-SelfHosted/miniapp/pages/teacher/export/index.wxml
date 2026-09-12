@@ -1,0 +1,15 @@
+<view class="container">
+  <view class="page-title">导出 Excel</view>
+  <view class="notice mt">筛选条件可单独或组合使用；不填写即导出当前权限范围内全部数据。</view>
+  <view class="grid2 mt">
+    <input class="input" data-k="className" value="{{className}}" bindinput="set" placeholder="地区"/>
+    <input class="input" data-k="studentName" value="{{studentName}}" bindinput="set" placeholder="学生姓名"/>
+    <input class="input" data-k="dateFrom" value="{{dateFrom}}" bindinput="set" placeholder="开始日期 YYYY-MM-DD"/>
+    <input class="input" data-k="dateTo" value="{{dateTo}}" bindinput="set" placeholder="结束日期 YYYY-MM-DD"/>
+    <picker mode="selector" range="{{resultLabels}}" value="{{resultIndex}}" bindchange="setResult"><view class="input">{{resultLabels[resultIndex]}}</view></picker>
+    <picker mode="selector" range="{{checkinLabels}}" value="{{checkinIndex}}" bindchange="setCheckin"><view class="input">{{checkinLabels[checkinIndex]}}</view></picker>
+  </view>
+  <button class="secondary-button mt" loading="{{loading}}" data-type="roster" bindtap="export">导出学生名单</button>
+  <button class="secondary-button mt" loading="{{loading}}" data-type="submissions" bindtap="export">导出批改记录</button>
+  <button class="primary-button mt" loading="{{loading}}" data-type="combined" bindtap="export">合并导出</button>
+</view>

@@ -1,0 +1,25 @@
+.role-page{min-height:100vh;padding-top:54rpx;background:linear-gradient(160deg,#f5f7fc 0%,#eef2ff 100%)}
+.page-subtitle{margin-top:14rpx;color:#7c879c;font-size:26rpx;line-height:1.6}
+.mt{margin-top:42rpx}
+.role-card{display:flex;align-items:center;min-height:168rpx;margin-bottom:22rpx;padding:30rpx 28rpx;box-sizing:border-box;transition:opacity .18s ease,transform .18s ease}
+.role-card:active{transform:scale(.99)}
+.role-card-main{min-width:0;flex:1}
+.role-card .muted{margin-top:10rpx;font-size:25rpx}
+.role-arrow{flex:none;margin-left:20rpx;color:#526df5;font-size:54rpx;font-weight:300;line-height:1}
+.role-card-disabled{opacity:.48;box-shadow:none}
+.role-card-disabled:active{transform:none}
+.agreement-panel{margin-top:34rpx;padding:26rpx 24rpx;border:1rpx solid #e4e9f6;border-radius:24rpx;background:rgba(255,255,255,.88);box-sizing:border-box}
+.agreement-line{display:flex;align-items:center;flex-wrap:wrap;color:#56637a;font-size:25rpx;line-height:1.8}
+.agreement-toggle{display:flex;align-items:center}
+.agreement-circle{display:flex;align-items:center;justify-content:center;width:34rpx;height:34rpx;margin-right:12rpx;border:2rpx solid #aeb7c9;border-radius:50%;background:#fff;box-sizing:border-box;transition:background .18s ease,border-color .18s ease}
+.agreement-circle-checked{border-color:#526df5;background:#526df5}
+.agreement-check{color:#fff;font-size:23rpx;font-weight:700;line-height:1}
+.agreement-link{color:#526df5;font-weight:600}
+.agreement-hint{margin-top:12rpx;color:#98a2b3;font-size:23rpx;line-height:1.55}
+
+.agreement-child-link{margin-top:12rpx;color:#526df5;font-size:23rpx;line-height:1.6}
+.review-mask{position:fixed;z-index:1000;inset:0;display:flex;align-items:center;justify-content:center;padding:48rpx;background:rgba(20,30,50,.55);box-sizing:border-box}
+.review-panel{width:100%;padding:42rpx 32rpx;border-radius:28rpx;background:#fff;box-sizing:border-box}
+.review-title{margin-bottom:30rpx;color:#1f2937;font-size:36rpx;font-weight:700;text-align:center}
+.review-input{height:88rpx;margin-bottom:24rpx;padding:0 22rpx;border:1rpx solid #d7ddea;border-radius:14rpx;box-sizing:border-box}
+.review-teacher-button{margin-top:18rpx}.text-button{margin-top:18rpx;border:none;background:transparent;color:#667085;font-size:28rpx}

@@ -1,0 +1,537 @@
+{
+  "outputSchemaRegistryVersion": "output-schema-registry.v1",
+  "downstreamSemanticsVersion": "result-semantics.v1",
+  "schemas": [
+    {
+      "schemaId": "hard-problem.v2",
+      "version": "v2",
+      "mode": "hard-problem",
+      "strategyContractKey": "hardProblemV2",
+      "promptKey": "hardProblem",
+      "contractEnumFields": {
+        "answerStatus": "answerStatusValues",
+        "stepStatus": "stepStatusValues",
+        "logicStatus": "logicStatusValues",
+        "errorType": "errorTypeValues"
+      },
+      "contractNullableFieldsKey": "nullableFinalAnswerCorrectStatuses",
+      "contractNullableFields": [
+        "unanswered",
+        "unreadable"
+      ],
+      "requiredFields": [
+        "outputSchemaVersion",
+        "sourceKey",
+        "questionText",
+        "studentAnswer",
+        "standardAnswer",
+        "answerStatus",
+        "finalAnswerCorrect",
+        "stepRequired",
+        "stepStatus",
+        "logicStatus",
+        "errorType",
+        "firstWrongStep",
+        "errorReason",
+        "adjustmentSuggestion",
+        "knowledgePoint",
+        "stepFeedbacks",
+        "overallFeedback",
+        "confidence",
+        "studentWorkDetected",
+        "sourceQuestionLabel",
+        "sourceRegion",
+        "inputBasis",
+        "modeApplicability"
+      ],
+      "optionalFields": [],
+      "fieldTypes": {
+        "outputSchemaVersion": "string",
+        "sourceKey": "string",
+        "questionText": "string",
+        "studentAnswer": "string",
+        "standardAnswer": "string",
+        "answerStatus": "string",
+        "finalAnswerCorrect": "boolean",
+        "stepRequired": "boolean",
+        "stepStatus": "string",
+        "logicStatus": "string",
+        "errorType": "string",
+        "firstWrongStep": "string",
+        "errorReason": "string",
+        "adjustmentSuggestion": "string",
+        "knowledgePoint": "string",
+        "stepFeedbacks": "array",
+        "overallFeedback": "string",
+        "confidence": "number",
+        "studentWorkDetected": "boolean",
+        "sourceQuestionLabel": "string",
+        "sourceRegion": "string",
+        "inputBasis": "string",
+        "modeApplicability": "string"
+      },
+      "nullableFields": {
+        "finalAnswerCorrect": [
+          "unanswered",
+          "unreadable"
+        ]
+      },
+      "enumFields": {
+        "answerStatus": [
+          "answered",
+          "unanswered",
+          "unreadable"
+        ],
+        "stepStatus": [
+          "correct",
+          "wrong",
+          "missing",
+          "not_required",
+          "unreadable"
+        ],
+        "logicStatus": [
+          "correct",
+          "wrong",
+          "insufficient",
+          "unreadable"
+        ],
+        "errorType": [
+          "none",
+          "answer_error",
+          "calculation_error",
+          "method_error",
+          "logic_error",
+          "unanswered",
+          "unreadable",
+          "multiple"
+        ],
+        "inputBasis": [
+          "printed_question_with_work",
+          "printed_question_without_work",
+          "work_only_complete",
+          "work_only_incomplete"
+        ],
+        "modeApplicability": [
+          "applicable",
+          "not_applicable",
+          "uncertain"
+        ]
+      },
+      "arrayFields": [
+        "stepFeedbacks"
+      ],
+      "numericRanges": {
+        "confidence": {
+          "min": 0,
+          "max": 1
+        }
+      },
+      "consistencyRules": [
+        {
+          "when": {
+            "answerStatus": "unanswered"
+          },
+          "require": {
+            "finalAnswerCorrect": null,
+            "errorType": "unanswered"
+          }
+        },
+        {
+          "when": {
+            "answerStatus": "unreadable"
+          },
+          "require": {
+            "finalAnswerCorrect": null,
+            "logicStatus": "unreadable",
+            "errorType": "unreadable"
+          }
+        },
+        {
+          "when": {
+            "stepRequired": false
+          },
+          "require": {
+            "stepStatus": "not_required"
+          }
+        },
+        {
+          "when": {
+            "finalAnswerCorrect": true,
+            "stepStatus": "correct",
+            "logicStatus": "correct"
+          },
+          "require": {
+            "errorType": "none"
+          }
+        }
+      ],
+      "legacyAliases": [
+        "hard-problem.legacy"
+      ],
+      "downstreamSemanticsVersion": "result-semantics.v1",
+      "reviewProjection": {
+        "evidenceFields": [
+          "studentWorkDetected",
+          "sourceQuestionLabel",
+          "sourceRegion",
+          "inputBasis",
+          "modeApplicability",
+          "stepFeedbacks",
+          "overallFeedback"
+        ]
+      },
+      "wrongQuestionProjection": {
+        "modeDetails": [
+          "studentWorkDetected",
+          "sourceQuestionLabel",
+          "sourceRegion",
+          "inputBasis",
+          "modeApplicability",
+          "stepFeedbacks",
+          "overallFeedback"
+        ]
+      },
+      "arrayItemSchemas": {
+        "stepFeedbacks": {
+          "requiredFields": [
+            "stepIndex",
+            "solutionText",
+            "explanationText",
+            "solutionStatus",
+            "explanationStatus",
+            "logicStatus",
+            "analysis",
+            "correctionAdvice"
+          ],
+          "fieldTypes": {
+            "stepIndex": "integer_min_0",
+            "solutionText": "string",
+            "explanationText": "string",
+            "solutionStatus": "enum",
+            "explanationStatus": "enum",
+            "logicStatus": "enum",
+            "analysis": "string",
+            "correctionAdvice": "string"
+          },
+          "enumFields": {
+            "solutionStatus": [
+              "correct",
+              "wrong",
+              "missing",
+              "unreadable"
+            ],
+            "explanationStatus": [
+              "clear",
+              "partially_clear",
+              "incorrect",
+              "missing",
+              "unreadable"
+            ],
+            "logicStatus": [
+              "clear",
+              "insufficient",
+              "wrong",
+              "unreadable"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "schemaId": "reading-careless.v2",
+      "version": "v2",
+      "mode": "reading-careless",
+      "strategyContractKey": "readingCarelessV2",
+      "promptKey": "carelessTraining",
+      "contractEnumFields": {
+        "analysisStatus": "analysisStatusValues"
+      },
+      "contractNullableFieldsKey": "nullableBooleanFields",
+      "contractNullableFields": [
+        "conditionCorrect",
+        "relationCorrect",
+        "askCorrect"
+      ],
+      "requiredFields": [
+        "outputSchemaVersion",
+        "sourceKey",
+        "questionText",
+        "studentConditionText",
+        "studentRelationText",
+        "studentAskText",
+        "analysisStatus",
+        "conditionCorrect",
+        "relationCorrect",
+        "askCorrect",
+        "missingConditions",
+        "relationIssues",
+        "askIssue",
+        "errorReason",
+        "correctionAdvice",
+        "confidence"
+      ],
+      "optionalFields": [],
+      "fieldTypes": {
+        "outputSchemaVersion": "string",
+        "sourceKey": "string",
+        "questionText": "string",
+        "studentConditionText": "string",
+        "studentRelationText": "string",
+        "studentAskText": "string",
+        "analysisStatus": "string",
+        "conditionCorrect": "boolean",
+        "relationCorrect": "boolean",
+        "askCorrect": "boolean",
+        "missingConditions": "array",
+        "relationIssues": "array",
+        "askIssue": "string",
+        "errorReason": "string",
+        "correctionAdvice": "string",
+        "confidence": "number"
+      },
+      "nullableFields": {
+        "conditionCorrect": [
+          "unreadable",
+          "insufficient"
+        ],
+        "relationCorrect": [
+          "unreadable",
+          "insufficient"
+        ],
+        "askCorrect": [
+          "unreadable",
+          "insufficient"
+        ]
+      },
+      "enumFields": {
+        "analysisStatus": [
+          "ok",
+          "unreadable",
+          "insufficient"
+        ]
+      },
+      "arrayFields": [
+        "missingConditions",
+        "relationIssues"
+      ],
+      "numericRanges": {
+        "confidence": {
+          "min": 0,
+          "max": 1
+        }
+      },
+      "consistencyRules": [
+        {
+          "when": {
+            "analysisStatus": "unreadable"
+          },
+          "require": {
+            "conditionCorrect": null,
+            "relationCorrect": null,
+            "askCorrect": null
+          }
+        },
+        {
+          "when": {
+            "analysisStatus": "insufficient"
+          },
+          "require": {
+            "conditionCorrect": null,
+            "relationCorrect": null,
+            "askCorrect": null
+          }
+        },
+        {
+          "when": {
+            "analysisStatus": "ok"
+          },
+          "requireTypes": {
+            "conditionCorrect": "boolean",
+            "relationCorrect": "boolean",
+            "askCorrect": "boolean"
+          }
+        }
+      ],
+      "legacyAliases": [
+        "reading-careless.legacy"
+      ],
+      "downstreamSemanticsVersion": "result-semantics.v1"
+    },
+    {
+      "schemaId": "calculation-careless.v2",
+      "version": "v2",
+      "mode": "calculation-careless",
+      "strategyContractKey": "calculationCarelessV2",
+      "promptKey": "calculationCarelessTraining",
+      "contractEnumFields": {
+        "analysisStatus": "analysisStatusValues",
+        "issueCategory": "issueCategoryValues"
+      },
+      "contractNullableFieldsKey": "nullableBooleanFields",
+      "contractNullableFields": [
+        "layoutClear",
+        "digitAlignmentCorrect",
+        "stepsComplete",
+        "carryBorrowClear",
+        "processCorrect",
+        "finalAnswerCorrect",
+        "carelessDetected"
+      ],
+      "requiredFields": [
+        "outputSchemaVersion",
+        "sourceKey",
+        "questionText",
+        "studentCalculation",
+        "standardCalculation",
+        "analysisStatus",
+        "layoutClear",
+        "digitAlignmentCorrect",
+        "stepsComplete",
+        "carryBorrowClear",
+        "processCorrect",
+        "finalAnswerCorrect",
+        "carelessDetected",
+        "issueCategory",
+        "carelessIssues",
+        "methodIssues",
+        "errorReason",
+        "firstErrorPoint",
+        "correctionAdvice",
+        "confidence"
+      ],
+      "optionalFields": [],
+      "fieldTypes": {
+        "outputSchemaVersion": "string",
+        "sourceKey": "string",
+        "questionText": "string",
+        "studentCalculation": "string",
+        "standardCalculation": "string",
+        "analysisStatus": "string",
+        "layoutClear": "boolean",
+        "digitAlignmentCorrect": "boolean",
+        "stepsComplete": "boolean",
+        "carryBorrowClear": "boolean",
+        "processCorrect": "boolean",
+        "finalAnswerCorrect": "boolean",
+        "carelessDetected": "boolean",
+        "issueCategory": "string",
+        "carelessIssues": "array",
+        "methodIssues": "array",
+        "errorReason": "string",
+        "firstErrorPoint": "string",
+        "correctionAdvice": "string",
+        "confidence": "number"
+      },
+      "nullableFields": {
+        "layoutClear": [
+          "unreadable",
+          "insufficient"
+        ],
+        "digitAlignmentCorrect": [
+          "unreadable",
+          "insufficient"
+        ],
+        "stepsComplete": [
+          "unreadable",
+          "insufficient"
+        ],
+        "carryBorrowClear": [
+          "unreadable",
+          "insufficient"
+        ],
+        "processCorrect": [
+          "unreadable",
+          "insufficient"
+        ],
+        "finalAnswerCorrect": [
+          "unreadable",
+          "insufficient"
+        ],
+        "carelessDetected": [
+          "unreadable",
+          "insufficient"
+        ]
+      },
+      "enumFields": {
+        "analysisStatus": [
+          "ok",
+          "unreadable",
+          "insufficient"
+        ],
+        "issueCategory": [
+          "none",
+          "careless",
+          "knowledge_or_method",
+          "undetermined"
+        ]
+      },
+      "arrayFields": [
+        "carelessIssues",
+        "methodIssues"
+      ],
+      "numericRanges": {
+        "confidence": {
+          "min": 0,
+          "max": 1
+        }
+      },
+      "consistencyRules": [
+        {
+          "when": {
+            "analysisStatus": "unreadable"
+          },
+          "requireNull": [
+            "layoutClear",
+            "digitAlignmentCorrect",
+            "stepsComplete",
+            "carryBorrowClear",
+            "processCorrect",
+            "finalAnswerCorrect",
+            "carelessDetected"
+          ]
+        },
+        {
+          "when": {
+            "analysisStatus": "insufficient"
+          },
+          "requireNull": [
+            "layoutClear",
+            "digitAlignmentCorrect",
+            "stepsComplete",
+            "carryBorrowClear",
+            "processCorrect",
+            "finalAnswerCorrect",
+            "carelessDetected"
+          ]
+        },
+        {
+          "when": {
+            "analysisStatus": "ok"
+          },
+          "requireTypes": {
+            "layoutClear": "boolean",
+            "digitAlignmentCorrect": "boolean",
+            "stepsComplete": "boolean",
+            "carryBorrowClear": "boolean",
+            "processCorrect": "boolean",
+            "finalAnswerCorrect": "boolean",
+            "carelessDetected": "boolean"
+          }
+        },
+        {
+          "when": {
+            "processCorrect": true,
+            "finalAnswerCorrect": true
+          },
+          "require": {
+            "issueCategory": "none"
+          }
+        }
+      ],
+      "legacyAliases": [
+        "calculation-careless.legacy"
+      ],
+      "downstreamSemanticsVersion": "result-semantics.v1"
+    }
+  ]
+}

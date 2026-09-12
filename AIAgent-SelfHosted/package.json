@@ -1,0 +1,24 @@
+{
+  "name": "aiagent",
+  "version": "10.9.0",
+  "private": true,
+  "scripts": {
+    "strategy:publish": "node scripts/publish-strategy.mjs",
+    "strategy:audit": "node scripts/strategy-contract-audit.mjs",
+    "test:strategy": "node --test tests/*.test.mjs",
+    "test": "node --test tests/*.test.mjs",
+    "server:start": "node server/index.js",
+    "server:bootstrap": "node server/scripts/bootstrap-db.js",
+    "selfhost:check": "node --test tests/selfhost-runtime.test.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "description": "AIAgent commercial source project",
+  "dependencies": {
+    "busboy": "1.6.0",
+    "mongodb": "6.20.0",
+    "ws": "^8.21.1",
+    "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz"
+  }
+}

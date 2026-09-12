@@ -1,0 +1,194 @@
+<view class="container home-page">
+  <view wx:if="{{loading}}" class="card loading-card muted">加载中</view>
+  <view wx:else>
+    <view wx:if="{{reviewMode}}" class="card"><view class="section-title">审核体验</view><view class="muted">当前为审核学生端</view><button class="secondary-button" bindtap="switchReviewRole">切换审核老师端</button><button class="secondary-button" bindtap="closeReviewSession">退出审核体验</button></view>
+    <view wx:if="{{isStudent}}" class="student-home">
+      <view class="student-welcome-card">
+<view class="student-welcome-copy">
+<view class="student-greeting">{{user.name || '同学'}}，你好</view>
+<view class="student-welcome-text">欢迎回来，继续高效批改吧！</view>
+<button class="student-start-button" bindtap="start">新建任务上传</button>
+</view>
+<view class="student-illustration">
+<view class="student-paper">
+<view>
+</view>
+<view>
+</view>
+<view>
+</view>
+</view>
+<view class="student-pencil">
+</view>
+</view>
+</view>
+      <view class="student-section">
+<view class="section-title">今日任务</view>
+<view class="card today-task-card">
+<view class="today-checkin-head"><text>今日进度：{{checkin.today.qualifiedQuestionCount}} / {{checkin.today.requiredQuestionCount}}</text><text>{{checkinStatusText}}</text></view>
+<progress percent="{{checkinProgress}}" activeColor="#526df5" stroke-width="7"/>
+<view class="today-checkin-days">练习天数：{{checkin.practiceDays}}天　成功打卡天数：{{checkin.successfulCheckinDays}}天</view>
+<view wx:if="{{checkinError}}" class="today-checkin-error">{{checkinError}}</view>
+<view class="today-task-divider"></view>
+<view class="today-task-subtitle">任务数据</view>
+<view class="student-stat-grid today-task-stat-grid">
+<view class="student-stat uploaded">
+<view class="student-stat-icon">▤</view>
+<view>
+<text>累计上传</text>
+<strong>{{stats.uploaded || 0}}</strong>
+</view>
+</view>
+<view class="student-stat processing">
+<view class="student-stat-icon">◷</view>
+<view>
+<text>处理中</text>
+<strong>{{stats.processing || 0}}</strong>
+</view>
+</view>
+<view class="student-stat completed">
+<view class="student-stat-icon">✓</view>
+<view>
+<text>已完成</text>
+<strong>{{stats.completed || 0}}</strong>
+</view>
+</view>
+<view class="student-stat failed">
+<view class="student-stat-icon">×</view>
+<view>
+<text>失败</text>
+<strong>{{stats.failed || 0}}</strong>
+</view>
+</view>
+</view>
+</view>
+</view>
+      <view wx:if="{{activeTask}}" class="student-section">
+<view class="section-title">正在处理</view>
+<view class="card active-task-card" data-task-id="{{activeTask.taskId || activeTask._id}}" bindtap="open">
+<view class="active-task-icon">◷</view>
+<view class="active-task-main">
+<view class="active-task-title">{{activeTask.displayTitle || activeTask.title || '未命名作业'}}</view>
+<view class="active-task-status">{{activeTask.statusText}}</view>
+<view class="active-progress-row">
+<progress percent="{{activeTask.progressPercent}}" activeColor="#526df5" stroke-width="6"/>
+<text>{{activeTask.progressPercent}}%</text>
+</view>
+</view>
+<text class="chevron">›</text>
+</view>
+</view>
+      <view class="student-section student-recent-section">
+<view class="section-head student-section-head">
+<view class="section-title">最近任务</view>
+<view class="student-history-link" bindtap="history">全部记录 ›</view>
+</view>
+<view class="card student-recent-card">
+<view wx:if="{{!recent.length}}" class="student-empty muted">暂无任务记录</view>
+<view wx:else>
+<view wx:for="{{recent}}" wx:key="taskId" class="student-recent-item" data-task-id="{{item.taskId || item._id}}" bindtap="open">
+<view class="student-task-status-icon {{item.status}}">{{item.statusIcon}}</view>
+<view class="student-recent-info">
+<view class="student-recent-title">{{item.displayTitle || item.title || '未命名作业'}}</view>
+<view class="student-recent-time">{{item.displayTime}}</view>
+</view>
+<view class="student-status-label {{item.status}}">{{item.statusText}}</view>
+<text class="chevron">›</text>
+</view>
+</view>
+</view>
+</view>
+    </view>
+    <view wx:else class="manager-home">
+      <view wx:if="{{managerError}}" class="card loading-card">
+<view>{{managerError}}</view>
+<button class="secondary-button" bindtap="loadManagerClasses">重新加载</button>
+</view>
+      <view wx:elif="{{!managerClasses.length && !managerLoading}}" class="card loading-card muted">暂无管理地区</view>
+      <view wx:else>
+        <view class="card manager-overview-card">
+          <view class="section-head manager-section-head">
+<view class="section-title">
+<text class="section-icon">▥</text>今日打卡情况</view>
+<picker wx:if="{{managerClasses.length > 1}}" mode="selector" range="{{managerClasses}}" range-key="className" value="{{selectedClassIndex}}" bindchange="chooseManagerClass">
+<view class="class-picker">{{selectedClass.region || selectedClass.className}} <text>⌄</text>
+</view>
+</picker>
+<view wx:else class="class-picker">{{selectedClass.grade}}{{selectedClass.className}}</view>
+</view>
+          <view wx:if="{{managerLoading && !checkinOverview}}" class="inline-state muted">正在加载地区数据</view>
+          <view wx:else class="manager-stat-grid">
+            <view class="manager-stat checkin-student">
+<view class="manager-stat-icon">♟</view>
+<view>
+<text>学生总数</text>
+<strong>{{checkinOverview.studentTotal || 0}}</strong>
+</view>
+</view>
+            <view class="manager-stat checkin-practiced">
+<view class="manager-stat-icon">✎</view>
+<view>
+<text>今日已练习</text>
+<strong>{{checkinOverview.practicedStudentCount || 0}}</strong>
+</view>
+</view>
+            <view class="manager-stat checkin-progress">
+<view class="manager-stat-icon">◷</view>
+<view>
+<text>今日进行中</text>
+<strong>{{checkinOverview.inProgressStudentCount || 0}}</strong>
+</view>
+</view>
+            <view class="manager-stat checkin-completed">
+<view class="manager-stat-icon">✓</view>
+<view>
+<text>今日已完成</text>
+<strong>{{checkinOverview.completedStudentCount || 0}}</strong>
+</view>
+</view>
+            <view class="manager-stat checkin-not-started">
+<view class="manager-stat-icon">○</view>
+<view>
+<text>今日未练习</text>
+<strong>{{checkinOverview.notPracticedStudentCount || 0}}</strong>
+</view>
+</view>
+            <view class="manager-stat checkin-rate {{checkinOverview.completionRateTone}}">
+<view class="manager-stat-icon">%</view>
+<view>
+<text>今日完成率</text>
+<strong>{{checkinOverview.completionRateText || '0%'}}</strong>
+</view>
+</view>
+            <view class="manager-stat checkin-rate {{checkinOverview.accuracyRateTone}}">
+<view class="manager-stat-icon">✓</view>
+<view>
+<text>整体准确率</text>
+<strong>{{checkinOverview.accuracyRateText || '0%'}}</strong>
+</view>
+</view>
+          </view>
+        </view>
+        <view class="card manager-recent-card">
+          <view class="section-head manager-section-head">
+<view class="section-title">
+<text class="section-icon">▤</text>最近学生提交</view>
+</view>
+          <view wx:if="{{managerLoading}}" class="inline-state muted">正在刷新当前地区</view>
+          <view wx:elif="{{!recent.length}}" class="empty muted">当前地区暂无学生提交</view>
+          <view wx:else class="recent-list">
+<view wx:for="{{recent}}" wx:key="taskId" class="recent-item" data-task-id="{{item.taskId}}" bindtap="open">
+<view class="student-avatar">●</view>
+<view class="recent-info">
+<view class="recent-title">{{item.studentName || '未命名学生'}} · {{item.displayTitle || item.title || '未命名作业'}}</view>
+<view class="recent-meta">{{item.displayTime}}</view>
+</view>
+<view class="status-tag {{item.status}}">{{item.status}}</view>
+<text class="chevron">›</text>
+</view>
+</view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

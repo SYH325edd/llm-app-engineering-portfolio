@@ -1,0 +1,66 @@
+<view class="page">
+  <view wx:if="{{loading}}" class="card">正在加载难题训练...</view>
+  <view wx:if="{{errorMessage}}" class="error">{{errorMessage}}</view>
+
+  <view wx:if="{{!loading && session}}">
+    <view class="card">
+      <view class="title">难题训练</view>
+      <view class="level">当前掌握等级：{{session.masteryLevel}}</view>
+      <view wx:for="{{brief}}" wx:key="*this" class="brief">• {{item}}</view>
+    </view>
+
+    <view wx:if="{{session.phase === 'BOTTLENECK'}}" class="card">
+      <view class="section-title">只解决当前一个卡点</view>
+      <view class="purpose">{{session.activeBottleneck.purpose || '当前关键步骤'}}</view>
+      <view wx:if="{{feedback}}" class="feedback">{{feedback}}</view>
+      <view wx:if="{{currentHint}}" class="hint">提示：{{currentHint}}</view>
+      <textarea class="input" value="{{explanation}}" bindinput="onExplanationInput" placeholder="用自己的话说明：这一步为什么这样做？" maxlength="1200" />
+      <button class="primary" loading="{{submitting}}" disabled="{{submitting}}" bindtap="submitExplanation">提交我的解释</button>
+      <view class="meta">已提示 {{session.hintCount || 0}} 次；一次只处理这一个卡点。</view>
+    </view>
+
+    <view wx:elif="{{session.phase === 'RETELL'}}" class="card">
+      <view class="section-title">脱离答案完整讲解</view>
+      <view class="desc">现在不看答案，从头到尾讲清每一步做什么、为什么。</view>
+      <view wx:if="{{feedback}}" class="feedback">{{feedback}}</view>
+      <textarea class="input tall" value="{{retell}}" bindinput="onRetellInput" placeholder="完整讲解你的解题思路" maxlength="3000" />
+      <button class="primary" loading="{{submitting}}" disabled="{{submitting}}" bindtap="submitRetell">提交完整讲解</button>
+    </view>
+
+    <view wx:elif="{{session.phase === 'VARIANTS'}}" class="card">
+      <view class="section-title">举一反三 · 3道个性化变式</view>
+      <view class="desc">近迁移 → 中迁移 → 远迁移。必须答案和“为什么”都正确。</view>
+      <view class="variant-tabs">
+        <view wx:for="{{variants}}" wx:key="variantId" data-id="{{item.variantId}}" bindtap="selectVariant" class="variant-tab {{currentVariantId === item.variantId ? 'active' : ''}} {{item.status === 'COMPLETED' ? 'done' : ''}}">{{item.variantId}} {{item.transferLevel}}</view>
+      </view>
+      <block wx:for="{{variants}}" wx:key="variantId">
+        <view wx:if="{{item.variantId === currentVariantId}}">
+          <view class="variant-question">{{item.questionText}}</view>
+          <textarea class="input" value="{{variantAnswer}}" bindinput="onVariantAnswerInput" placeholder="写出你的答案" maxlength="1000" />
+          <textarea class="input" value="{{variantReasoning}}" bindinput="onVariantReasoningInput" placeholder="说明为什么这样做" maxlength="1600" />
+          <button class="primary" loading="{{submitting}}" disabled="{{submitting}}" bindtap="submitVariant">提交这道变式题</button>
+        </view>
+      </block>
+      <view wx:if="{{feedback}}" class="feedback">{{feedback}}</view>
+    </view>
+
+    <view wx:elif="{{session.phase === 'MASTERED'}}" class="card success">
+      <view class="section-title">L4 举一反三 · 已通关</view>
+      <view>你已经能够脱离答案讲清原题，并完成3道迁移题。</view>
+      <view class="desc">系统将按第1天、第3天、第7天再次检查是否真正掌握。</view>
+    </view>
+
+    <view wx:if="{{session.reachedL4Ever}}" class="card">
+      <view class="section-title">长期复习</view>
+      <view wx:if="{{session.currentRetentionStatus === 'NEEDS_REINFORCEMENT'}}" class="hint">本次复习发现掌握不稳定，已回到当前关键卡点继续巩固。历史最高等级仍保留为 L4。</view>
+      <view wx:if="{{session.currentRetentionStatus !== 'NEEDS_REINFORCEMENT' && review && review.due}}">
+        <view class="desc">第{{review.day}}天复习题</view>
+        <view class="variant-question">{{review.challenge.questionText}}</view>
+        <textarea class="input" value="{{reviewAnswer}}" bindinput="onReviewAnswerInput" placeholder="写出答案" maxlength="1000" />
+        <textarea class="input" value="{{reviewReasoning}}" bindinput="onReviewReasoningInput" placeholder="说明为什么" maxlength="1600" />
+        <button class="primary" loading="{{submitting}}" disabled="{{submitting}}" bindtap="submitReview">提交复习</button>
+      </view>
+      <view wx:else class="desc">{{review && review.nextReviewAt ? '下一次复习：' + review.nextReviewAt : '当前没有到期复习任务'}}</view>
+    </view>
+  </view>
+</view>

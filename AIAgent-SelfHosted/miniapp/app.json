@@ -1,0 +1,79 @@
+{
+  "pages": [
+    "pages/setup/index",
+    "pages/auth/role/index",
+    "pages/auth/student/index",
+    "pages/auth/teacher/index",
+    "pages/auth/pending/index",
+    "pages/home/index",
+    "pages/task/create/index",
+    "pages/task/upload/index",
+    "pages/task/crop/index",
+    "pages/task/processing/index",
+    "pages/task/confirm/index",
+    "pages/result/notice/index",
+    "pages/result/index",
+    "pages/result/detail/index",
+    "pages/hard-problem-training/index",
+    "pages/history/index",
+    "pages/wrong/index",
+    "pages/teacher/home/index",
+    "pages/teacher/class-list/index",
+    "pages/teacher/class-students/index",
+    "pages/teacher/student-tasks/index",
+    "pages/teacher/students/index",
+    "pages/teacher/student-detail/index",
+    "pages/teacher/import/index",
+    "pages/teacher/submissions/index",
+    "pages/teacher/submission-detail/index",
+    "pages/teacher/teachers/index",
+    "pages/teacher/audit/index",
+    "pages/teacher/export/index",
+    "pages/profile/index",
+    "pages/profile/edit/index",
+    "pages/settings/index",
+    "pages/legal/privacy/index",
+    "pages/legal/agreement/index",
+    "pages/legal/children-privacy/index"
+  ],
+  "window": {
+    "navigationBarTitleText": "智能题目分析",
+    "navigationBarBackgroundColor": "#F5F7FC",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#F5F7FC"
+  },
+  "tabBar": {
+    "custom": true,
+    "color": "#667085",
+    "selectedColor": "#526DF5",
+    "backgroundColor": "#ffffff",
+    "list": [
+      {
+        "pagePath": "pages/home/index",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/history/index",
+        "text": "记录"
+      },
+      {
+        "pagePath": "pages/result/index",
+        "text": "结果"
+      },
+      {
+        "pagePath": "pages/teacher/home/index",
+        "text": "管理"
+      },
+      {
+        "pagePath": "pages/profile/index",
+        "text": "我的"
+      }
+    ]
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents",
+  "usingComponents": {
+    "privacy-dialog": "/components/privacy-dialog/index"
+  }
+}

@@ -1,0 +1,1 @@
+.tabbar{display:flex;padding:12rpx 12rpx calc(12rpx + env(safe-area-inset-bottom));background:#fff;border-top:1rpx solid #e9edf5}.tab{flex:1;color:#7d8799;text-align:center;font-size:22rpx}.tab-icon{font-size:34rpx;line-height:42rpx}.active{color:#526df5;font-weight:700}

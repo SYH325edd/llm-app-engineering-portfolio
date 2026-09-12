@@ -1,0 +1,47 @@
+<view class="container role-page">
+  <view class="page-title">请选择身份</view>
+  <view class="page-subtitle" bindtap="openReviewChannel">身份提交后由系统按名单和权限规则处理。</view>
+
+  <view class="card role-card mt {{!agreementAccepted || entering ? 'role-card-disabled' : ''}}" data-role="student" bindtap="choose">
+    <view class="role-card-main">
+      <view class="section-title">我是学生</view>
+      <view class="muted">通过姓名匹配老师名单，地区用于保存和展示</view>
+    </view>
+    <view class="role-arrow">›</view>
+  </view>
+
+  <view class="card role-card {{!agreementAccepted || entering ? 'role-card-disabled' : ''}}" data-role="teacher" bindtap="choose">
+    <view class="role-card-main">
+      <view class="section-title">我是老师</view>
+      <view class="muted">提交任教地区，等待超级管理员审核</view>
+    </view>
+    <view class="role-arrow">›</view>
+  </view>
+
+  <view class="agreement-panel">
+    <view class="agreement-line">
+      <view class="agreement-toggle" bindtap="toggleAgreement">
+        <view class="agreement-circle {{agreementAccepted ? 'agreement-circle-checked' : ''}}">
+          <text wx:if="{{agreementAccepted}}" class="agreement-check">✓</text>
+        </view>
+        <text>我已阅读并同意</text>
+      </view>
+      <text class="agreement-link" catchtap="openAgreement">《用户协议》</text>
+      <text>和</text>
+      <text class="agreement-link" catchtap="openPrivacy">《隐私政策》</text>
+    </view>
+    <view class="agreement-child-link" bindtap="openChildrenPrivacy">涉及未满十四周岁学生时，同时适用《儿童个人信息保护规则》</view>
+    <view class="agreement-hint">勾选协议后，才可选择学生或教师身份进入系统。</view>
+  </view>
+
+  <privacy-dialog id="privacyDialog" />
+  <view wx:if="{{reviewPanelVisible}}" class="review-mask">
+    <view class="review-panel">
+      <view class="review-title">审核专用体验通道</view>
+      <input class="review-input" password="true" value="{{reviewAccessCode}}" bindinput="inputReviewAccessCode" placeholder="请输入审核体验码" />
+      <button class="primary-button" loading="{{reviewSubmitting}}" data-role="student" bindtap="enterReview">体验学生端</button>
+      <button class="secondary-button review-teacher-button" disabled="{{reviewSubmitting}}" data-role="teacher" bindtap="enterReview">体验老师端</button>
+      <button class="text-button" disabled="{{reviewSubmitting}}" bindtap="closeReviewPanel">取消</button>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,8 @@
+.checkin-card { padding: 24rpx; border-radius: 16rpx; background: #fff; }
+.checkin-title { font-weight: 600; margin-bottom: 12rpx; }
+.checkin-line { margin-top: 8rpx; }
+.checkin-grid { margin-top: 16rpx; font-size: 28rpx; }
+.checkin-grid view { margin-top: 8rpx; }
+.checkin-dates-title { margin-top: 20rpx; font-weight: 500; }
+.checkin-dates { display: flex; flex-wrap: wrap; gap: 10rpx; margin-top: 12rpx; }
+.checkin-date { padding: 6rpx 12rpx; border-radius: 8rpx; background: #f3f6fb; font-size: 26rpx; }

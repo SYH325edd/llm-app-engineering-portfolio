@@ -1,0 +1,6 @@
+{
+  "name": "strategyService",
+  "version": "1.0.3",
+  "private": true,
+  "main": "index.js"
+}

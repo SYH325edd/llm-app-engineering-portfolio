@@ -1,0 +1,13 @@
+{
+  "timeout": 60,
+  "runtime": "Nodejs20.19",
+  "memorySize": 512,
+  "installDependency": true,
+  "triggers": [
+    {
+      "name": "purgeArchivedDaily",
+      "type": "timer",
+      "config": "0 0 2 * * * *"
+    }
+  ]
+}

@@ -1,0 +1,4 @@
+{
+  "read": "resource.openid == auth.openid || resource.openid == auth.uid",
+  "write": "auth != null && (resource.openid == auth.openid || resource.openid == auth.uid) && resource.size <= 5242880"
+}

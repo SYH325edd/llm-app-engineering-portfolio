@@ -1,0 +1,40 @@
+<view class="container upload-page">
+  <view class="card upload-card">
+    <view class="card-header"><view class="section-title">学生作业</view><view class="count-tag">{{studentImages.length}}/3</view></view>
+    <view class="grid">
+      <view wx:for="{{studentImages}}" wx:key="*this" class="image-item">
+        <view class="thumb-wrap"><image src="{{item}}" mode="aspectFill" class="thumb" /><view class="delete-image" data-index="{{index}}" bindtap="removeStudent">×</view></view><view class="image-actions"><text data-kind="student" data-index="{{index}}" bindtap="crop">裁切</text></view>
+        <view class="image-actions"><text data-kind="student" data-index="{{index}}" data-direction="-1" bindtap="move">上移</text><text data-kind="student" data-index="{{index}}" data-direction="1" bindtap="move">下移</text></view>
+      </view>
+      <view class="add" bindtap="student"><text class="add-symbol">＋</text><text wx:if="{{!studentImages.length}}" class="upload-empty">未上传</text></view>
+    </view>
+  </view>
+  <view wx:if="{{mode!=='CARELESS_TRAINING'}}" class="card upload-card">
+    <view class="card-header"><view class="section-title">标准答案</view><view class="count-tag">{{answerImages.length}}/3</view></view>
+    <textarea class="textarea" value="{{manualAnswer}}" bindinput="setAnswer" placeholder="可填写标准答案文字" />
+    <view class="grid">
+      <view wx:for="{{answerImages}}" wx:key="*this" class="image-item">
+        <view class="thumb-wrap"><image src="{{item}}" mode="aspectFill" class="thumb" /><view class="delete-image" data-index="{{index}}" bindtap="removeAnswer">×</view></view><view class="image-actions"><text data-kind="answer" data-index="{{index}}" bindtap="crop">裁切</text></view>
+        <view class="image-actions"><text data-kind="answer" data-index="{{index}}" data-direction="-1" bindtap="move">上移</text><text data-kind="answer" data-index="{{index}}" data-direction="1" bindtap="move">下移</text></view>
+      </view>
+      <view class="add" bindtap="answer"><text class="add-symbol">＋</text><text wx:if="{{!answerImages.length}}" class="upload-empty">未上传</text></view>
+    </view>
+  </view>
+  <view class="upload-progress">{{uploadProgress}}</view>
+  <button class="primary-button next-button" loading="{{loading}}" disabled="{{loading}}" bindtap="submit">提交作业</button>
+</view>
+<view wx:if="{{cropVisible}}" class="crop-mask" catchtap="useOriginal">
+  <view class="crop-panel" catchtap="stopPropagation">
+    <view class="crop-title">裁切图片</view>
+    <view class="crop-viewport">
+      <image wx:if="{{!cropImagePath}}" src="{{cropSourcePath}}" mode="aspectFit" class="crop-preview" />
+      <image wx:else src="{{cropImagePath}}" mode="scaleToFill" class="crop-image" style="left:{{cropLeft}}px;top:{{cropTop}}px;width:{{cropImageWidth * cropScale}}px;height:{{cropImageHeight * cropScale}}px;" bindtouchstart="imageTouchStart" bindtouchmove="imageTouchMove" bindtouchend="imageTouchEnd" />
+      <view class="crop-frame" style="left:{{cropFrameLeft}}px;top:{{cropFrameTop}}px;width:{{cropFrameWidth}}px;height:{{cropFrameHeight}}px;" bindtouchstart="cropFrameStart" bindtouchmove="cropFrameMove" bindtouchend="cropFrameEnd">
+        <view class="crop-handle crop-handle-tl" data-handle="top-left" catchtouchstart="cropHandleStart" catchtouchmove="cropFrameMove" catchtouchend="cropFrameEnd"></view><view class="crop-handle crop-handle-tr" data-handle="top-right" catchtouchstart="cropHandleStart" catchtouchmove="cropFrameMove" catchtouchend="cropFrameEnd"></view><view class="crop-handle crop-handle-bl" data-handle="bottom-left" catchtouchstart="cropHandleStart" catchtouchmove="cropFrameMove" catchtouchend="cropFrameEnd"></view><view class="crop-handle crop-handle-br" data-handle="bottom-right" catchtouchstart="cropHandleStart" catchtouchmove="cropFrameMove" catchtouchend="cropFrameEnd"></view><view class="crop-handle crop-handle-top" data-handle="top" catchtouchstart="cropHandleStart" catchtouchmove="cropFrameMove" catchtouchend="cropFrameEnd"></view><view class="crop-handle crop-handle-right" data-handle="right" catchtouchstart="cropHandleStart" catchtouchmove="cropFrameMove" catchtouchend="cropFrameEnd"></view><view class="crop-handle crop-handle-bottom" data-handle="bottom" catchtouchstart="cropHandleStart" catchtouchmove="cropFrameMove" catchtouchend="cropFrameEnd"></view><view class="crop-handle crop-handle-left" data-handle="left" catchtouchstart="cropHandleStart" catchtouchmove="cropFrameMove" catchtouchend="cropFrameEnd"></view>
+      </view>
+    </view>
+    <view class="crop-actions"><button class="crop-original" bindtap="useOriginal">使用原图</button><button class="crop-confirm" bindtap="confirmCrop">确认裁切</button></view>
+  </view>
+  <canvas class="crop-canvas" canvas-id="uploadCropCanvas" width="{{cropImageWidth}}" height="{{cropImageHeight}}" style="width:{{cropViewportWidth}}px;height:{{cropViewportHeight}}px;"></canvas>
+</view>
+<privacy-dialog id="privacyDialog"/>

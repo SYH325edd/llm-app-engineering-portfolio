@@ -1,0 +1,16 @@
+<view class="container profile-page">
+  <view wx:if="{{loading}}" class="card state-card muted">加载中</view>
+  <view wx:elif="{{error}}" class="card state-card muted">{{error}}</view>
+  <view wx:else>
+    <view wx:if="{{isStudent}}" class="profile-hero">
+      <view class="profile-copy"><view class="avatar-wrap"><image wx:if="{{user.avatarUrl}}" src="{{user.avatarUrl}}" class="avatar"/><view wx:else class="avatar fallback-avatar">●</view></view><view><view class="profile-name">{{user.name || '未设置姓名'}}</view><view class="profile-meta">绑定老师：{{user.teacherName || '暂未获取'}}</view><view class="profile-meta">地区：{{user.region || user.className}}</view></view></view>
+      <button class="secondary-button edit-button" bindtap="edit">编辑资料</button>
+    </view>
+    <view wx:else class="card manager-profile-card">
+      <button class="secondary-button manager-edit-button" bindtap="edit">编辑资料</button>
+      <view class="manager-profile-summary"><view class="avatar-wrap"><image wx:if="{{user.avatarUrl}}" src="{{user.avatarUrl}}" class="avatar"/><view wx:else class="avatar fallback-avatar">●</view></view><view class="manager-profile-info"><view class="profile-name">{{user.name || '未设置姓名'}}</view><view class="manager-role">{{user.role === 'super_admin' ? '超级管理员' : '教师管理员'}}</view><view class="manager-count">管理学生：{{managerClasses[0].studentCount || 0}}人</view></view></view>
+    </view>
+    <view wx:if="{{isStudent}}" class="profile-section"><view class="section-title">任务统计</view><view class="profile-stats"><view class="profile-stat uploaded"><view>累计上传</view><strong>{{stats.uploaded}}</strong></view><view class="profile-stat processing"><view>处理中</view><strong>{{stats.processing}}</strong></view><view class="profile-stat completed"><view>已完成</view><strong>{{stats.completed}}</strong></view><view class="profile-stat failed"><view>失败</view><strong>{{stats.failed}}</strong></view></view></view>
+    <view class="profile-section"><view class="section-title">常用功能</view><view class="card menu-list"><view class="menu-item" bindtap="history"><view class="menu-icon purple">◷</view><text>批改记录</text><text>></text></view><view class="menu-item" bindtap="privacy"><view class="menu-icon blue">i</view><text>隐私说明</text><text>></text></view><view class="menu-item" bindtap="agreement"><view class="menu-icon indigo">□</view><text>用户协议</text><text>></text></view><view class="menu-item" bindtap="childrenPrivacy"><view class="menu-icon purple">□</view><text>儿童个人信息保护规则</text><text>></text></view><view class="menu-item" bindtap="contact"><view class="menu-icon blue">☎</view><text>投诉与联系</text><text>></text></view></view></view>
+  </view>
+</view>

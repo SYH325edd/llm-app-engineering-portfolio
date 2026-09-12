@@ -1,0 +1,18 @@
+<view class="container edit-page">
+  <view class="page-heading">
+    <view class="page-title">编辑资料</view>
+    <view class="page-description">完善基本信息，便于老师确认身份。</view>
+  </view>
+  <view class="card info-card">
+    <view class="section-title">基本信息</view>
+    <view class="field">
+      <view class="label">姓名</view>
+      <input class="input" data-field="name" value="{{name}}" bindinput="input" placeholder="姓名" />
+    </view>
+    <view class="field">
+      <view class="label">地区</view>
+      <input class="input" data-field="className" value="{{className}}" bindinput="input" placeholder="地区" />
+    </view>
+  </view>
+  <button class="primary-button save-button" loading="{{saving}}" disabled="{{saving}}" bindtap="save">保存</button>
+</view>

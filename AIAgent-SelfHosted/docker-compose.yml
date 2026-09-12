@@ -1,0 +1,117 @@
+name: aiagent
+
+services:
+  mongo:
+    image: m.daocloud.io/docker.io/library/mongo:7.0
+    command: ["mongod", "--replSet", "rs0", "--bind_ip_all", "--wiredTigerCacheSizeGB", "0.5"]
+    restart: unless-stopped
+    volumes:
+      - /data/aiagent/mongo:/data/db
+    networks:
+      - aiagent_net
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--host", "127.0.0.1:27017", "--eval", "db.adminCommand({ ping: 1 }).ok"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 10s
+
+  mongo-init:
+    image: m.daocloud.io/docker.io/library/mongo:7.0
+    depends_on:
+      mongo:
+        condition: service_healthy
+    restart: "no"
+    networks:
+      - aiagent_net
+    entrypoint: ["sh", "-c"]
+    command:
+      - >-
+        mongosh --quiet --host mongo:27017 --eval
+        'try { rs.status(); print("replica set already initialized") }
+        catch (e) { rs.initiate({_id:"rs0",members:[{_id:0,host:"mongo:27017"}]}); print("replica set initialized") }'
+
+  api:
+    build:
+      context: .
+      dockerfile: server/Dockerfile
+    command: ["node", "server/entrypoint.js", "api"]
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      SELF_HOSTED: "true"
+      PORT: "3100"
+      DATABASE_URL: mongodb://mongo:27017/aiagent?replicaSet=rs0
+      DATABASE_NAME: aiagent
+      STORAGE_ROOT: /data/aiagent/files
+      STRATEGY_SERVICE_URL: http://127.0.0.1:3100
+      GRADING_WORKER_BASE_URL: http://worker:8080
+    ports:
+      - "127.0.0.1:3100:3100"
+    volumes:
+      - /data/aiagent/files:/data/aiagent/files
+      - ./strategy/private:/app/strategy/private:ro
+    depends_on:
+      mongo-init:
+        condition: service_completed_successfully
+    networks:
+      - aiagent_net
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3100/health').then(r=>{if(!r.ok)process.exit(1)}).catch(()=>process.exit(1))"]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+      start_period: 15s
+
+  worker:
+    build:
+      context: .
+      dockerfile: server/Dockerfile
+    command: ["node", "server/entrypoint.js", "worker"]
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      SELF_HOSTED: "true"
+      PORT: "8080"
+      DATABASE_URL: mongodb://mongo:27017/aiagent?replicaSet=rs0
+      DATABASE_NAME: aiagent
+      STORAGE_ROOT: /data/aiagent/files
+      INTERNAL_API_URL: http://api:3100
+      STRATEGY_SERVICE_URL: http://api:3100
+    volumes:
+      - /data/aiagent/files:/data/aiagent/files:ro
+      - ./strategy/private:/app/strategy/private:ro
+    depends_on:
+      api:
+        condition: service_healthy
+    networks:
+      - aiagent_net
+
+  maintenance:
+    build:
+      context: .
+      dockerfile: server/Dockerfile
+    command: ["node", "server/entrypoint.js", "maintenance"]
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      SELF_HOSTED: "true"
+      DATABASE_URL: mongodb://mongo:27017/aiagent?replicaSet=rs0
+      DATABASE_NAME: aiagent
+      STORAGE_ROOT: /data/aiagent/files
+      STRATEGY_SERVICE_URL: http://api:3100
+    volumes:
+      - /data/aiagent/files:/data/aiagent/files
+      - ./strategy/private:/app/strategy/private:ro
+    depends_on:
+      api:
+        condition: service_healthy
+    networks:
+      - aiagent_net
+
+networks:
+  aiagent_net:
+    driver: bridge

@@ -1,0 +1,6 @@
+<view class="container">
+  <view class="page-title">教师注册</view>
+  <view class="field mt"><text class="label">姓名</text><input class="input" data-k="name" value="{{name}}" bindinput="set"/></view>
+  <view class="field"><text class="label">地区</text><input class="input" data-k="region" value="{{region}}" bindinput="set" placeholder="例如：湖南省长沙市"/></view>
+  <button class="primary-button mt" loading="{{loading}}" bindtap="submit">提交教师申请</button>
+</view>

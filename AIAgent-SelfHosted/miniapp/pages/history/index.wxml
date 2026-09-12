@@ -1,0 +1,15 @@
+<view class="container history-page">
+  <view wx:if="{{isManager}}" class="manager-page">
+    <view class="manager-search"><text>搜索</text><input placeholder="搜索学生姓名或学号" bindinput="managerSearch" value="{{managerKeyword}}" /></view>
+    <view wx:if="{{managerLoading}}" class="card manager-state muted">正在加载学生</view>
+    <view wx:elif="{{managerError}}" class="card manager-state"><view>{{managerError}}</view><button class="secondary-button" bindtap="loadManagerClasses">重新加载</button></view>
+    <view wx:elif="{{!managerVisible.length}}" class="card manager-state muted">{{managerKeyword ? '未找到匹配学生' : '暂无可管理学生'}}</view>
+    <view wx:else><view wx:for="{{managerVisible}}" wx:key="rosterId" class="card manager-card" data-roster-id="{{item.rosterId}}" bindtap="openManagerClass"><view class="manager-card-head"><view class="manager-name">{{item.name}}</view><text class="manager-stat">{{item.region}}</text><text class="manager-arrow">></text></view><view wx:if="{{item.studentNumber}}" class="manager-number">学号：{{item.studentNumber}}</view><view class="manager-stats"><text class="manager-stat">作业 {{item.taskCount || 0}}</text><text class="manager-stat success">已完成 {{item.completedCount || 0}}</text><text class="manager-stat danger">失败 {{item.failedCount || 0}}</text></view></view></view>
+  </view>
+  <view wx:else>
+    <view class="filters"><view wx:for="{{['ALL','PROCESSING','COMPLETED','FAILED']}}" wx:key="*" data-status="{{item}}" bindtap="choose" class="filter-item {{status===item?'active':''}}">{{item === 'ALL' ? '全部' : (item === 'PROCESSING' ? '处理中' : (item === 'COMPLETED' ? '已完成' : '失败'))}}</view></view>
+    <view class="search-box"><text>搜索</text><input placeholder="搜索任务" bindinput="search"/></view>
+    <view wx:if="{{!visible.length}}" class="card empty muted">暂无记录</view>
+    <view wx:for="{{visible}}" wx:key="_id" class="card history-card" data-task-id="{{item._id || item.taskId || item.id}}" bindtap="open"><view class="history-main"><view class="history-title">{{item.displayTitle || item.title || '未命名作业'}}</view><view class="history-time">{{item.createdAt}}</view><view class="status-tag {{item.status}}">{{item.status}}<text wx:if="{{item.progress}}"> · {{item.progress}}%</text></view></view><text class="chevron">></text></view>
+  </view>
+</view>

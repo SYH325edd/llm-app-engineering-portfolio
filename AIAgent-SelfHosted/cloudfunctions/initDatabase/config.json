@@ -1,0 +1,6 @@
+{
+  "timeout": 60,
+  "runtime": "Nodejs20.19",
+  "memorySize": 256,
+  "installDependency": true
+}

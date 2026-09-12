@@ -1,0 +1,14 @@
+<view class="container notice-page">
+  <view class="card notice-card">
+    <view class="notice-icon">✓</view>
+    <view class="page-title">{{title}}</view>
+    <view class="muted notice-description">{{description}}</view>
+    <view wx:if="{{uploaded}}" class="notice-meta">
+      <view><text>提交日期</text><strong>{{taskDateKey}}</strong></view>
+      <view wx:if="{{dailySequence > 0}}"><text>今日作业</text><strong>第 {{dailySequence}} 次</strong></view>
+      <view><text>提交时间</text><strong>{{createdTime}}</strong></view>
+    </view>
+    <button class="primary-button" bindtap="goHome">返回首页</button>
+    <button class="secondary-button" bindtap="continueUpload">继续上传</button>
+  </view>
+</view>

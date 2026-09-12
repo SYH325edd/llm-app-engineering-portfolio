@@ -1,0 +1,17 @@
+<view class="legal-page">
+  <view class="legal-head">
+    <view class="legal-title">用户协议</view>
+    <view class="legal-meta">运营主体：{{operatorName}}</view>
+    <view class="legal-meta">版本 {{version}} · 生效日期 {{effectiveDate}}</view>
+  </view>
+
+  <view class="legal-card"><view class="legal-card-title">一、服务内容</view><view class="legal-card-text">“{{serviceName}}”提供学生作业上传、人工智能辅助识别与批改、学习结果展示、教师管理、Excel 导出和语音讲解等功能。具体功能以正式发布版本和运营主体实际开通的服务为准。</view></view>
+  <view class="legal-card"><view class="legal-card-title">二、账号与身份</view><view class="legal-list"><view>系统通过微信云开发身份标识识别用户，并按照学生、教师和超级管理员角色控制权限。</view><view>学生应使用真实姓名和所属地区匹配教师导入的花名册；教师应如实填写任教范围并接受管理员审核。</view><view>用户不得冒用他人身份、绕过权限控制或将账号能力提供给无权人员使用。</view></view></view>
+  <view class="legal-card"><view class="legal-card-title">三、教师和学校责任</view><view class="legal-list"><view>教师导入花名册、作业或答案前，应确认具有学校管理依据或已经取得学生及监护人的合法授权。</view><view>教师仅可在其管理范围内使用学生信息，不得将学生姓名、图片、成绩或分析结果用于无关用途或公开传播。</view><view>教师应对人工智能结果进行必要核验，并对最终教学判断负责。</view></view></view>
+  <view class="legal-card"><view class="legal-card-title">四、人工智能辅助结果</view><view class="legal-card-text">人工智能识别、批改、马虎分析、难题分析和语音讲解可能存在误差。本结果由人工智能辅助生成，仅供学习参考，最终结果可由教师复核。用户不得将结果直接作为高风险决定或替代教师的专业判断。</view></view>
+  <view class="legal-card"><view class="legal-card-title">五、用户行为规范</view><view class="legal-list"><view>仅提交合法、真实并与教学活动相关的图片、文件和文字。</view><view>不得上传违法、不当、侵害他人权益或包含恶意代码的内容。</view><view>不得攻击、干扰、反向利用系统，或尝试获取其他用户、学校或运营主体的数据和密钥。</view></view></view>
+  <view class="legal-card"><view class="legal-card-title">六、未成年人使用</view><view class="legal-card-text">未成年人应在学校、教师或监护人的指导下使用。涉及未满十四周岁儿童时，应遵守《儿童个人信息保护规则》，并由具备合法授权的教师、学校或监护人完成相关操作。</view><button class="contact-button" bindtap="childrenPrivacy">查看儿童个人信息保护规则</button></view>
+  <view class="legal-card"><view class="legal-card-title">七、隐私与数据</view><view class="legal-card-text">运营主体按照《隐私政策》处理个人信息。使用本服务前应阅读并同意隐私政策；对图片、文件等微信隐私接口的调用，还需完成微信提供的隐私授权。</view><button class="contact-button" bindtap="privacy">查看隐私政策</button></view>
+  <view class="legal-card"><view class="legal-card-title">八、服务变更与异常</view><view class="legal-card-text">因网络、云服务、第三方人工智能服务、设备兼容、维护或不可抗力导致的暂时中断，系统会尽可能保存任务状态并给出失败提示。任务失败时，用户可根据页面提示重新提交或联系运营主体。</view></view>
+  <view class="legal-card"><view class="legal-card-title">九、联系与投诉</view><view class="legal-card-text">运营主体：{{operatorName}}。对服务、协议或个人信息处理存在疑问，可拨打以下电话。</view><button class="contact-button" bindtap="contact">{{complaintPhone}}</button></view>
+</view>

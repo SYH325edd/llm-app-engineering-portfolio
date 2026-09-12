@@ -1,0 +1,43 @@
+<view class="container settings-page">
+  <view wx:if="{{isSuperAdmin}}" class="card settings-card model-card">
+    <view class="section-title">难题训练模型</view>
+    <view class="model-note">仅控制之后新提交的难题训练任务。审题马虎、计算马虎和语音生成仍使用原豆包通道。</view>
+    <view wx:if="{{modelProviderLoading}}" class="model-loading">正在读取模型状态…</view>
+    <block wx:else>
+      <view
+        wx:for="{{modelProviders}}"
+        wx:key="value"
+        class="model-option {{hardProblemModelProvider === item.value ? 'model-option-active' : ''}} {{!item.ready ? 'model-option-disabled' : ''}}"
+        data-provider="{{item.value}}"
+        bindtap="chooseHardProblemModelProvider"
+      >
+        <view class="model-option-main">
+          <view class="model-name-row">
+            <text class="model-name">{{item.name}}</text>
+            <text wx:if="{{hardProblemModelProvider === item.value}}" class="model-current">当前使用</text>
+            <text wx:if="{{item.ready}}" class="model-ready">已配置</text>
+            <text wx:else class="model-unready">{{item.statusText}}</text>
+          </view>
+          <text class="model-description">{{item.description}}</text>
+        </view>
+        <text class="model-radio">{{hardProblemModelProvider === item.value ? '●' : '○'}}</text>
+      </view>
+      <view wx:if="{{!providerStatusAvailable}}" class="model-warning">{{providerStatusErrorText}}</view>
+      <view wx:if="{{providerStatusAvailable && workerRuntimeBuildId}}" class="model-runtime">运行版本：{{workerRuntimeBuildId}}<text wx:if="{{providerStatusContractVersion}}">｜状态协议：{{providerStatusContractVersion}}</text></view>
+    </block>
+  </view>
+  <view class="card settings-card">
+    <view class="section-title">服务信息</view>
+    <view class="row"><text>小程序</text><text>{{serviceName}}</text></view>
+    <view class="row"><text>运营主体</text><text class="row-value">{{operatorName}}</text></view>
+    <view class="row"><text>客服电话</text><text>{{servicePhone}}</text></view>
+    <view class="row"><text>备案号</text><text>{{filingNumber || '备案完成后展示'}}</text></view>
+  </view>
+  <view class="card settings-card">
+    <view class="section-title">协议与隐私</view>
+    <view class="menu-row" bindtap="agreement"><text>用户协议 v{{agreementVersion}}</text><text>›</text></view>
+    <view class="menu-row" bindtap="privacy"><text>隐私政策 v{{privacyVersion}}</text><text>›</text></view>
+    <view class="menu-row" bindtap="childrenPrivacy"><text>儿童个人信息保护规则</text><text>›</text></view>
+    <view class="menu-row" bindtap="contact"><text>投诉与联系</text><text>{{complaintPhone}} ›</text></view>
+  </view>
+</view>

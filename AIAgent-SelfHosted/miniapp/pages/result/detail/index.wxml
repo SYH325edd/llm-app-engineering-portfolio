@@ -1,0 +1,64 @@
+<view class="detail-page">
+  <view wx:if="{{loading}}" class="state-card"><view class="loading-dot"></view><text>正在加载批改结果</text></view>
+  <view wx:elif="{{errorMessage}}" class="state-card"><view class="state-title">加载失败</view><view class="state-text">{{errorMessage}}</view><button class="retry-button" bindtap="retryLoad">重新加载</button><view class="back-link" bindtap="backToHistory">返回记录</view></view>
+  <view wx:else class="detail-content">
+    <view class="ai-notice">本结果由人工智能辅助生成，仅供学习参考，最终结果可由教师复核。</view>
+    <view class="task-card"><view class="task-top"><view class="task-icon">☷</view><view class="task-main"><view class="task-title">{{task.displayTitle || task.title || '未命名作业'}}</view><view class="task-time">完成时间：{{task.completedAt}}</view></view></view><view class="task-meta"><view class="complete-tag">● 批改完成</view><view>▣ {{homeworkImages.length}}张作业图</view><view>▤ {{task.questionCount}}道题</view></view></view>
+    <view wx:if="{{homeworkImages.length}}" class="detail-card image-card"><view class="card-head"><view class="card-title"><text>▣</text>上传的作业图片</view><text>共 {{homeworkImages.length}} 张</text></view><view class="photo-grid"><view wx:for="{{homeworkImages}}" wx:key="fileId" class="photo-item" data-index="{{index}}" data-type="homework" data-url="{{item.tempUrl}}" bindtap="previewImage"><image wx:if="{{!item.loadFailed}}" src="{{item.tempUrl}}" mode="aspectFill" binderror="onImageError" data-index="{{index}}" data-type="homework"/><view wx:else class="image-failed">该图片暂时无法加载</view><view class="photo-label">第 {{item.index}} 张</view></view></view></view>
+    <view wx:if="{{answerImages.length}}" class="detail-card image-card"><view class="card-head"><view class="card-title"><text>▣</text>上传的标准答案图片</view><text>共 {{answerImages.length}} 张</text></view><view class="photo-grid"><view wx:for="{{answerImages}}" wx:key="fileId" class="photo-item" data-index="{{index}}" data-type="answer" data-url="{{item.tempUrl}}" bindtap="previewImage"><image wx:if="{{!item.loadFailed}}" src="{{item.tempUrl}}" mode="aspectFill" binderror="onImageError" data-index="{{index}}" data-type="answer"/><view wx:else class="image-failed">该图片暂时无法加载</view><view class="photo-label">第 {{item.index}} 张</view></view></view></view>
+    <view wx:if="{{audioNarration}}" class="detail-card audio-card"><view class="card-title">语音讲解</view><view wx:if="{{voiceStatus === 'PENDING' || voiceStatus === 'GENERATING' || voiceStatus === 'SYNTHESIZING'}}" class="audio-state">语音讲解生成中</view><view wx:elif="{{voiceStatus === 'FAILED'}}" class="audio-state">语音讲解暂不可用</view><view wx:elif="{{voiceStatus === 'READY'}}" class="audio-player"><button class="audio-button" bindtap="toggleAudio">{{audioPlaying ? '暂停' : '播放'}}</button><text>{{audioCurrentText}} / {{audioDurationText}}</text><slider min="0" max="{{audioDuration || 1}}" value="{{audioCurrent}}" activeColor="#526df5" bindchange="seekAudio"/><view wx:if="{{audioError}}" class="audio-error">{{audioError}}</view></view></view>
+
+    <view class="detail-card stats-card"><view class="card-title"><text>◕</text>批改统计</view><view class="stats-grid"><view class="stat total"><text>总题数</text><strong>{{displaySummary.totalCount}}</strong></view><view class="stat correct"><text>回答正确</text><strong>{{displaySummary.correctCount}}</strong></view><view class="stat wrong"><text>回答错误</text><strong>{{displaySummary.wrongCount}}</strong></view><view wx:if="{{displayMode === 'hard'}}" class="stat careless"><text>未作答/无法判断</text><strong>{{displaySummary.incompleteCount}}</strong></view><view wx:elif="{{displayMode === 'reading'}}" class="stat careless"><text>填写不完整</text><strong>{{displaySummary.incompleteCount}}</strong></view><view wx:else class="stat careless"><text>存在马虎</text><strong>{{displaySummary.carelessCount}}</strong></view></view></view>
+
+    <view class="questions-card">
+      <view class="card-title">全部题目结果</view>
+      <view wx:if="{{!displayQuestions.length}}" class="empty-text">暂无可展示题目</view>
+      <view wx:for="{{displayQuestions}}" wx:key="sourceKey" class="question-card">
+        <view class="question-head"><view class="question-title">第 {{item.number}} 题</view><view class="question-tags"><view class="answer-tag status-pill {{(item.conclusion || item.mainConclusion) === '回答正确' ? 'status-pill--correct' : ((item.conclusion || item.mainConclusion) === '回答错误' ? 'status-pill--wrong' : ((item.conclusion || item.mainConclusion) === '最终答案正确，过程或讲解需调整' ? 'status-pill--warning' : ''))}}">{{item.conclusion || item.mainConclusion}}</view></view></view>
+
+        <view wx:if="{{displayMode === 'hard'}}">
+          <view class="question-text"><text>题目内容</text><view>{{item.questionText}}</view></view>
+          <view class="answer-pair"><view><text>学生答案</text><view>{{item.studentAnswer}}</view></view><view><text>标准答案</text><view>{{item.standardAnswer}}</view></view></view>
+          <view class="reason-card"><text>批改结论</text><view>{{item.conclusion}}</view></view>
+          <view class="reason-card"><text>过程判断</text><view>步骤判断：{{item.stepStatusText}}</view><view>逻辑判断：{{item.logicStatusText}}</view><view wx:if="{{item.firstWrongSteps.length > 0}}"><text>错误步骤：</text><view wx:for="{{item.firstWrongSteps}}" wx:for-item="wrongStep" wx:for-index="wrongIndex">{{wrongIndex + 1}}. {{wrongStep}}</view></view></view>
+          <view wx:if="{{item.hasStepFeedbacks}}" class="reason-card step-analysis-card">
+            <text>逐步讲解分析</text>
+            <view wx:for="{{item.stepFeedbacks}}" wx:key="stepIndex" wx:for-item="step" class="step-feedback-card">
+              <view class="step-feedback-title">第 {{step.stepIndex}} 步</view>
+              <view class="step-feedback-row"><text>解题过程</text><view>{{step.solutionText}}</view></view>
+              <view class="step-feedback-row"><text>学生解释</text><view>{{step.explanationText}}</view></view>
+              <view class="step-feedback-judgements"><view>过程判断：{{step.solutionStatusText}}</view><view>解释判断：{{step.explanationStatusText}}</view><view>逻辑判断：{{step.logicStatusText}}</view></view>
+              <view class="step-feedback-row"><text>本步反馈（思路 / 公式与知识点 / 逻辑）</text><view>{{step.analysis}}</view></view>
+              <view wx:if="{{step.showCorrectionAdvice}}" class="step-feedback-row advice"><text>改进建议</text><view>{{step.correctionAdvice}}</view></view>
+            </view>
+          </view>
+          <view wx:if="{{item.hasOverallFeedback}}" class="reason-card overall-feedback-card"><text>整体反馈</text><view>{{item.overallFeedback}}</view></view>
+        </view>
+
+        <view wx:elif="{{displayMode === 'reading'}}">
+          <view class="question-text"><text>题目内容</text><view>{{item.questionText}}</view></view>
+          <view class="reason-card"><text>学生填写</text><view>条件：{{item.studentConditionText}}</view><view>关系：{{item.studentRelationText}}</view><view>所求：{{item.studentAskText}}</view></view>
+          <view class="reason-card"><text>标准整理</text><view>条件：{{item.referenceConditionText}}</view><view>关系：{{item.referenceRelationText}}</view><view>所求：{{item.referenceAskText}}</view></view>
+          <view class="reason-card"><text>三格判断</text><view>条件：{{item.conditionJudgement}}</view><view>关系：{{item.relationJudgement}}</view><view>所求：{{item.askJudgement}}</view></view>
+        </view>
+
+        <view wx:else>
+          <view class="question-text"><text>题目内容</text><view>{{item.questionText}}</view></view>
+          <view class="answer-pair"><view><text>学生计算过程</text><view>{{item.studentCalculation}}</view></view><view><text>标准计算过程</text><view>{{item.standardCalculation}}</view></view></view>
+          <view class="reason-card"><text>计算结论</text><view>{{item.mainConclusion}}</view><text>马虎判断</text><view>{{item.carelessJudgement}}</view></view>
+          <view class="reason-card"><text>过程判断</text><view>过程：{{item.processJudgement}}</view><view>最终答案：{{item.finalAnswerJudgement}}</view></view>
+        </view>
+        <view wx:if="{{item.showErrorCard}}" class="reason-card error">
+          <text>错误分析</text>
+          <view wx:if="{{item.errorFallbackMessage}}">{{item.errorFallbackMessage}}</view>
+          <view wx:else>
+            <view wx:if="{{item.errorLocation}}">错误位置：{{item.errorLocation}}</view>
+            <view wx:if="{{item.errorReason}}">错误原因：{{item.errorReason}}</view>
+            <view wx:if="{{item.correctMethod}}">正确做法：{{item.correctMethod}}</view>
+            <view wx:if="{{item.adjustmentSuggestion}}">修改建议：{{item.adjustmentSuggestion}}</view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

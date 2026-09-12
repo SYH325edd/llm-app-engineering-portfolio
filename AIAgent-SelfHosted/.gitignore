@@ -1,0 +1,26 @@
+# Dependencies / build output
+node_modules/
+coverage/
+*.log
+.DS_Store
+Thumbs.db
+
+# Local/private environment
+.env
+.env.*
+!.env.example
+project.private.config.json
+
+# Strategy secrets
+# Strategy source and public key may be versioned in a private repository; credentials,
+# encryption material, licences and signing private keys must never be committed.
+strategy/private/secrets/
+strategy/private/licenses.json
+strategy/private/*private*.pem
+strategy/private/
+strategy/release/
+
+# Temporary / generated staging files
+*.stage-*
+.release-stage-*
+strategy/release/previous/

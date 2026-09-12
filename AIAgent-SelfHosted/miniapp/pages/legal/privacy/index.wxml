@@ -1,0 +1,71 @@
+<view class="legal-page">
+  <view class="legal-head">
+    <view class="legal-title">隐私政策</view>
+    <view class="legal-meta">运营主体：{{operatorName}}</view>
+    <view class="legal-meta">版本 {{version}} · 生效日期 {{effectiveDate}}</view>
+  </view>
+
+  <view class="legal-card">
+    <view class="legal-card-title">一、适用范围与处理原则</view>
+    <view class="legal-card-text">本政策适用于“{{serviceName}}”小程序。我们仅在提供学生身份匹配、作业上传、人工智能辅助识别与批改、结果展示、教师管理、数据导出、语音讲解和运行安全所必需的范围内处理个人信息，并采取最小必要、目的明确和安全保护原则。</view>
+  </view>
+
+  <view class="legal-card">
+    <view class="legal-card-title">二、处理的信息及用途</view>
+    <view class="legal-list">
+      <view>微信身份标识：通过微信云开发获取 OpenID 或由其生成的内部用户编号，用于识别账号、权限控制和防止冒用。</view>
+      <view>学生与教师资料：姓名、地区、班级、年级、教师任教范围、花名册及可选学号，用于身份匹配、班级管理和结果归属。</view>
+      <view>用户主动提交的内容：作业图片、答案图片、题目或答案文字、Excel 花名册，用于导入名单、识别题目和生成批改结果。</view>
+      <view>学习与管理记录：批改结果、分数、错题、知识点、马虎或难题分析、任务状态、教师修改记录、导出记录和语音讲解，用于展示学习结果和教师管理。</view>
+      <view>运行安全信息：脱敏错误码、请求编号、任务阶段、操作审计和异常日志，用于保障系统安全、定位故障和处理投诉。</view>
+      <view>剪切板与拨号操作：仅在用户主动复制导出信息或拨打客服电话时调用相应微信能力，不读取通讯录，不收集用户手机号码。</view>
+    </view>
+  </view>
+
+  <view class="legal-card">
+    <view class="legal-card-title">三、图片、文件与微信隐私授权</view>
+    <view class="legal-card-text">当用户主动拍摄或选择作业图片、答案图片，或教师主动选择 Excel 花名册时，小程序会在调用相应微信隐私接口前展示授权提示。拒绝授权后，对应上传或导入功能不可使用，但其他不依赖该信息的功能不受影响。微信公众平台中的《用户隐私保护指引》可通过授权弹窗查看。</view>
+  </view>
+
+  <view class="legal-card">
+    <view class="legal-card-title">四、第三方人工智能与语音服务</view>
+    <view class="legal-card-text">为完成题目识别和批改，运营主体配置的火山引擎火山方舟多模态模型服务会接收完成本次分析所需的作业图片临时访问地址、答案图片临时访问地址、用户主动填写的题目或答案文字以及批改指令。为生成语音讲解，火山引擎语音合成服务会接收批改结果中的讲解文本。上述服务不需要接收微信 OpenID、教师权限、花名册原文件或客户模型密钥。相关数据仅用于完成用户发起的识别、批改和语音生成，具体处理以运营主体与服务提供方的正式服务配置和隐私规则为准。</view>
+  </view>
+
+  <view class="legal-card">
+    <view class="legal-card-title">五、存储位置与保存期限</view>
+    <view class="legal-list">
+      <view>业务数据、作业图片和结果存储在运营主体控制的微信云开发环境中。</view>
+      <view>Excel 导出文件和 TTS 语音文件自生成之日起保存 90 天，期满由系统自动清理。</view>
+      <view>学生资料和相关作业数据在账号有效期间保存；教师归档学生后保留 30 天恢复期，期满后系统删除学生资料、作业图片、任务、批改结果、错题和打卡数据。</view>
+      <view>安全审计记录会进行字段脱敏，仅在处理安全、故障和合规事项所需期限内保存。</view>
+    </view>
+  </view>
+
+  <view class="legal-card">
+    <view class="legal-card-title">六、未成年人信息保护与儿童个人信息</view>
+    <view class="legal-card-text">本服务可能处理未满十四周岁儿童的个人信息。教师导入学生名单前必须确认已经依据学校管理要求或取得监护人授权。运营主体将儿童个人信息作为敏感个人信息进行保护，不用于与教学辅助无关的用途。具体规则请查看《儿童个人信息保护规则》。</view>
+    <button class="contact-button" bindtap="childrenPrivacy">查看儿童个人信息保护规则</button>
+  </view>
+
+  <view class="legal-card">
+    <view class="legal-card-title">七、用户和监护人的权利</view>
+    <view class="legal-list">
+      <view>可拒绝或撤回微信隐私授权；撤回后不再调用相应隐私接口。</view>
+      <view>可通过教师、学校或运营主体申请查询、更正或删除不准确的学生资料和学习记录。</view>
+      <view>可要求说明个人信息处理规则，并对超出必要范围的处理提出异议或投诉。</view>
+      <view>停止使用服务时，可联系运营主体处理与本人或被监护儿童相关的数据。</view>
+    </view>
+  </view>
+
+  <view class="legal-card">
+    <view class="legal-card-title">八、安全保护与政策更新</view>
+    <view class="legal-card-text">系统采用微信云开发身份校验、云函数权限控制、数据库和存储规则、访问审计、密钥隔离和日志脱敏等措施。政策发生实质变化时，小程序会更新版本与生效日期，并在需要时重新取得用户同意。</view>
+  </view>
+
+  <view class="legal-card">
+    <view class="legal-card-title">九、投诉与联系</view>
+    <view class="legal-card-text">个人信息处理者：{{operatorName}}。如需查询、更正、删除信息，撤回同意，或对儿童个人信息处理提出投诉，请通过以下电话联系。</view>
+    <button class="contact-button" bindtap="contact">{{complaintPhone}}</button>
+  </view>
+</view>

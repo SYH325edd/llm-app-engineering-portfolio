@@ -1,0 +1,1 @@
+<view class="container"><view class="page-title">操作日志</view><view class="card" wx:for="{{items}}" wx:key="_id"><view class="row between"><text>{{item.action}}</text><text>{{item.ok?'成功':'失败'}}</text></view><view class="caption">{{item.operatorRole}} · {{item.targetType}} · {{item.targetId}}</view></view></view>

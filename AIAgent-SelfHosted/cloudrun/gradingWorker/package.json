@@ -1,0 +1,13 @@
+{
+  "name": "grading-worker",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node --test test/*.test.js"
+  },
+  "dependencies": {
+    "@cloudbase/js-sdk": "3.6.3",
+    "ws": "^8.21.1"
+  }
+}

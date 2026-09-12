@@ -1,0 +1,434 @@
+{
+  "indexes": [
+    {
+      "collectionName": "grading_tasks",
+      "name": "status_createdAt",
+      "unique": false,
+      "keys": [
+        {
+          "name": "status",
+          "direction": "asc"
+        },
+        {
+          "name": "createdAt",
+          "direction": "desc"
+        }
+      ]
+    },
+    {
+      "collectionName": "grading_tasks",
+      "name": "studentId_createdAt",
+      "unique": false,
+      "keys": [
+        {
+          "name": "studentId",
+          "direction": "asc"
+        },
+        {
+          "name": "createdAt",
+          "direction": "desc"
+        }
+      ]
+    },
+    {
+      "collectionName": "grading_tasks",
+      "name": "status_leaseUntil",
+      "unique": false,
+      "keys": [
+        {
+          "name": "status",
+          "direction": "asc"
+        },
+        {
+          "name": "leaseUntil",
+          "direction": "asc"
+        }
+      ]
+    },
+    {
+      "collectionName": "student_roster",
+      "name": "normalizedName_grade_className_archived",
+      "unique": false,
+      "keys": [
+        {
+          "name": "normalizedName",
+          "direction": "asc"
+        },
+        {
+          "name": "grade",
+          "direction": "asc"
+        },
+        {
+          "name": "className",
+          "direction": "asc"
+        },
+        {
+          "name": "archived",
+          "direction": "asc"
+        }
+      ]
+    },
+    {
+      "collectionName": "student_roster",
+      "name": "archived_purgeAt",
+      "unique": false,
+      "keys": [
+        {
+          "name": "archived",
+          "direction": "asc"
+        },
+        {
+          "name": "purgeAt",
+          "direction": "asc"
+        }
+      ]
+    },
+    {
+      "collectionName": "teacher_applications",
+      "name": "status_createdAt",
+      "unique": false,
+      "keys": [
+        {
+          "name": "status",
+          "direction": "asc"
+        },
+        {
+          "name": "createdAt",
+          "direction": "asc"
+        }
+      ]
+    },
+    {
+      "collectionName": "wrong_questions",
+      "name": "studentId_mastered_updatedAt",
+      "unique": false,
+      "keys": [
+        {
+          "name": "studentId",
+          "direction": "asc"
+        },
+        {
+          "name": "mastered",
+          "direction": "asc"
+        },
+        {
+          "name": "updatedAt",
+          "direction": "desc"
+        }
+      ]
+    },
+    {
+      "collectionName": "wrong_questions",
+      "name": "taskId",
+      "unique": false,
+      "keys": [
+        {
+          "name": "taskId",
+          "direction": "asc"
+        }
+      ]
+    },
+    {
+      "collectionName": "wrong_questions",
+      "name": "studentId_taskId",
+      "unique": false,
+      "keys": [
+        {
+          "name": "studentId",
+          "direction": "asc"
+        },
+        {
+          "name": "taskId",
+          "direction": "asc"
+        }
+      ]
+    },
+    {
+      "collectionName": "answer_extractions",
+      "name": "taskId_batchIndex",
+      "unique": false,
+      "keys": [
+        {
+          "name": "taskId",
+          "direction": "asc"
+        },
+        {
+          "name": "batchIndex",
+          "direction": "asc"
+        }
+      ]
+    },
+    {
+      "collectionName": "users",
+      "name": "role_status",
+      "unique": false,
+      "keys": [
+        {
+          "name": "role",
+          "direction": "asc"
+        },
+        {
+          "name": "status",
+          "direction": "asc"
+        }
+      ]
+    },
+    {
+      "collectionName": "audit_logs",
+      "name": "createdAt",
+      "unique": false,
+      "keys": [
+        {
+          "name": "createdAt",
+          "direction": "desc"
+        }
+      ]
+    },
+    {
+      "collectionName": "system_logs",
+      "name": "createdAt",
+      "unique": false,
+      "keys": [
+        {
+          "name": "createdAt",
+          "direction": "desc"
+        }
+      ]
+    },
+    {
+      "collectionName": "ai_invocations",
+      "name": "createdAt",
+      "unique": false,
+      "keys": [
+        {
+          "name": "createdAt",
+          "direction": "desc"
+        }
+      ]
+    },
+    {
+      "collectionName": "grading_results",
+      "name": "createdAt",
+      "unique": false,
+      "keys": [
+        {
+          "name": "createdAt",
+          "direction": "desc"
+        }
+      ]
+    },
+    {
+      "collectionName": "generated_files",
+      "name": "expiresAt",
+      "unique": false,
+      "keys": [
+        {
+          "name": "expiresAt",
+          "direction": "asc"
+        }
+      ]
+    },
+    {
+      "collectionName": "teacher_privacy_consents",
+      "name": "teacherId_confirmedAt",
+      "unique": false,
+      "keys": [
+        {
+          "name": "teacherId",
+          "direction": "asc"
+        },
+        {
+          "name": "confirmedAt",
+          "direction": "desc"
+        }
+      ]
+    },
+    {
+      "collectionName": "hard_problem_diagnostics",
+      "name": "studentId_createdAt",
+      "unique": false,
+      "keys": [
+        {
+          "name": "studentId",
+          "direction": "asc"
+        },
+        {
+          "name": "createdAt",
+          "direction": "desc"
+        }
+      ]
+    },
+    {
+      "collectionName": "hard_problem_training_sessions",
+      "name": "studentId_updatedAt",
+      "unique": false,
+      "keys": [
+        {
+          "name": "studentId",
+          "direction": "asc"
+        },
+        {
+          "name": "updatedAt",
+          "direction": "desc"
+        }
+      ]
+    },
+    {
+      "collectionName": "hard_problem_learning_records",
+      "name": "studentId_nextReviewAt",
+      "unique": false,
+      "keys": [
+        {
+          "name": "studentId",
+          "direction": "asc"
+        },
+        {
+          "name": "nextReviewAt",
+          "direction": "asc"
+        }
+      ]
+    },
+    {
+      "collectionName": "task_failure_cases",
+      "name": "failedAt",
+      "unique": false,
+      "keys": [
+        {
+          "name": "failedAt",
+          "direction": "desc"
+        }
+      ]
+    },
+    {
+      "collectionName": "task_failure_cases",
+      "name": "errorCode_failedAt",
+      "unique": false,
+      "keys": [
+        {
+          "name": "errorCode",
+          "direction": "asc"
+        },
+        {
+          "name": "failedAt",
+          "direction": "desc"
+        }
+      ]
+    },
+    {
+      "collectionName": "task_failure_cases",
+      "name": "failedStage_failedAt",
+      "unique": false,
+      "keys": [
+        {
+          "name": "failedStage",
+          "direction": "asc"
+        },
+        {
+          "name": "failedAt",
+          "direction": "desc"
+        }
+      ]
+    },
+    {
+      "collectionName": "task_failure_cases",
+      "name": "mode_failedAt",
+      "unique": false,
+      "keys": [
+        {
+          "name": "mode",
+          "direction": "asc"
+        },
+        {
+          "name": "failedAt",
+          "direction": "desc"
+        }
+      ]
+    },
+    {
+      "collectionName": "task_failure_cases",
+      "name": "studentId_failedAt",
+      "unique": false,
+      "keys": [
+        {
+          "name": "studentId",
+          "direction": "asc"
+        },
+        {
+          "name": "failedAt",
+          "direction": "desc"
+        }
+      ]
+    },
+    {
+      "collectionName": "training_failure_events",
+      "name": "failedAt",
+      "unique": false,
+      "keys": [
+        {
+          "name": "failedAt",
+          "direction": "desc"
+        }
+      ]
+    },
+    {
+      "collectionName": "training_failure_events",
+      "name": "taskId_failedAt",
+      "unique": false,
+      "keys": [
+        {
+          "name": "taskId",
+          "direction": "asc"
+        },
+        {
+          "name": "failedAt",
+          "direction": "desc"
+        }
+      ]
+    },
+    {
+      "collectionName": "training_failure_events",
+      "name": "studentId_failedAt",
+      "unique": false,
+      "keys": [
+        {
+          "name": "studentId",
+          "direction": "asc"
+        },
+        {
+          "name": "failedAt",
+          "direction": "desc"
+        }
+      ]
+    },
+    {
+      "collectionName": "training_failure_events",
+      "name": "trainingAction_failedAt",
+      "unique": false,
+      "keys": [
+        {
+          "name": "trainingAction",
+          "direction": "asc"
+        },
+        {
+          "name": "failedAt",
+          "direction": "desc"
+        }
+      ]
+    },
+    {
+      "collectionName": "training_failure_events",
+      "name": "errorCode_failedAt",
+      "unique": false,
+      "keys": [
+        {
+          "name": "errorCode",
+          "direction": "asc"
+        },
+        {
+          "name": "failedAt",
+          "direction": "desc"
+        }
+      ]
+    }
+  ]
+}

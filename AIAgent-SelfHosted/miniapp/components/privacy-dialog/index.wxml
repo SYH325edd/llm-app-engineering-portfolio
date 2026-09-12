@@ -1,0 +1,11 @@
+<view wx:if="{{visible}}" class="privacy-mask" catchtouchmove="noop">
+  <view class="privacy-panel">
+    <view class="privacy-title">隐私授权提示</view>
+    <view class="privacy-text">为了继续使用本小程序，并在后续使用作业图片选择或花名册导入等功能，需要先同意《{{privacyContractName}}》。</view>
+    <view class="privacy-link" bindtap="openContract">查看{{privacyContractName}}</view>
+    <view class="privacy-actions">
+      <button class="privacy-cancel" bindtap="rejectAuthorization">暂不同意</button>
+      <button class="privacy-agree" open-type="agreePrivacyAuthorization" bindagreeprivacyauthorization="agreePrivacyAuthorization">同意并继续</button>
+    </view>
+  </view>
+</view>

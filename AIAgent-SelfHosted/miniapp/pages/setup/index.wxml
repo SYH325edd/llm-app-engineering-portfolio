@@ -1,0 +1,23 @@
+<view class="container">
+  <view class="page-title">智能数学批改</view>
+  <view class="page-subtitle">正在检查微信云开发配置与云函数状态。</view>
+
+  <view class="card mt">
+    <view class="row between">
+      <view class="section-title">小程序运行环境</view>
+      <view class="tag {{cloudReady ? 'tag-green' : 'tag-orange'}}">{{errorKind === 'configuration' ? '待配置' : cloudReady ? '已就绪' : '连接失败'}}</view>
+    </view>
+    <view class="caption mt" wx:if="{{message}}">{{message}}</view>
+    <view class="caption mt" wx:if="{{requestId}}">请求编号：{{requestId}}</view>
+  </view>
+
+  <view class="card" wx:if="{{errorKind === 'configuration'}}">
+    <view class="section-title">首次部署需要完成</view>
+    <view class="list-item">1. 使用真实小程序 AppID 导入项目</view>
+    <view class="list-item">2. 在 miniapp/config/cloud.js 填入云环境 ID</view>
+    <view class="list-item">3. 上传并部署 appApi 云函数</view>
+    <view class="list-item">4. 建立云数据库集合并导入安全规则</view>
+  </view>
+
+  <button class="primary-button mt" loading="{{loading}}" bindtap="check">重新检测</button>
+</view>

@@ -1,0 +1,1 @@
+<view class="container"><canvas canvas-id="cropCanvas" class="crop-canvas" bindload="imageLoaded"></canvas><button bindtap="confirm">确认裁切</button><button bindtap="useOriginal">使用原图</button></view>

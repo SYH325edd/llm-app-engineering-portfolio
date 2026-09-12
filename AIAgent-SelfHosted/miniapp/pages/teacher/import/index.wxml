@@ -1,0 +1,35 @@
+<view class="container">
+  <view class="page-title">批量导入学生</view>
+  <view class="notice mt">自动分析所有非空工作表，在标题、说明、多级表头和无关列中识别学生名单；模板必填姓名、地区，学号可选，并兼容旧模板中的相应字段。</view>
+  <view class="template-actions">
+    <button class="secondary-button template-button" loading="{{templateLoading}}" bindtap="previewTemplate">{{templatePreviewVisible ? '收起模板' : '查看模板'}}</button>
+    <button class="secondary-button template-button" loading="{{templateLoading}}" bindtap="downloadTemplate">下载模板</button>
+  </view>
+  <view wx:if="{{templatePreviewVisible && templateData}}" class="card template-preview">
+    <view class="template-title">学生名单导入模板</view>
+    <view class="template-row template-header"><text>姓名</text><text>地区</text><text>学号（选填）</text></view>
+    <view wx:for="{{templateData.examples}}" wx:key="studentNumber" class="template-row"><text>{{item.name}}</text><text>{{item.className}}</text><text>{{item.studentNumber}}</text></view>
+  </view>
+
+  <view class="authorization-panel">
+    <view class="authorization-line" bindtap="toggleAuthorization">
+      <view class="authorization-circle {{authorizationConfirmed ? 'authorization-circle-checked' : ''}}"><text wx:if="{{authorizationConfirmed}}">✓</text></view>
+      <view class="authorization-text">我确认已依据学校管理要求或取得学生监护人的授权，有权录入并处理相关学生信息。</view>
+    </view>
+    <view class="authorization-link" bindtap="openChildrenPrivacy">查看《儿童个人信息保护规则》</view>
+    <view class="authorization-version">授权规则版本：{{authorizationVersion}}</view>
+  </view>
+
+  <button class="primary-button" disabled="{{!authorizationConfirmed || loading}}" loading="{{loading}}" bindtap="choose">选择 Excel 文件</button>
+  <view class="card mt" wx:if="{{report}}">
+    <view wx:if="{{report.detection}}" class="import-detection">
+      <view>识别工作表：{{report.detection.sheetName || '未识别'}}</view>
+      <view>识别列：姓名 {{report.detection.columns.name || '未确认'}} · 地区 {{report.detection.columns.className || '未确认'}}</view>
+      <view>识别置信度：{{report.detection.confidence}}</view>
+      <view wx:if="{{report.detection.diagnostic}}" class="import-error">{{report.detection.diagnostic}}</view>
+    </view>
+    <view>新增：{{report.created}}</view><view>更新：{{report.updated}}</view><view>冲突：{{report.conflicts}}</view><view>错误：{{report.errors.length}}</view>
+    <view wx:if="{{report.errors.length}}" class="import-errors"><view class="import-errors-title">前10条错误</view><view wx:for="{{report.errors}}" wx:for-item="item" wx:for-index="index" wx:key="index" wx:if="{{index < 10}}" class="import-error">{{item.row}}：{{item.error}}</view></view>
+  </view>
+</view>
+<privacy-dialog id="privacyDialog"/>
