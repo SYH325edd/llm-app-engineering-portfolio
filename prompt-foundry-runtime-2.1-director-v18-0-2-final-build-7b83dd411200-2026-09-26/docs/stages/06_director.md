@@ -122,7 +122,7 @@ Director v17.3 preserves the v17 JSON family and closes execution authority acro
 
 ### v17.3 execution authority closeout
 
-`performance_execution`, `dialogue_delivery` and `camera_execution.framing_note` now enforce objective-fact authority in addition to field ownership. See `docs/DIRECTOR_EXECUTION_AUTHORITY_CLOSEOUT_V17_3_2026-09-23.md`.
+`performance_execution`, `dialogue_delivery` and `camera_execution.framing_note` now enforce objective-fact authority in addition to field ownership.
 
 
 ## v17.6 camera authority boundary

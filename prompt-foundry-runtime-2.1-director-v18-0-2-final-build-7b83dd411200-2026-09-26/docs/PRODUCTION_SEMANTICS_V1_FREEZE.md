@@ -1,4 +1,4 @@
-> **Historical freeze snapshot.** 本文记录 Production Semantics 首次冻结时的迁移状态；当前运行契约以 `ENGINEERING_RELIABILITY_REBUILD_2026-09-18.md`、`STAGE_CONTRACT_MATRIX.md` 与 `FINAL_DELIVERY.md` 为准。
+> **Historical freeze snapshot.** 本文记录 Production Semantics 首次冻结时的迁移状态；当前运行契约以 `STAGE_CONTRACT_MATRIX.md` 为准。
 
 # Production Semantics v1 Freeze
 

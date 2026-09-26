@@ -2,15 +2,15 @@
 
 ## 2026-09-26 Director v18.0_2 — Reaction & Camera Consumption Correction
 
-当前正式基线：Runtime `2.1` · Scene Director `director_scene_context.v1_1`（冻结不变）· Shot Director `director_shot.v18_0_2` · State `state_shotspec.v2` · Compiler `consumption_v2m` · PVB `pvb_character.v3_1` · Build `7b83dd411200`。本轮只修 Shot Director consumption：Runtime 以精度优先规则确定 `reaction_candidate_refs`：优先当前 Shot 反应证据，其次 Scene `speaker_listener` 关系，再使用唯一非 speaker 角色作为安全 fallback；多人歧义时保持空集合；当 `reaction_opportunity=true` 时模型必须真实比较 speaker visual 与合法 listener/reaction visual，但不强制切反应；Camera 决策顺序改为 scene position → visual subject → framing → adjacent execution → scene baseline → base fallback。模型可见 `output_template` 不再预填 Base 的 `single / medium / eye_level / static`，避免把 fallback 继续当默认答案。Scene Context v1_1、Fact Spine、State、Compiler、Readiness、Performance 架构均未修改。Context Effect Audit 同时修正 speaker authority 来源并新增 `reaction_candidate_available` 观测。详见 `docs/DIRECTOR_V18_0_2_REACTION_CAMERA_CONSUMPTION_ACCEPTANCE_2026-09-26.md`。
+当前正式基线：Runtime `2.1` · Scene Director `director_scene_context.v1_1`（冻结不变）· Shot Director `director_shot.v18_0_2` · State `state_shotspec.v2` · Compiler `consumption_v2m` · PVB `pvb_character.v3_1` · Build `7b83dd411200`。本轮只修 Shot Director consumption：Runtime 以精度优先规则确定 `reaction_candidate_refs`：优先当前 Shot 反应证据，其次 Scene `speaker_listener` 关系，再使用唯一非 speaker 角色作为安全 fallback；多人歧义时保持空集合；当 `reaction_opportunity=true` 时模型必须真实比较 speaker visual 与合法 listener/reaction visual，但不强制切反应；Camera 决策顺序改为 scene position → visual subject → framing → adjacent execution → scene baseline → base fallback。模型可见 `output_template` 不再预填 Base 的 `single / medium / eye_level / static`，避免把 fallback 继续当默认答案。Scene Context v1_1、Fact Spine、State、Compiler、Readiness、Performance 架构均未修改。Context Effect Audit 同时修正 speaker authority 来源并新增 `reaction_candidate_available` 观测。
 
 ## 2026-09-26 Director v18.0_1 — Consumption Correction
 
-当时正式基线：Runtime `2.1` · Scene Director `director_scene_context.v1_1` · Shot Director `director_shot.v18_0_1` · State `state_shotspec.v2` · Compiler `consumption_v2m` · PVB `pvb_character.v3_1` · Build `af52d4abaa61`。本轮只修 `Scene Context → Shot Director → Execution Decision`：Dramatic Phase 改为完整有序 Shot 分区，`scene_position/reaction_opportunity` 改为 Runtime-Derived Creative Context，Base Shot 拆分为 HARD Fact Constraints 与 SOFT Execution Fallback，并新增只读 Context Effect Audit。Fact Spine、State、Compiler、Readiness、Performance 架构与 Prompt Composer 均未修改。详见 `docs/DIRECTOR_V18_0_1_CONSUMPTION_CORRECTION_ACCEPTANCE_2026-09-26.md`。
+当时正式基线：Runtime `2.1` · Scene Director `director_scene_context.v1_1` · Shot Director `director_shot.v18_0_1` · State `state_shotspec.v2` · Compiler `consumption_v2m` · PVB `pvb_character.v3_1` · Build `af52d4abaa61`。本轮只修 `Scene Context → Shot Director → Execution Decision`：Dramatic Phase 改为完整有序 Shot 分区，`scene_position/reaction_opportunity` 改为 Runtime-Derived Creative Context，Base Shot 拆分为 HARD Fact Constraints 与 SOFT Execution Fallback，并新增只读 Context Effect Audit。Fact Spine、State、Compiler、Readiness、Performance 架构与 Prompt Composer 均未修改。
 
 ## 2026-09-24 Director Subject Ownership + Execution Stability Closeout v17.9
 
-本轮继续处理 Director 链路的系统级稳定性，不针对 SH010、SH014 或任何具体小说加特判。第一，修复 performance budget warning 分支中 `_err(...)` 的错误调用签名，并增加 AST 回归检查，保证所有 `_err` 调用不超过声明的位置参数数量。第二，冻结 `performance_actions.character_ref` 为动作主体的唯一结构化事实源；`performance_actions.action` 只表达谓词/可执行动作，不再重复人物姓名或代词。Runtime 会在模型输出后确定性移除动作谓词前的冗余/冲突主体文本；当证据唯一指向另一合法角色时确定性重绑 `character_ref`，证据多人歧义或无法唯一裁决时则保留合法结构主体并只去掉自然语言主体前缀，不再把同一份歧义证据交给模型 Repair。由此消除 E021 → Repair → repair_no_effect 的循环，同时保持角色 refs、证据、客观动作 authority、FrozenText、状态与连续性的 Hard Gate。旧 `director_shot.v17_8` checkpoint 不可作为 v17.9 复用。当前工程回归 `620/620`。详见 `docs/DIRECTOR_SUBJECT_OWNERSHIP_EXECUTION_STABILITY_CLOSEOUT_V17_9_2026-09-24.md`。
+本轮继续处理 Director 链路的系统级稳定性，不针对 SH010、SH014 或任何具体小说加特判。第一，修复 performance budget warning 分支中 `_err(...)` 的错误调用签名，并增加 AST 回归检查，保证所有 `_err` 调用不超过声明的位置参数数量。第二，冻结 `performance_actions.character_ref` 为动作主体的唯一结构化事实源；`performance_actions.action` 只表达谓词/可执行动作，不再重复人物姓名或代词。Runtime 会在模型输出后确定性移除动作谓词前的冗余/冲突主体文本；当证据唯一指向另一合法角色时确定性重绑 `character_ref`，证据多人歧义或无法唯一裁决时则保留合法结构主体并只去掉自然语言主体前缀，不再把同一份歧义证据交给模型 Repair。由此消除 E021 → Repair → repair_no_effect 的循环，同时保持角色 refs、证据、客观动作 authority、FrozenText、状态与连续性的 Hard Gate。旧 `director_shot.v17_8` checkpoint 不可作为 v17.9 复用。当前工程回归 `620/620`。
 
 ## 2026-09-24 Director Execution Stability Closeout v17.8
 
@@ -22,7 +22,7 @@
 
 ## 2026-09-23 Director Camera Authority Structural Closeout v17.6
 
-本轮停止继续扩 Camera 自然语言词表，直接修正根层 authority 设计：`framing_note` 被正式降为**非权威导演备注**，不再通过自由中文实体抽取承担 Hard Story Authority。Camera 的硬事实由 `visual_target / visual_focus / execution_framing / foreground_character_refs / shot_size / camera / movement` 等结构化字段负责。E027 只拦确定性的字段越权（对白、人物表演、心理、场景光线）；`framing_note` 内无法证明的自由文本实体只产生 `W021_CAMERA_NOTE_AUTHORITY_UNRESOLVED`，Compiler 会省略该 note，但保留结构化摄法，不暂停也不消耗 Repair。与此同时，`performance_execution` 的未知安全自然语言也统一为 `W022` Soft，只有明确新增客观动作/伤势/外部事件才继续 E028 Hard。详见 `docs/DIRECTOR_CAMERA_AUTHORITY_STRUCTURAL_CLOSEOUT_V17_6_2026-09-23.md`。当前回归 `606/606`，恢复链 `5/5`。
+本轮停止继续扩 Camera 自然语言词表，直接修正根层 authority 设计：`framing_note` 被正式降为**非权威导演备注**，不再通过自由中文实体抽取承担 Hard Story Authority。Camera 的硬事实由 `visual_target / visual_focus / execution_framing / foreground_character_refs / shot_size / camera / movement` 等结构化字段负责。E027 只拦确定性的字段越权（对白、人物表演、心理或光线）；`framing_note` 内无法证明的自由文本实体只产生 `W021_CAMERA_NOTE_AUTHORITY_UNRESOLVED`，Compiler 会省略该 note，但保留结构化摄法，不暂停也不消耗 Repair。与此同时，`performance_execution` 的未知安全自然语言也统一为 `W022` Soft，只有明确新增客观动作/伤势/外部事件才继续 E028 Hard。当前回归 `606/606`，恢复链 `5/5`。
 
 **App:** `2.1.0`  
 **Runtime:** `2.1`  
@@ -45,15 +45,15 @@ Prompt Foundry Runtime 2.1 是本地小说 → 影视生产 Prompt 工作台。�
 
 ## 2026-09-23 Director Execution Authority Closeout v17.3
 
-本轮只收口 Director v17 的事实边界，不新增 Stage 或模型调用：`performance_execution` 的客观动作/伤势/道具/进出与结果必须受当前 Shot action authority 约束；`dialogue_delivery` 使用受控 delivery grammar，不能借音量/语速/停顿/咬字/视线制造新剧情；`camera_execution.framing_note` 除 Camera Grammar 外，还要求其中具体人物、道具、地点和状态来自当前 authority。Compiler 对三类字段均做防御过滤；无人物镜继续输出 `人物视线：无`。详见 `docs/DIRECTOR_EXECUTION_AUTHORITY_CLOSEOUT_V17_3_2026-09-23.md`。
+本轮只收口 Director v17 的事实边界，不新增 Stage 或模型调用：`performance_execution` 的客观动作/伤势/道具/进出与结果必须受当前 Shot action authority 约束；`dialogue_delivery` 使用受控 delivery grammar，不能借音量/语速/停顿/咬字/视线制造新剧情；`camera_execution.framing_note` 除 Camera Grammar 外，还要求其中具体人物、道具、地点和状态来自当前 authority。Compiler 对三类字段均做防御过滤；无人物镜继续输出 `人物视线：无`。
 
 ## 2026-09-22 Production Freeze Closeout v2
 
-本轮不重构主链，只完成生产冻结前最后的事实源与消费闭环：Asset Registry v2 成为人物/场景连续性的唯一事实源；Scene Stable 与 Scene State 分离；Consumption v2f 使用 Continuity Anchor v2 与信息预算；FrozenText utterance exact reconstruction、performance evidence completion、visual/dialogue cross-field hygiene 与 Director v16.2 scene-distribution gate 进入 Production Readiness v2。详见 `docs/PRODUCTION_FREEZE_CLOSEOUT_V2_2026-09-22.md`。
+本轮不重构主链，只完成生产冻结前最后的事实源与消费闭环：Asset Registry v2 成为人物/场景连续性的唯一事实源；Scene Stable 与 Scene State 分离；Consumption v2f 使用 Continuity Anchor v2 与信息预算；FrozenText utterance exact reconstruction、performance evidence completion、visual/dialogue cross-field hygiene 与 Director v16.2 scene-distribution gate 进入 Production Readiness v2。
 
 ## 2026-09-22 Production Closeout v1
 
-本增量完成最终本地生产收口：Duration Authority 在 Compiler 前处理长文本超载；Consumption v2e 使用 compact continuity anchor 保留人物/服装/场景一致性同时减少镜内冗余；资产与文本卫生采用字段级规范化而非故事特判；Shot Manifest 记录 performance provenance；最终增加 `production_readiness.v1` Gate，编译成功不再等于生产可冻结。详见 `docs/PRODUCTION_CLOSEOUT_V1_2026-09-22.md` 与 `docs/PRODUCTION_CLOSEOUT_V1_AUDIT_2026-09-22.md`。
+本增量完成最终本地生产收口：Duration Authority 在 Compiler 前处理长文本超载；Consumption v2e 使用 compact continuity anchor 保留人物/服装/场景一致性同时减少镜内冗余；资产与文本卫生采用字段级规范化而非故事特判；Shot Manifest 记录 performance provenance；最终增加 `production_readiness.v1` Gate，编译成功不再等于生产可冻结。
 
 ## 2026-09-22 Director deterministic contract stabilization
 
@@ -210,10 +210,8 @@ start.bat
 详细边界见：
 
 - `docs/STAGE_CONTRACT_MATRIX.md`
-- `docs/FRAMEWORK_AUTHORITY_REBUILD_2026-09-20.md`
 - `docs/API.md`
 - `docs/SOURCE_METADATA_DETERMINISM_V1_2026-09-21.md`
-- `docs/DIALOGUE_DELIVERY_V1J_2026-09-21.md`
 
 
 ## Source authority closeout
