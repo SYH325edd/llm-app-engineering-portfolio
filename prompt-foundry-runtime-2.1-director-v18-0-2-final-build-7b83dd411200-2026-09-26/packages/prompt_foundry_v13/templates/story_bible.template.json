@@ -1,0 +1,44 @@
+{
+  "bible_id": "<bible_id>",
+  "project_id": "<project_id>",
+  "version": 1,
+  "characters": [
+    {
+      "character_id": "char_001",
+      "canonical_name": "<name>",
+      "aliases": [],
+      "role_type": "main",
+      "explicit_facts": [],
+      "inferred_facts": [],
+      "identity_lock": {},
+      "visual_lock": {},
+      "source_evidence": []
+    }
+  ],
+  "scenes": [
+    {
+      "scene_id": "scene_001",
+      "canonical_name": "<physical_location>",
+      "name": "<physical_location>",
+      "time": "",
+      "weather": "",
+      "explicit_facts": [],
+      "visual_lock": {},
+      "source_evidence": []
+    }
+  ],
+  "props": [
+    {
+      "prop_id": "prop_001",
+      "canonical_name": "<prop>",
+      "name": "<prop>",
+      "aliases": [],
+      "narrative_importance": "medium",
+      "visual_presence": "present",
+      "visual_asset_required": true,
+      "explicit_facts": [],
+      "source_evidence": []
+    }
+  ],
+  "narrative_contexts": []
+}

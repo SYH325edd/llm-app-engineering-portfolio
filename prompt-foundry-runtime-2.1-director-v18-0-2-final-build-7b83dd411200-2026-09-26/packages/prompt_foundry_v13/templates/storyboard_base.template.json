@@ -1,0 +1,66 @@
+{
+  "scenes": [
+    {
+      "scene_id": "SC001",
+      "context_ref": "",
+      "location_ref": "scene_001",
+      "shots": [
+        {
+          "shot_id": "SH001",
+          "scene_id": "SC001",
+          "beat_id": "B001",
+          "character_refs": [
+            "char_001"
+          ],
+          "prop_refs": [
+            "prop_001"
+          ],
+          "shot_size": "medium",
+          "camera": "eye_level",
+          "movement": "static",
+          "composition": "",
+          "duration": 5.0,
+          "description": "",
+          "dialogue": [],
+          "continuity": {
+            "continuous_with_previous": false,
+            "axis_side": "neutral",
+            "eyeline_match": "not_applicable"
+          },
+          "source_evidence": [],
+          "director": {
+            "dramatic_intent": "",
+            "primary_subject_refs": [
+              "char_001"
+            ],
+            "speaker_target_refs": [],
+            "reaction_target_refs": [],
+            "performance_actions": [],
+            "visual_focus": {
+              "focus_type": "character",
+              "subject_refs": [
+                "char_001"
+              ],
+              "body_regions": {},
+              "prop_refs": [],
+              "environment_keys": []
+            },
+            "action_delta": {
+              "characters": {},
+              "props": {},
+              "environment": {}
+            },
+            "state_out": {
+              "characters": {},
+              "props": {},
+              "environment": {}
+            },
+            "continuity_scope": {
+              "mode": "reset"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

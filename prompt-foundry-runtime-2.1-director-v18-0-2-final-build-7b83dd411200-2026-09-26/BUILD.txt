@@ -1,0 +1,47 @@
+Prompt Foundry Runtime 2.1 — Director v18.0_2 Reaction & Camera Consumption Correction
+Build ID: 7b83dd411200
+Date: 2026-09-26
+
+Contracts:
+- story_bible.v14
+- scene_plan.v8
+- script_scene.v12
+- storyboard_scene.v16
+- frozen_text_coverage.v1
+- pvb_character.v3_1
+- psb_scene.v5
+- style_guide.v3
+- production_semantics_shot.v1j
+- director_scene_context.v1_1
+- director_shot.v18_0_2
+- state_shotspec.v2
+- consumption_v2m
+- asset_registry.v2
+- continuity_anchor.v2
+- production_readiness.v4_11
+
+Current scope:
+- Scene Context v1_1 is frozen and unchanged.
+- v18.0_2 changes Shot Director consumption only.
+- reaction_candidate_refs is precision-first when reaction_opportunity=true: shot-local reaction evidence first, then explicit Scene speaker_listener relation, then a single-non-speaker fallback; ambiguous multi-character shots return an empty candidate set.
+- Reaction opportunity must compare speaker visual vs legal listener/reaction visual, but never forces a listener cut and never changes FrozenText/dialogue ownership.
+- Camera execution is decided after scene_position, visual subject and framing; scene camera baseline and base_execution_fallback remain soft context.
+- Model-facing creative enum template fields are structural blanks instead of prefilled Base execution values, removing answer anchoring while keeping the same Structured Output shape.
+- Context Effect Audit uses program-owned speaker authority first and records reaction_candidate_available; it remains deterministic/read-only.
+- Fact Spine, Scene Context v1_1, State/ShotSpec, Consumption Compiler, Production Readiness and Frozen Core remain unchanged.
+- No reaction quota, camera-variety hard gate, Performance upgrade, Prompt Composer or W005 optimization was added.
+
+Validation:
+- Full deterministic regression: 659/659 PASS.
+- v18.0_2 critical contract tests: 5/5 PASS.
+- Python compileall: PASS.
+- Web JavaScript syntax: PASS.
+- Precision-first reaction candidate / audit boundary stress x40,000: PASS.
+- Reaction audit speaker/listener consistency x50,000: PASS.
+- Full Runtime Mock run stress x100: 100/100 completed.
+- Deterministic same-Mock v18.0_1 -> v18.0_2 A/B after run-id/timestamp normalization: Story Bible / Scene Plan / Script / Storyboard / Production Semantics / PVB / PSB / Style / compiled_project IDENTICAL.
+- Source-scope audit: Story Bible / Scene Plan / Script / Storyboard / Production Semantics / Scene Context v1_1 / State / Compiler / Readiness / Frozen Core unchanged from Build af52d4abaa61.
+
+Reference Benchmark note:
+- User-provided B1 analysis for run_f6ac061e0cf5 remains a business reference, not strict causal A/B because upstream artifacts were regenerated.
+- The prior 12 reaction opportunities / 0 visualized metric must be treated cautiously because v18.0_1 Audit could source dialogue speakers from Storyboard Shot dialogue instead of the canonical program-owned speaker authority. v18.0_2 corrects that audit source before the next benchmark.

@@ -1,0 +1,27 @@
+{
+  "era": {
+    "value": "",
+    "source": "production_design",
+    "status": "candidate"
+  },
+  "region": {
+    "value": "",
+    "source": "production_design",
+    "status": "candidate"
+  },
+  "genre": {
+    "value": "",
+    "source": "production_design",
+    "status": "candidate"
+  },
+  "tone": {
+    "value": "",
+    "source": "production_design",
+    "status": "candidate"
+  },
+  "visual_reference": {
+    "value": "",
+    "source": "production_design",
+    "status": "candidate"
+  }
+}

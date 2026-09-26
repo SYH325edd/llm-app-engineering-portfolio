@@ -1,0 +1,27 @@
+{
+  "scenes": [
+    {
+      "scene_id": "SC001",
+      "context_ref": "",
+      "location_ref": "scene_001",
+      "time": "",
+      "character_refs": [
+        "char_001"
+      ],
+      "prop_refs": [
+        "prop_001"
+      ],
+      "continuous_with_previous": false,
+      "dramatic_goal": "",
+      "conflict": "",
+      "turning_point": "",
+      "beat_list": [
+        {
+          "beat_id": "B001",
+          "description": "",
+          "type": "setup"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,4 @@
+[tool.pytest.ini_options]
+pythonpath = ["apps/api", "packages/prompt_foundry_v13/src", "."]
+testpaths = ["tests"]
+addopts = "-q"

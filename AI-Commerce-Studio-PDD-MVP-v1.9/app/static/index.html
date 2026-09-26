@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>AI Commerce Studio</title>
+  <link rel="stylesheet" href="/static/styles.css" />
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="brand" onclick="go('/projects')">
+        <div class="brand-mark">A</div>
+        <div><strong>AI Commerce Studio</strong><span>PDD Content Production</span></div>
+      </div>
+      <nav>
+        <button data-route="/projects" onclick="go('/projects')"><span>▦</span> 项目</button>
+        <button data-route="workspace" onclick="openCurrentWorkspace()"><span>◫</span> 工作台</button>
+        <button data-route="results" onclick="openCurrentResults()"><span>◉</span> 结果</button>
+        <button data-route="/settings/models" onclick="go('/settings/models')"><span>⚙</span> 模型设置</button>
+      </nav>
+      <div class="sidebar-foot">
+        <div class="mini-status"><i id="providerDot"></i><span id="providerStatus">检查模型连接…</span></div>
+        <div class="version">MVP v1.5 · Local-first</div>
+      </div>
+    </aside>
+    <main id="app" class="main"></main>
+  </div>
+  <div id="toast" class="toast"></div>
+  <script src="/static/app.js"></script>
+</body>
+</html>

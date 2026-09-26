@@ -1,0 +1,41 @@
+{
+  "scenes": [
+    {
+      "scene_id": "scene_001",
+      "production_visual": {
+        "space": {
+          "value": "",
+          "source": "production_design",
+          "status": "candidate"
+        },
+        "layout": {
+          "value": "",
+          "source": "production_design",
+          "status": "candidate"
+        },
+        "materials": {
+          "value": "",
+          "source": "production_design",
+          "status": "candidate"
+        },
+        "lighting": {
+          "value": "",
+          "source": "production_design",
+          "status": "candidate"
+        },
+        "color": {
+          "value": "",
+          "source": "production_design",
+          "status": "candidate"
+        },
+        "environment": {
+          "value": "",
+          "source": "production_design",
+          "status": "candidate"
+        }
+      },
+      "status": "candidate",
+      "version": 1
+    }
+  ]
+}

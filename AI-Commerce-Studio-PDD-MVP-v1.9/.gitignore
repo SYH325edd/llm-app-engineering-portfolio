@@ -1,0 +1,11 @@
+.venv/
+__pycache__/
+*.pyc
+data/app.db
+data/provider.json
+data/.master.key
+data/projects/
+.pytest_cache/
+.DS_Store
+
+data/startup.log

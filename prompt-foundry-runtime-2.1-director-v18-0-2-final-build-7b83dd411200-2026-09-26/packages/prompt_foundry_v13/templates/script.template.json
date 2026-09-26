@@ -1,0 +1,18 @@
+{
+  "scenes": [
+    {
+      "scene_id": "SC001",
+      "context_ref": "",
+      "location_ref": "scene_001",
+      "scene_heading": "",
+      "scene_description": "",
+      "beats": [
+        {
+          "beat_id": "B001",
+          "description": "",
+          "dialogue": []
+        }
+      ]
+    }
+  ]
+}

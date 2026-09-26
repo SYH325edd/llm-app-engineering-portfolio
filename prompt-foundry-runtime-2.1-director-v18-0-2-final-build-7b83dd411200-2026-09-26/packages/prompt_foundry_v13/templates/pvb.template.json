@@ -1,0 +1,63 @@
+{
+  "characters": [
+    {
+      "character_id": "char_001",
+      "visual_identity": {
+        "age_appearance": {
+          "value": "",
+          "source": "production_design",
+          "status": "candidate"
+        },
+        "face": {
+          "value": "",
+          "source": "production_design",
+          "status": "candidate"
+        },
+        "hair": {
+          "value": "",
+          "source": "production_design",
+          "status": "candidate"
+        },
+        "body": {
+          "value": "",
+          "source": "production_design",
+          "status": "candidate"
+        },
+        "skin": {
+          "value": "",
+          "source": "production_design",
+          "status": "candidate"
+        }
+      },
+      "wardrobe": {
+        "default": {
+          "value": "",
+          "source": "production_design",
+          "status": "candidate"
+        },
+        "outerwear": {
+          "value": "",
+          "source": "production_design",
+          "status": "candidate"
+        },
+        "shirt": {
+          "value": "",
+          "source": "production_design",
+          "status": "candidate"
+        },
+        "footwear": {
+          "value": "",
+          "source": "production_design",
+          "status": "candidate"
+        },
+        "accessory": {
+          "value": "",
+          "source": "production_design",
+          "status": "candidate"
+        }
+      },
+      "status": "candidate",
+      "version": 1
+    }
+  ]
+}

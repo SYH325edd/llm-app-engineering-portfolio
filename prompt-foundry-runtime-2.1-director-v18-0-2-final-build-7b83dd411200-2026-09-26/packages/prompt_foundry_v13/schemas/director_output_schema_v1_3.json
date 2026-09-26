@@ -1,0 +1,53 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "dramatic_intent",
+    "primary_subject_refs",
+    "speaker_target_refs",
+    "reaction_target_refs",
+    "performance_actions",
+    "visual_focus",
+    "action_delta",
+    "state_out",
+    "continuity_scope"
+  ],
+  "properties": {
+    "dramatic_intent": {
+      "type": "string"
+    },
+    "primary_subject_refs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "speaker_target_refs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "reaction_target_refs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "performance_actions": {
+      "type": "array"
+    },
+    "visual_focus": {
+      "type": "object"
+    },
+    "action_delta": {
+      "type": "object"
+    },
+    "state_out": {
+      "type": "object"
+    },
+    "continuity_scope": {
+      "type": "object"
+    }
+  }
+}
