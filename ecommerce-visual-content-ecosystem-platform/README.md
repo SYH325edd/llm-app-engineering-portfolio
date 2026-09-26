@@ -1,4 +1,4 @@
-# AI Commerce Studio — PDD Content Production MVP v1.9
+# E-commerce Visual Content Ecosystem Platform v1.9
 
 本版本继续定位为“商品事实驱动的电商内容生产系统”，不是拼多多自动上架工具。v1.9 只针对上一轮 Prompt 审计确认的四个问题做工程级修复，不新增无关功能。
 

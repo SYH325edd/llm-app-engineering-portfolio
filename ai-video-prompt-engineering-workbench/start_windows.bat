@@ -1,7 +1,7 @@
 @echo off
 setlocal EnableExtensions
 cd /d "%~dp0"
-title Prompt Foundry Runtime 2.1
+title AI Video Prompt Engineering Workbench 2.1
 
 set "PYTHON_CMD="
 where python >nul 2>&1
@@ -52,7 +52,7 @@ if not exist .env (
   echo [3/4] Using existing local .env configuration.
 )
 
-echo [4/4] Starting Prompt Foundry Runtime 2.1...
+echo [4/4] Starting AI Video Prompt Engineering Workbench 2.1...
 echo The browser will open automatically after the API is healthy.
 echo If it does not, keep this window open and use the URL printed below.
 echo.

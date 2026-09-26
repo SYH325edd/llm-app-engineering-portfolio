@@ -165,7 +165,7 @@ def create_app(
     autoload_model: bool = True,
     sync_runs: bool = True,
 ) -> FastAPI:
-    app = FastAPI(title="Prompt Foundry Runtime 2.1 API", version=APP_VERSION)
+    app = FastAPI(title="AI Video Prompt Engineering Workbench 2.1 API", version=APP_VERSION)
     app.add_middleware(
         CORSMiddleware,
         allow_origins=["http://localhost:5173", "http://127.0.0.1:5173"],

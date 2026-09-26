@@ -1,4 +1,4 @@
-# Prompt Foundry Runtime 2.1
+# AI Video Prompt Engineering Workbench 2.1
 
 ## 2026-09-26 Director v18.0_2 — Reaction & Camera Consumption Correction
 
@@ -29,7 +29,7 @@
 **Frozen Core:** `Prompt Foundry v1.3 / 1.3-frozen`  
 **Build:** `7b83dd411200`
 
-Prompt Foundry Runtime 2.1 是本地小说 → 影视生产 Prompt 工作台。本版本完成的是**框架级 authority / validation 重建**：不改变主链，不针对单个小说加特判，而是重新划清每个 Stage 的输入、模型职责、程序职责、硬 Gate、quality warning、Repair 和下游消费边界。
+AI Video Prompt Engineering Workbench 2.1 是用于小说到影视生产提示词工程的本地工作台。本版本完成的是**框架级 authority / validation 重建**：不改变主链，不针对单个小说加特判，而是重新划清每个 Stage 的输入、模型职责、程序职责、硬 Gate、quality warning、Repair 和下游消费边界。
 
 
 

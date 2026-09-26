@@ -2,10 +2,10 @@
 setlocal EnableExtensions
 chcp 65001 >nul
 cd /d "%~dp0"
-title AI Commerce Studio - Launcher
+title E-commerce Visual Content Ecosystem Platform - Launcher
 
 echo ============================================================
-echo   AI Commerce Studio - PDD MVP v1.5
+echo   E-commerce Visual Content Ecosystem Platform v1.9
 echo ============================================================
 echo.
 

@@ -31,7 +31,7 @@ from .security import load_provider_settings, save_provider_settings
 from .prompt_craft import normalize_source_role
 from .services import analyze_project, approve_project_prompts, compile_project_prompts, ensure_tasks, plan_project, result_payload, start_generation
 
-app = FastAPI(title="AI Commerce Studio MVP", version="1.9.0")
+app = FastAPI(title="E-commerce Visual Content Ecosystem Platform", version="1.9.0")
 init_db()
 
 STATIC_DIR = ROOT / "app" / "static"
@@ -41,7 +41,7 @@ app.mount("/files", StaticFiles(directory=PROJECTS_DIR), name="project-files")
 
 @app.get("/api/health")
 def health():
-    return {"ok": True, "name": "AI Commerce Studio MVP", "version": "1.9.0"}
+    return {"ok": True, "name": "E-commerce Visual Content Ecosystem Platform", "version": "1.9.0"}
 
 
 @app.get("/api/settings/provider")

@@ -139,7 +139,7 @@ def open_browser_when_ready(
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description=f"Run Prompt Foundry Runtime {APP_VERSION} local web app")
+    parser = argparse.ArgumentParser(description=f"Run AI Video Prompt Engineering Workbench {APP_VERSION} local web app")
     parser.add_argument("--open-browser", action="store_true", help="Open the local web UI after the correct backend version is ready")
     args = parser.parse_args()
 
@@ -159,7 +159,7 @@ def main() -> None:
     if port != requested_port:
         print(f"Port {requested_port} is occupied by another/older build. Starting v{APP_VERSION} build {BUILD_ID} on {base_url} instead.")
     else:
-        print(f"Starting Prompt Foundry v{APP_VERSION} build {BUILD_ID} at {base_url}")
+        print(f"Starting AI Video Prompt Engineering Workbench v{APP_VERSION} build {BUILD_ID} at {base_url}")
 
     if args.open_browser:
         threading.Thread(target=open_browser_when_ready, args=(base_url,), daemon=True).start()
